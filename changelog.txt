@@ -1,0 +1,6 @@
+changelog of the scidb toolbox
+
+scidb toolbox ()
+    *   
+ -- Igor GRIDCHYN <igridchyn@gmail.com>  Tue, 15 Jun 2010 00:10:00 +0100
+
