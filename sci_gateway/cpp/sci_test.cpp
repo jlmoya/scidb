@@ -1,9 +1,3 @@
-/* ==================================================================== */
-/* Igor GRIDCHYN */
-/* Database toolbox */
-/* This file is released into the public domain */
-/* ==================================================================== */
-
 #include <string>
 #include <QtCore\QString.h>
 #include <QtSql\qsql.h>
@@ -35,6 +29,7 @@ extern "C"
 		int* piAddr			= NULL;
 		void* pvPtr			= NULL;
 		double* pdblData	= NULL;
+		QSqlDatabase *db	= NULL;
 
 		if(GetType(1) == sci_pointer)
 		{
@@ -53,20 +48,27 @@ extern "C"
 		}
 
 		sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
+		
 		if(sciErr.iErr)
 		{
 			printError(&sciErr, 0);
 			return 0;
 		}
 
-		//sciprint("Converting to QSqlDatabase*...\n");
+		//TEST: pointer at db
+		db = (QSqlDatabase*)pvPtr;
+		sciprint("User: %s\n", db->userName().toLatin1().data());
 
-		QSqlDatabase *db = (QSqlDatabase*)pvPtr;			
+		//TEST:connect db user check		
+		//db = &QSqlDatabase::database("default");				
 
-		sciprint("Converted!\n");
+		//sciprint("Pointer : 0x%08X\n", pvPtr);	
+		//
+		//sciprint("User: %s\n", db->userName().toLatin1().data());							
 
-		sciprint("Pointer: %d\n", db);	
-		sciprint("User: %d\n", db->userName().toLatin1().data());	
-		
+		//TEST: query
+		//QSqlQuery *pQry= (QSqlQuery*)pvPtr;
+
+		//sciprint("Number of results: %d", pQry->size());
 	}
 }

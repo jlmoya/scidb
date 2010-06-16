@@ -1,6 +1,7 @@
 /* ==================================================================== */
-/* Igor GRIDCHYN */
-/* Database toolbox */
+/* Allan CORNET */
+/* DIGITEO 2009 */
+/* Template toolbox_skeleton */
 /* This file is released into the public domain */
 /* ==================================================================== */
 
@@ -26,8 +27,8 @@ extern "C"
   #include "MALLOC.h"
   #include <cstdlib>
   #include "sciprint.h"
-/* ==================================================================== */
-  
+/* ==================================================================== */	
+
 	int sci_DbConnect(char *fname)
 	{
 		SciErr sciErr;
@@ -70,25 +71,12 @@ extern "C"
 			printError(&sciErr, 0);
 			return 0;
 		}
-
-		sciprint("Number of items: (%d)\n", iItemNumber);
-
 		
-		//setting connection params	
-
-		sciprint("Map contains %d elements\n", qmConnParams.count());
-
-		if(!qmConnParams.contains (QString("provider")))
-		{
-			sciprint("Map does not contain provider\n");
-		}
-
+		//setting connection params			
 		if(! qmConnParams.contains (QString("provider")))				
-			Scierror(999, "At least provider must be specified!\n");				
+			Scierror(999, "At least provider must be specified!\n");						
 
-		sciprint("Provider: %s\n", qmConnParams.value(QString("provider")).toLatin1().data());
-
-		QSqlDatabase db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")));
+		QSqlDatabase db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), "default");		
 
 		db.setDatabaseName(qmConnParams.value(QString("database")));
 
@@ -122,13 +110,12 @@ extern "C"
 		{
 			sciprint("Connected to database %s as %s!\n", QString("database").toLatin1().data(),
 				QString("user").toLatin1().data());
-		}	
+		}		
 
-		//writing the pointer to the connection object
-		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)&db);	
+		QSqlDatabase *dbc = new QSqlDatabase(db);
 
-		sciprint("Pointer: %d\n", &db);			
-		sciprint("User: %s\n", db.userName().toLatin1().data());
+		//writing the pointer to the connection object		
+		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)dbc);			
 
 		if(sciErr.iErr)
 		{
@@ -136,16 +123,123 @@ extern "C"
 			return 0;
 		}
 
-		LhsVar(1) = Rhs + 1;
+		LhsVar(1) = Rhs + 1;		
 
+		return 0;
+	}
+
+
+	int getDatabaseParam(char *fname, int iPos, QSqlDatabase **db)
+	{
+		int *piAddr;
+		void *pvPtr;
+		SciErr sciErr;
+
+		sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
+		
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}		
+
+		*db = (QSqlDatabase*)pvPtr;		
+
+		return 0;
+	}
+
+	int sci_DbDisconnect(char *fname)
+	{
+		QSqlDatabase *db;
+
+		if(Rhs==1)
+		{
+			getDatabaseParam(fname, 1, &db);
+		}
+		else
+		{
+			db = &QSqlDatabase::database("default");
+		}		
+
+		db->close();
+		
 		return 0;
 	}
 
 	int sci_DbQuery(char * fname)
 	{
+		QSqlDatabase *db;
+		QSqlQuery *qry;
+		SciErr sciErr;
+
+		//using default connection
+		if(Rhs == 1)
+		{
+			QSqlDatabase db = QSqlDatabase::database("default");			
+			
+			qry = new QSqlQuery(db);
+		}
+		else
+		{
+			getDatabaseParam(fname, 2, &db);		
+
+			qry = new QSqlQuery(*db);
+		}
+
+		char *pcQueryString;
+        sciGetStringAt(fname, 1, &pcQueryString);
+		
+		QString sQry = QString(pcQueryString);				
+
+		if(qry->exec(sQry))
+		{
+			sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)qry);		
+		}
+		else
+		{
+			Scierror(999, "Cannot execute query: %s\n\t%s", QSqlDatabase::database("default").lastError().text().toLatin1().data(), 
+				qry->lastError().text().toLatin1().data());
+		}
+
+		LhsVar(1) = Rhs + 1;
 
 		return 0;
 	}
+
+	int sci_DbLastError(char *fname)
+	{
+		SciErr sciErr;
+		QSqlDatabase *db;
+
+		char *cpLastError;
+
+		if(Rhs == 0)
+		{
+			db = &(QSqlDatabase::database("default"));		
+		}
+		else
+		{
+			getDatabaseParam(fname, 1, &db);
+		}
+
+		cpLastError = db->lastError().text().toLatin1().data();
+
+		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, 1, &cpLastError);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}	
+
+		return 0;
+	}	
 /* ==================================================================== */	
 } /* extern "C" */
 /* ==================================================================== */

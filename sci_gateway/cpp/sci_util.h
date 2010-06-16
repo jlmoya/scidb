@@ -1,9 +1,3 @@
-/* ==================================================================== */
-/* Igor GRIDCHYN */
-/* Database toolbox */
-/* This file is released into the public domain */
-/* ==================================================================== */
-
 #include <string>
 #include <QtCore\QString.h>
 #include <QtSql\qsql.h>
@@ -22,3 +16,4 @@
 #include "sciprint.h"
 
 int SciStructStringFields(int *piMList, QMap<QString, QString> *map, char *fname);
+int sciGetStringAt(char *fname, int iPos, char **ppcResult);

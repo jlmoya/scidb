@@ -1,9 +1,3 @@
-/* ==================================================================== */
-/* Igor GRIDCHYN */
-/* Database toolbox */
-/* This file is released into the public domain */
-/* ==================================================================== */
-
 #include "sci_util.h"
 
 int SciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
@@ -120,3 +114,47 @@ int SciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 		}
 }
 
+
+
+int sciGetStringAt(char *fname, int iPos, char **ppcResult)
+{
+		SciErr sciErr;
+		int i;
+		int iRows       = 0;
+		int iCols       = 0;
+		int* piLen      = NULL;
+		char **pstData = NULL;
+		int *piPos;
+
+		sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piPos);
+
+		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, NULL, NULL);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		piLen = (int*)malloc(sizeof(int) * iRows * iCols);
+		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, NULL);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		pstData = (char**)malloc(sizeof(char*) * iRows * iCols);
+		for(i = 0 ; i < iRows * iCols ; i++)
+		{
+			pstData[i] = (char*)malloc(sizeof(char) * (piLen[i] + 1));//+ 1 for null termination
+		}
+
+		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, pstData);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		*ppcResult = pstData[0];
+}
