@@ -7,12 +7,14 @@ extern Gatefunc sci_DbDisconnect;
 extern Gatefunc sci_DbQuery;
 extern Gatefunc sci_DbLastError;
 extern Gatefunc sci_DbTest;
+extern Gatefunc sci_DbInitDatabaseModule;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbConnect,"DbConnect"},
   {(Myinterfun)sci_gateway,sci_DbDisconnect,"DbDisconnect"},
   {(Myinterfun)sci_gateway,sci_DbQuery,"DbQuery"},
   {(Myinterfun)sci_gateway,sci_DbLastError,"DbLastError"},
   {(Myinterfun)sci_gateway,sci_DbTest,"DbTest"},
+  {(Myinterfun)sci_gateway,sci_DbInitDatabaseModule,"DbInitDatabaseModule"},
 };
  
 int C2F(skeleton_cpp)()

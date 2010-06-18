@@ -15,6 +15,7 @@
 #include <QtSql\qsqlfield.h>
 #include <QtSql\qsqlindex.h>
 
+
 /* ==================================================================== */
 #include "sci_util.h"
 /* ==================================================================== */
@@ -28,6 +29,52 @@ extern "C"
   #include <cstdlib>
   #include "sciprint.h"
 /* ==================================================================== */	
+
+	QString sDefaultConnection = "";
+
+	QMap<QString,QList<QString>> mslsProviderConnectionOptions = QMap<QString,QList<QString>>();
+
+	QList<QString> lsCommonConnectionParameters = QList<QString>()
+		<<"host"
+		<<"port"
+		<<"database"
+		<<"user"
+		<<"provider"
+		<<"password";
+	
+	QList<QString> lsProviders = QList<QString>()
+		<<"QPSQL"
+		<<"QSQLITE"
+		<<"QMYSQL"
+		<<"QOCI"
+		<<"QIBASE"
+		<<"QDB2"
+		<<"QODBC"
+		<<"QSQLITE2"
+		<<"QTDS";
+
+	int sci_DbInitDatabaseModule(char *fname)
+	{
+		mslsProviderConnectionOptions.clear();
+
+		QList<QString> lsPsqlConnectionOptions = QList<QString>() 
+			<<"connect_timeout"
+			<<"options"
+			<<"tty"
+			<<"requiressl"
+			<<"service";
+
+		mslsProviderConnectionOptions.insert("QPSQL", lsPsqlConnectionOptions);
+
+		QList<QString> lsSqliteConnectionOptions = QList<QString>()
+			<<"QSQLITE_BUSY_TIMEOUT"
+			<<"QSQLITE_OPEN_READONLY"
+			<<"QSQLITE_ENABLE_SHARED_CACHE";
+
+		mslsProviderConnectionOptions.insert("QSQLITE", lsSqliteConnectionOptions);
+
+		return 0;
+	}
 
 	int sci_DbConnect(char *fname)
 	{
@@ -74,11 +121,33 @@ extern "C"
 		
 		//setting connection params			
 		if(! qmConnParams.contains (QString("provider")))				
+		{
 			Scierror(999, "At least provider must be specified!\n");						
+			return 0;
+		}
 
-		QSqlDatabase db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), "default");		
+		if(!lsProviders.contains(qmConnParams.value(QString("provider"))))
+		{
+			Scierror(999, "Unknown provider: %s\n", qmConnParams.value(QString("provider")));
+			return 0;
+		}
 
-		db.setDatabaseName(qmConnParams.value(QString("database")));
+		int iRand;
+		char *cpRandName = (char*)malloc(sizeof(char)*30);
+		
+		do
+		{
+			iRand = rand();			
+			sprintf(cpRandName, "%d", iRand);						
+		}
+		while (QSqlDatabase::contains(QString(cpRandName)));			
+
+		sDefaultConnection = QString(cpRandName);
+
+		//!!! the name must be provided by a user or be a name of output variable
+		QSqlDatabase db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), QString(cpRandName));			
+		
+		db.setDatabaseName(qmConnParams.value(QString("database")));		
 
 		if(qmConnParams.contains("user"))
 			db.setUserName(qmConnParams.value(QString("user")));
@@ -99,9 +168,34 @@ extern "C"
 			else
 			{
 				Scierror(999, "Port must be an integer number.\n");
+				return 0;
 			}
 		}
 
+		//setting special connection options
+		QMapIterator<QString, QString> mi(qmConnParams);
+		QString sSpecificConnectionParams = "";
+		while (mi.hasNext()) 
+		{
+			mi.next();
+
+			if(lsCommonConnectionParameters.contains(mi.key()))
+				continue;
+			
+			if(!mslsProviderConnectionOptions
+				.value(qmConnParams.value(QString("provider")))
+				.contains(mi.key()))
+			{
+				sciprint("Warning: unknown connection parameter %s ignored!\n", mi.key().toLatin1().data());
+			}
+			else
+			{
+				sSpecificConnectionParams.append(mi.key() + " = " + mi.value() + ";");
+			}			
+		}
+		db.setConnectOptions(sSpecificConnectionParams);
+
+		//trying to open connection
 		if (!db.open())
 		{
 			sciprint("Cannot open connection: %s\n", db.lastError().text().toLatin1().data());
@@ -112,7 +206,7 @@ extern "C"
 				QString("user").toLatin1().data());
 		}		
 
-		QSqlDatabase *dbc = new QSqlDatabase(db);
+		QSqlDatabase *dbc = new QSqlDatabase(db);			
 
 		//writing the pointer to the connection object		
 		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)dbc);			
@@ -182,7 +276,7 @@ extern "C"
 		//using default connection
 		if(Rhs == 1)
 		{
-			QSqlDatabase db = QSqlDatabase::database("default");			
+			QSqlDatabase db = QSqlDatabase::database(sDefaultConnection);			
 			
 			qry = new QSqlQuery(db);
 		}
