@@ -76,6 +76,228 @@ extern "C"
 		return 0;
 	}
 
+	int sci_DbFetchAllString(char *fname)
+	{
+		SciErr sciErr;
+		QSqlQuery *psqQuery;
+
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+
+		if(!psqQuery->isActive())
+		{
+			Scierror(999, "Given query was not successfully executed.\n");
+			return 0;
+		}
+
+		QSqlRecord rec;
+		char **ppcResultStrings = NULL;
+
+		int iRecsCount = 0;
+		rec = psqQuery->record();
+		int iFiledCount = rec.count();
+
+		while(psqQuery->next())
+		{
+			iRecsCount++;
+			ppcResultStrings = (char**)realloc(ppcResultStrings, sizeof(char*)*iRecsCount*iFiledCount);
+
+			QSqlRecord rec = psqQuery-> record();
+
+			for(int i=0; i < rec.count(); i++)
+			{
+				QString sVal = rec.value(i).toString();
+				ppcResultStrings[ ( iRecsCount - 1 ) * iFiledCount + i ] = (char*)malloc(sizeof(char) * sVal.length());
+				strcpy(ppcResultStrings[( iRecsCount - 1 ) * iFiledCount + i ], sVal.toLatin1().data());
+			}
+		}
+
+		char **ppcTransposedResults = NULL;		
+		transposeStringMatrix(ppcResultStrings, iRecsCount, iFiledCount, &ppcTransposedResults);
+
+		//sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, iRecsCount, iFiledCount, ppcResultStrings);
+		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, iRecsCount, iFiledCount, ppcTransposedResults);
+
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		free(ppcResultStrings);
+		free(ppcTransposedResults);
+
+		LhsVar(1) = Rhs + 1;
+
+		return 0;
+	}
+
+	int sci_DbFetchString(char *fname)
+	{
+		SciErr sciErr;
+
+		QSqlQuery *psqQuery;
+
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+
+		if(!psqQuery->isActive())
+		{
+			Scierror(999, "Given query was not successfully executed.\n");
+			return 0;
+		}
+		
+		if(!psqQuery->next())
+		{
+			Scierror(999, "No results in query.\n");
+			return 0;
+		}
+
+		QSqlRecord rec = psqQuery-> record();
+
+		char **ppcResultStrings  = (char**)malloc(sizeof(char*) * rec.count());
+
+		for(int i=0; i < rec.count(); i++)
+		{
+			QString sVal = rec.value(i).toString();
+			ppcResultStrings[i] = (char*)malloc(sizeof(char) * sVal.length());
+			strcpy(ppcResultStrings[i], sVal.toLatin1().data());
+		}
+
+		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, rec.count(), ppcResultStrings);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		free(ppcResultStrings);
+
+		LhsVar(1) = Rhs + 1;
+
+		return 0;
+	}
+
+
+	int sci_DbFetchAllReal(char *fname)
+	{
+		SciErr sciErr;
+		QSqlQuery *psqQuery;
+
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+
+		if(!psqQuery->isActive())
+		{
+			Scierror(999, "Given query was not successfully executed.\n");
+			return 0;
+		}
+
+		QSqlRecord rec;
+		double *pdResults = NULL;
+		bool *pbConvertOk = (bool*)malloc(sizeof(bool));
+
+		int iRecsCount = 0;
+		rec = psqQuery->record();
+		int iFiledCount = rec.count();
+
+		while(psqQuery->next())
+		{
+			iRecsCount++;
+			pdResults = (double*)realloc(pdResults, sizeof(double) * iRecsCount * iFiledCount);
+
+			QSqlRecord rec = psqQuery-> record();
+
+			for(int i=0; i < rec.count(); i++)
+			{
+				pdResults[( iRecsCount - 1 ) * iFiledCount + i ] = rec.value(i).toDouble(pbConvertOk);
+
+				if(!(*pbConvertOk))
+				{
+					Scierror(999, "Cannot convert %d-th value (%s) to double.\n", i, rec.value(i).toString().toLatin1().data());
+	
+					free(pdResults);
+					free(pbConvertOk);
+	
+					return 0;
+				}
+			}
+		}
+
+		double *pdTranspResults = NULL;
+		transposeDoubleMatrix(pdResults, iFiledCount, iRecsCount, &pdTranspResults);
+
+		//sciErr = createMatrixOfDouble(pvApiCtx, Rhs + 1, iFiledCount, iRecsCount, pdResults);
+		sciErr = createMatrixOfDouble(pvApiCtx, Rhs + 1, iRecsCount, iFiledCount, pdTranspResults);
+
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+		
+		free(pdResults);
+		free(pbConvertOk);
+		free(pdTranspResults);
+
+		LhsVar(1) = Rhs + 1;
+
+		return 0;
+	}
+
+	int sci_DbFetchReal(char *fname)
+	{
+		SciErr sciErr;
+
+		QSqlQuery *psqQuery;
+
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+
+		if(!psqQuery->isActive())
+		{
+			Scierror(999, "Given query was not successfully executed.\n");
+			return 0;
+		}
+		
+		if(!psqQuery->next())
+		{
+			Scierror(999, "No results in query.\n");
+			return 0;
+		}
+
+		QSqlRecord rec = psqQuery-> record();
+	
+		double *pdResults  = (double*)malloc(sizeof(double) * rec.count());	
+
+		bool *pbConvertOk = (bool*)malloc(sizeof(bool));
+
+		for(int i=0; i < rec.count(); i++)
+		{
+			pdResults[i] = rec.value(i).toDouble(pbConvertOk);
+			if(!(*pbConvertOk))
+			{
+				Scierror(999, "Cannot convert %d-th value (%s) to double.\n", i, rec.value(i).toString().toLatin1().data());
+
+				free(pdResults);
+				free(pbConvertOk);
+
+				return 0;
+			}
+		}
+
+	
+
+		sciErr = createMatrixOfDouble(pvApiCtx, Rhs + 1, 1, rec.count(), pdResults);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		free(pdResults);
+		free(pbConvertOk);
+
+		LhsVar(1) = Rhs + 1;
+
+		return 0;
+	}
 	int sci_DbConnect(char *fname)
 	{
 		SciErr sciErr;
@@ -94,7 +316,7 @@ extern "C"
 		}
 
 		QMap<QString, QString> qmConnParams;
-		SciStructStringFields(piAddr, &qmConnParams, fname);
+		sciStructStringFields(piAddr, &qmConnParams, fname);
 
 		sciErr = getVarType(pvApiCtx, piAddr, &iType1);
 		if(sciErr.iErr)
@@ -259,7 +481,7 @@ extern "C"
 		}
 		else
 		{
-			db = &QSqlDatabase::database("default");
+			db = &QSqlDatabase::database(sDefaultConnection);
 		}		
 
 		db->close();

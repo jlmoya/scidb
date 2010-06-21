@@ -1,6 +1,6 @@
 #include "sci_util.h"
 
-int SciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
+int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 {
 		SciErr sciErr;
 	    QList<QString> namesList;
@@ -157,4 +157,70 @@ int sciGetStringAt(char *fname, int iPos, char **ppcResult)
 		}
 
 		*ppcResult = pstData[0];
+}
+int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery)
+{
+	SciErr sciErr;
+	    
+		int m1 = 0, n1 = 0;
+		int *piAddr = NULL;
+		char *pStVarOne = NULL;
+		int lenStVarOne = 0;
+		int iType1 = 0;	
+		void *pvPtr;
+
+		sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
+		if(sciErr.iErr)
+		{
+		  printError(&sciErr, 0);
+		  return 0;
+		}
+
+		sciErr = getVarType(pvApiCtx, piAddr, &iType1);
+		if(sciErr.iErr)
+		{
+		  printError(&sciErr, 0);
+		  return 0;
+		} 
+
+		if ( iType1 != sci_pointer )
+		{
+		  Scierror(999,"%s: Wrong type for input argument #%d: A pointer expected.\n", fname, 1);
+		  return 0;
+		}
+
+		sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
+
+		*ppSqlQuery = (QSqlQuery*)pvPtr;
+}
+
+int transposeDoubleMatrix(double *pdMatr, int iRows, int iCols, double **ppdRes)
+{
+	*ppdRes = (double*)malloc( sizeof(double) * iRows * iCols);
+
+	for(int i=0; i < iRows; i++)
+	{
+		for(int j=0; j < iCols; j++)
+		{
+			(*ppdRes)[i*iCols + j] = pdMatr[j*iRows + i];
+		}
+	}
+
+	return 0;
+}
+
+int transposeStringMatrix(char **pdMatr, int iRows, int iCols, char ***ppdRes)
+{
+	*ppdRes = (char**)malloc( sizeof(char*) * iRows * iCols);
+
+	for(int i=0; i < iRows; i++)
+	{
+		for(int j=0; j < iCols; j++)
+		{
+			(*ppdRes)[i*iCols + j] = (char*)malloc(strlen(pdMatr[j*iRows + i]));
+			strcpy((*ppdRes)[i*iCols + j], pdMatr[j*iRows + i]);
+		}
+	}
+
+	return 0;
 }

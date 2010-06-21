@@ -15,5 +15,8 @@
 #include <cstdlib>
 #include "sciprint.h"
 
-int SciStructStringFields(int *piMList, QMap<QString, QString> *map, char *fname);
+int sciStructStringFields(int *piMList, QMap<QString, QString> *map, char *fname);
 int sciGetStringAt(char *fname, int iPos, char **ppcResult);
+int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery);
+int transposeDoubleMatrix(double *pdMatr, int iRows, int iCols, double **ppdRes);
+int transposeStringMatrix(char **pdMatr, int iRows, int iCols, char ***ppdRes);
