@@ -12,6 +12,7 @@ extern Gatefunc sci_DbFetchString;
 extern Gatefunc sci_DbFetchAllString;
 extern Gatefunc sci_DbFetchReal;
 extern Gatefunc sci_DbFetchAllReal;
+extern Gatefunc sci_DbFetchStruct;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbConnect,"DbConnect"},
   {(Myinterfun)sci_gateway,sci_DbDisconnect,"DbDisconnect"},
@@ -22,7 +23,8 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbFetchString,"DbFetchString"},
   {(Myinterfun)sci_gateway,sci_DbFetchAllString,"DbFetchAllString"},
   {(Myinterfun)sci_gateway,sci_DbFetchReal,"DbFetchReal"},
-  {(Myinterfun)sci_gateway,sci_DbFetchAllReal,"sci_DbFetchAllReal"},
+  {(Myinterfun)sci_gateway,sci_DbFetchAllReal,"DbFetchAllReal"},
+   {(Myinterfun)sci_gateway,sci_DbFetchStruct,"DbFetchStruct"},
 };
  
 int C2F(skeleton_cpp)()

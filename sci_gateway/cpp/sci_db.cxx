@@ -76,6 +76,92 @@ extern "C"
 		return 0;
 	}
 
+	int sci_DbFetchStruct(char *fname)
+	{
+		SciErr sciErr;
+		QSqlQuery *psqQuery;
+
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+
+		if(!psqQuery->isActive())
+		{
+			Scierror(999, "Given query was not successfully executed.\n");
+			return 0;
+		}		
+
+		if(!psqQuery->next())
+		{
+			Scierror(999, "No results in query.\n");
+			return 0;
+		}
+
+		QSqlRecord rec = psqQuery-> record();
+		
+		sciprint("Rec.count() = %d\n", rec.count());
+
+		char **pstLabels = (char**)malloc(sizeof(char*)*(rec.count() + 2));
+		pstLabels[0] = "st";
+		pstLabels[1] = "dims";
+		double pdblDims[]  = {1,1};
+
+		for(int j=0; j<rec.count();j++)
+		{
+			QString sFieldName = rec.field(j).name();
+
+			pstLabels[j+2] = (char*)malloc(sizeof(char)*sFieldName.length());
+			strcpy(pstLabels[j+2], sFieldName.toLatin1().data());
+		}
+
+		int *piStructAddress;
+
+		createMList(pvApiCtx, Rhs + 1, rec.count() + 2, &piStructAddress);
+		createMatrixOfStringInList(pvApiCtx, Rhs + 1, piStructAddress, 1, 1, rec.count() + 2, pstLabels);
+		createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, piStructAddress, 2, 1, 2, pdblDims);
+
+		for(int i=0; i < rec.count(); i++)
+		{
+			switch(rec.value(i).type())
+			{
+				case QVariant::Bool:
+				{			
+					bool bField = rec.value(i).toBool();
+					int iBool;
+					if(bField)
+						iBool = 1;
+					else
+						iBool = 0;
+					
+					createMatrixOfBooleanInList(pvApiCtx, Rhs+1, piStructAddress, i+3, 1, 1, &iBool);
+					break;
+				}
+
+				case QVariant::Double:
+				{
+					double dField = rec.value(i).toDouble();					
+
+					double *res = (double*)malloc(sizeof(double));
+					*res = dField;
+					
+					sciprint("Value: %f\n", *res);
+
+					createMatrixOfDoubleInList(pvApiCtx, Rhs+1, piStructAddress, i+3, 1, 1, res);
+					break;
+				}
+
+				case QVariant::String:
+				{
+					char *pcField = rec.value(i).toString().toLatin1().data();
+
+					createMatrixOfStringInList(pvApiCtx, Rhs+1, piStructAddress, i+3, 1, 1, &pcField);
+					break;
+				}
+			}
+
+		}
+
+		LhsVar(1) = Rhs + 1;
+	}
+
 	int sci_DbFetchAllString(char *fname)
 	{
 		SciErr sciErr;
