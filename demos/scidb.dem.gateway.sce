@@ -6,8 +6,6 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-mode(-1);
-lines(0);
-
-disp("conn = struct ('provider', 'QPSQL', 'user', 'postgres')");
-conn = struct('provider', 'QPSQL', 'user', 'postgres')
+demopath         = get_absolute_file_path("toolbox_skeleton.dem.gateway.sce");
+subdemolist      = ["demo DbConnect","DbConnect.dem.sce"];
+subdemolist(:,2) = demopath + subdemolist(:,2);

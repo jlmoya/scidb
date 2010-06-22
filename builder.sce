@@ -1,16 +1,19 @@
-// Copyright (C) 2008 - INRIA
-// Copyright (C) 2009 - DIGITEO
-
-// This file is released into the public domain
+// Copyright (C) 2010 - Igor GRIDCHYN
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
 mode(-1);
 lines(0);
 
 TOOLBOX_NAME  = "scidb";
-TOOLBOX_TITLE = "Scidb";
+TOOLBOX_TITLE = "SciDb";
 toolbox_dir   = get_absolute_file_path("builder.sce");
 
-// Check Scilab's version
+// Check Scilab"s version
 // =============================================================================
 
 try
@@ -21,21 +24,19 @@ end
 
 if v(2) < 2 then
 	// new API in scilab 5.2
-	error(gettext('Scilab 5.2 or more is required.'));  
+	error(gettext("Scilab 5.2 or more is required."));
 end
 
 // Check development_tools module avaibility
 // =============================================================================
 
-if ~with_module('development_tools') then
-  error(msprintf(gettext('%s module not installed."),'development_tools'));
+if ~with_module("development_tools") then
+  error(msprintf(gettext("%s module not installed."),"development_tools"));
 end
 
 // Action
 // =============================================================================
 
-tbx_builder_macros(toolbox_dir);
-tbx_builder_src(toolbox_dir);
 tbx_builder_gateway(toolbox_dir);
 tbx_builder_help(toolbox_dir);
 tbx_build_loader(TOOLBOX_NAME, toolbox_dir);

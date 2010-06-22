@@ -1,4 +1,4 @@
-#include <mex.h> 
+#include <mex.h>
 #include <sci_gateway.h>
 #include <api_scilab.h>
 static int direct_gateway(char *fname,void F(void)) { F();return 0;};
@@ -26,7 +26,7 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbFetchAllReal,"DbFetchAllReal"},
    {(Myinterfun)sci_gateway,sci_DbFetchStruct,"DbFetchStruct"},
 };
- 
+
 int C2F(skeleton_cpp)()
 {
   Rhs = Max(0, Rhs);
