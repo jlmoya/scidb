@@ -11,3 +11,5 @@ lines(0);
 
 disp("conn = struct ('provider', 'QPSQL', 'user', 'postgres')");
 conn = struct('provider', 'QPSQL', 'user', 'postgres')
+disp("DbConnect(conn)");
+DbConnect(conn)

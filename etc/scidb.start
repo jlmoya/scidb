@@ -29,5 +29,7 @@ if or(getscilabmode() == ["NW";"STD"]) then
     end
 end
 
+DbInitDatabaseModule();
+
 clear root_tlbx;
 clear etc_tlbx;
