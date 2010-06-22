@@ -1,12 +1,12 @@
 #include <string>
-#include <QtCore\QString.h>
-#include <QtSql\qsql.h>
-#include <QtSql\qsqldatabase.h>
-#include <QtSql\qsqldriver.h>
-#include <QtSql\qsqlquery.h>
-#include <QtSql\qsqlerror.h>
-#include <QtSql\qsqlfield.h>
-#include <QtSql\qsqlindex.h>
+#include <QtCore/qstring.h>
+#include <QtSql/qsql.h>
+#include <QtSql/qsqldatabase.h>
+#include <QtSql/qsqldriver.h>
+#include <QtSql/qsqlquery.h>
+#include <QtSql/qsqlerror.h>
+#include <QtSql/qsqlfield.h>
+#include <QtSql/qsqlindex.h>
 
 #include "stack-c.h"
 #include "api_scilab.h"

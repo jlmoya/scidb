@@ -6,7 +6,7 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-//ilib_verbose(2);
+ilib_verbose(2);
 
 scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbDisconnect"        , "sci_DbDisconnect"         ;
@@ -43,6 +43,8 @@ tbx_build_gateway("scidb",            ..
                   scidb_files ,       ..
                   scidb_gateway_path, ..
                   QT_libs,            ..
+                  "",                 ..
                   QT_includes);
+
 
 clear tbx_build_gateway;
