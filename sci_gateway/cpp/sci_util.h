@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include "sciprint.h"
 
+int sciWriteVarIntoList(int *piList, int position, QVariant vValue);
 int sciStructStringFields(int *piMList, QMap<QString, QString> *map, char *fname);
 int sciGetStringAt(char *fname, int iPos, char **ppcResult);
 int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery);

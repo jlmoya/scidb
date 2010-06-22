@@ -1,5 +1,103 @@
 #include "sci_util.h"
 
+int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
+{
+	switch(vValue.type())
+	{
+		case QVariant::Bool:
+		{			
+			bool bField = vValue.toBool();
+			int iBool;
+			if(bField)
+				iBool = 1;
+			else
+				iBool = 0;
+			
+			createMatrixOfBooleanInList(pvApiCtx, Rhs+1, piList, position, 1, 1, &iBool);
+			break;
+		}
+
+		case QVariant::Int:
+		{
+			int iField = vValue.toInt();					
+
+			int *res = (int*)malloc(sizeof(int));
+			*res = iField;
+
+			createMatrixOfInteger32InList(pvApiCtx, Rhs + 1, piList, position, 1, 1, res);
+			break;
+		}
+
+		case QVariant::UInt:
+		{
+			unsigned int iField = vValue.toUInt();					
+
+			unsigned int *res = (unsigned int*)malloc(sizeof(unsigned int));
+			*res = iField;
+
+			createMatrixOfUnsignedInteger32InList(pvApiCtx, Rhs + 1, piList, position, 1, 1, res);
+			break;
+		}
+
+    	case QVariant::LongLong:
+		{
+			int iField = vValue.toInt();					
+
+			int *res = (int*)malloc(sizeof(int));
+			*res = iField;
+
+			createMatrixOfInteger32InList(pvApiCtx, Rhs + 1, piList, position, 1, 1, res);	
+			break;
+		}
+
+		case QVariant::ULongLong:
+		{
+			unsigned int iField = vValue.toUInt();					
+
+			unsigned int *res = (unsigned int*)malloc(sizeof(unsigned int));
+			*res = iField;
+
+			createMatrixOfUnsignedInteger32InList(pvApiCtx, Rhs + 1, piList, position, 1, 1, res);
+
+			break;
+		}
+
+		case QVariant::Double:
+		{
+			double dField = vValue.toDouble();					
+
+			double *res = (double*)malloc(sizeof(double));
+			*res = dField;
+			
+			sciprint("Value: %f\n", *res);
+
+			createMatrixOfDoubleInList(pvApiCtx, Rhs+1, piList, position, 1, 1, res);
+			break;
+		}
+
+		case QVariant::String:
+		{
+			char *pcField = vValue.toString().toLatin1().data();
+
+			createMatrixOfStringInList(pvApiCtx, Rhs+1, piList, position, 1, 1, &pcField);
+			break;
+		}
+
+		default:
+		{
+			sciprint("Unknown var type with code: %d. Writing as string.\n", vValue.type());
+
+			char *pcField = vValue.toString().toLatin1().data();
+
+			createMatrixOfStringInList(pvApiCtx, Rhs+1, piList, position, 1, 1, &pcField);
+
+			break;
+		}
+	}
+
+	return 0;
+}
+
 int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 {
 		SciErr sciErr;
