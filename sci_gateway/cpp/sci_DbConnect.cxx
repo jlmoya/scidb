@@ -1,0 +1,169 @@
+/* ==================================================================== */
+/* Igor GRIDCHYN */
+/* Scidb toolbox */
+/* This file is released into the public domain */
+/* ==================================================================== */
+
+/* ==================================================================== */
+#include "sci_util.h"
+#include "sci_db.h"
+/* ==================================================================== */
+
+extern QString sDefaultConnection;
+
+extern QMap<QString,QList<QString>> mslsProviderConnectionOptions;
+
+extern QList<QString> lsCommonConnectionParameters;
+	
+extern QList<QString> lsProviders;
+
+extern "C" 
+{
+	int sci_DbConnect(char *fname)
+	{
+		SciErr sciErr;
+	    
+		int m1 = 0, n1 = 0;
+		int *piAddr = NULL;
+		char *pStVarOne = NULL;
+		int lenStVarOne = 0;
+		int iType1 = 0;	
+		
+		sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
+		if(sciErr.iErr)
+		{
+		  printError(&sciErr, 0);
+		  return 0;
+		}
+
+		QMap<QString, QString> qmConnParams;
+		sciStructStringFields(piAddr, &qmConnParams, fname);
+
+		sciErr = getVarType(pvApiCtx, piAddr, &iType1);
+		if(sciErr.iErr)
+		{
+		  printError(&sciErr, 0);
+		  return 0;
+		} 
+
+		if ( iType1 != sci_mlist )
+		{
+		  Scierror(999,"%s: Wrong type for input argument #%d: A mlist expected.\n",fname,1);
+		  return 0;
+		}
+
+		int iItemNumber  =0;
+
+		sciErr = getListItemNumber(pvApiCtx, piAddr, &iItemNumber);
+
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+		
+		//setting connection params			
+		if(! qmConnParams.contains (QString("provider")))				
+		{
+			Scierror(999, "At least provider must be specified!\n");						
+			return 0;
+		}
+
+		if(!lsProviders.contains(qmConnParams.value(QString("provider"))))
+		{
+			Scierror(999, "Unknown provider: %s\n", qmConnParams.value(QString("provider")));
+			return 0;
+		}
+
+		int iRand;
+		char *cpRandName = (char*)malloc(sizeof(char)*30);
+		
+		do
+		{
+			iRand = rand();			
+			sprintf(cpRandName, "%d", iRand);						
+		}
+		while (QSqlDatabase::contains(QString(cpRandName)));			
+
+		sDefaultConnection = QString(cpRandName);
+
+		//!!! the name must be provided by a user or be a name of output variable
+		QSqlDatabase db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), QString(cpRandName));			
+		
+		db.setDatabaseName(qmConnParams.value(QString("database")));		
+
+		if(qmConnParams.contains("user"))
+			db.setUserName(qmConnParams.value(QString("user")));
+
+		if(qmConnParams.contains("host"))
+			db.setHostName(qmConnParams.value(QString("localhost")));
+
+		if(qmConnParams.contains("password"))
+			db.setPassword(qmConnParams.value(QString("password")));				
+
+		if(qmConnParams.contains("port"))
+		{
+			bool bPortOk;
+			int port = qmConnParams.value(QString("port")).toInt(&bPortOk);
+
+			if(bPortOk)
+				db.setPort(port);
+			else
+			{
+				Scierror(999, "Port must be an integer number.\n");
+				return 0;
+			}
+		}
+
+		//setting special connection options
+		QMapIterator<QString, QString> mi(qmConnParams);
+		QString sSpecificConnectionParams = "";
+		while (mi.hasNext()) 
+		{
+			mi.next();
+
+			if(lsCommonConnectionParameters.contains(mi.key()))
+				continue;
+			
+			if(!mslsProviderConnectionOptions
+				.value(qmConnParams.value(QString("provider")))
+				.contains(mi.key()))
+			{
+				sciprint("Warning: unknown connection parameter %s ignored!\n", mi.key().toLatin1().data());
+			}
+			else
+			{
+				sSpecificConnectionParams.append(mi.key() + " = " + mi.value() + ";");
+			}			
+		}
+		db.setConnectOptions(sSpecificConnectionParams);
+
+		//trying to open connection
+		if (!db.open())
+		{
+			sciprint("Cannot open connection: %s\n", db.lastError().text().toLatin1().data());
+		}
+		else
+		{
+			sciprint("Connected to database %s as %s!\n", QString("database").toLatin1().data(),
+				QString("user").toLatin1().data());
+		}		
+
+		QSqlDatabase *dbc = new QSqlDatabase(db);			
+
+		//writing the pointer to the connection object		
+		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)dbc);			
+
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		LhsVar(1) = Rhs + 1;		
+
+		return 0;
+	}
+/* ==================================================================== */	
+} /* extern "C" */
+/* ==================================================================== */

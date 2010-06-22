@@ -1,20 +1,6 @@
-#include <string>
-#include <QtCore/qstring.h>
-#include <QtSql/qsql.h>
-#include <QtSql/qsqldatabase.h>
-#include <QtSql/qsqldriver.h>
-#include <QtSql/qsqlquery.h>
-#include <QtSql/qsqlerror.h>
-#include <QtSql/qsqlfield.h>
-#include <QtSql/qsqlindex.h>
+#include "sci_db.h"
 
-#include "stack-c.h"
-#include "api_scilab.h"
-#include "Scierror.h"
-#include "MALLOC.h"
-#include <cstdlib>
-#include "sciprint.h"
-
+int getDatabaseParam(char *fname, int iPos, QSqlDatabase **db);
 int sciWriteVarIntoList(int *piList, int position, QVariant vValue);
 int sciStructStringFields(int *piMList, QMap<QString, QString> *map, char *fname);
 int sciGetStringAt(char *fname, int iPos, char **ppcResult);

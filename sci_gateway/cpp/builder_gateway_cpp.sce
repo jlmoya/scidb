@@ -18,12 +18,24 @@ scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbFetchAllString"    , "sci_DbFetchAllString"     ;
                 "DbFetchReal"         , "sci_DbFetchReal"          ;
                 "DbFetchAllReal"      , "sci_DbFetchAllReal"       ;
-                "DbFetchStruct"       , "sci_DbFetchStruct"        ];
+                "DbFetchStruct"       , "sci_DbFetchStruct"        ;
+                "DbFetchAllStruct"    , "sci_DbFetchAllStruct"    ];
 
 scidb_files =  ["sci_db.cxx"    ;
+                "sci_db.h"      ;
                 "sci_util.cpp"  ;
                 "sci_util.h"    ;
-                "sci_test.cpp"  ];
+                "sci_test.cpp"  ;
+                "sci_DbConnect.cxx";
+                "sci_DbDisconnect.cxx";
+                "sci_DbQuery.cxx";
+                "sci_DbFetchReal.cxx";
+                "sci_DbFetchString.cxx";
+                "sci_DbFetchStruct.cxx";
+                "sci_DbFetchAllString.cxx";
+                "sci_DbFetchAllReal.cxx";
+                "sci_DbFetchAllStruct.cxx";
+                "sci_DbLastError.cxx"];
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
 
@@ -45,6 +57,5 @@ tbx_build_gateway("scidb",            ..
                   QT_libs,            ..
                   "",                 ..
                   QT_includes);
-
 
 clear tbx_build_gateway;
