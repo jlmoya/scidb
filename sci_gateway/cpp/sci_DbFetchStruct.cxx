@@ -11,8 +11,7 @@
 extern "C"
 {
 	int sci_DbFetchStruct(char *fname)
-	{
-		SciErr sciErr;
+	{		
 		QSqlQuery *psqQuery;
 
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
@@ -29,7 +28,7 @@ extern "C"
 			return 0;
 		}
 
-		QSqlRecord rec = psqQuery-> record();		
+		QSqlRecord rec = psqQuery-> record();
 
 		char **pstLabels = (char**)malloc(sizeof(char*)*(rec.count() + 2));
 		pstLabels[0] = "st";
@@ -56,6 +55,8 @@ extern "C"
 		}
 
 		LhsVar(1) = Rhs + 1;
+
+		return 0;
 	}
 /* ==================================================================== */	
 } /* extern "C" */

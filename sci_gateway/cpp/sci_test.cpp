@@ -24,52 +24,32 @@ extern "C"
 
 	int sci_DbTest(char *filename)
 	{
-		SciErr sciErr;
+		  int *p_out_address, *piList;
+		  char  *pstLabels[]   = {"st","dims","a1","a2","a3"};
+		  double pdblDims[]  = {1,1};
+		  double pdblA1[] = {1};
+		  double pdblA2[] = {1}; 
+		  double pdblA3[] = {1,2,3,4};
 
-		int iType			= 0;
-		int* piAddr			= NULL;
-		void* pvPtr			= NULL;
-		double* pdblData	= NULL;
-		QSqlDatabase *db	= NULL;
+		  createList(pvApiCtx, Rhs + 1, 1, &piList);
 
-		if(GetType(1) == sci_pointer)
-		{
-			sciprint("The type of the first argument is sci_pointer.\n");
-		}
-		else
-		{
-            sciprint("The type of the first argument is %d.\n", GetType(1));
-		}
+		  SciErr err = createMListInList(pvApiCtx, Rhs + 1, piList, 1, 5, &p_out_address);
 
-		sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
+		  // Add the labels at position 1 (in the first field).
+		  // We can get the labels using getfield(1,mymlist) in Scilab
+		  createMatrixOfStringInList(pvApiCtx, Rhs + 1, p_out_address, 1, 1, 5, pstLabels);
 
-		sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
-		
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
+		  // Add a vector to the 'dims' field
+		  createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, p_out_address, 2, 1, 2, pdblDims);
 
-		//TEST: pointer at db
-		db = (QSqlDatabase*)pvPtr;
-		sciprint("User: %s\n", db->userName().toLatin1().data());
+		  // Add the 'Ai' fields
+		  createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, p_out_address, 3, 1, 1, pdblA1);
+		  createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, p_out_address, 4, 1, 1, pdblA2);
+		  createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, p_out_address, 5, 1, 4, pdblA3);
 
-		//TEST:connect db user check		
-		//db = &QSqlDatabase::database("default");				
+		  // Return the created mlist
+		  LhsVar(1) = Rhs + 1;
 
-		//sciprint("Pointer : 0x%08X\n", pvPtr);	
-		//
-		//sciprint("User: %s\n", db->userName().toLatin1().data());							
-
-		//TEST: query
-		//QSqlQuery *pQry= (QSqlQuery*)pvPtr;
-
-		//sciprint("Number of results: %d", pQry->size());
+		  return 0;	
 	}
 }

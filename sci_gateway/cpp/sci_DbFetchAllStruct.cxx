@@ -11,8 +11,7 @@
 extern "C"
 {
 	int sci_DbFetchAllStruct(char *fname)
-	{
-		SciErr sciErr;
+	{		
 		QSqlQuery *psqQuery;
 
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
@@ -53,7 +52,7 @@ extern "C"
 			return 0;
 		}
 
-		QList<QList<QVariant>> llvRecords = QList<QList<QVariant>>();				
+		QList< QList<QVariant> > llvRecords = QList< QList<QVariant> >();
 
 		do
 		{
@@ -87,6 +86,8 @@ extern "C"
 		}
 
 		LhsVar(1) = Rhs + 1;
+
+		return 0;
 	}
 /* ==================================================================== */	
 } /* extern "C" */
