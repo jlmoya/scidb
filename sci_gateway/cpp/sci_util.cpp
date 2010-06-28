@@ -1,5 +1,31 @@
 #include "sci_util.h"
 
+int sciGetQueryParam(char *fname, int iPos, QSqlQuery **query)
+{
+	int *piAddr;
+	void *pvPtr;
+	SciErr sciErr;
+
+	sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
+	
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}		
+
+	*query = (QSqlQuery*)pvPtr;		
+
+	return 0;
+}
+
 int getDatabaseParam(char *fname, int iPos, QSqlDatabase **db)
 {
 	int *piAddr;

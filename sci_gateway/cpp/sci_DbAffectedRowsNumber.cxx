@@ -10,30 +10,24 @@
 /* ==================================================================== */
 extern "C"
 {
-	int sci_DbLastError(char *fname)
+	int sci_DbAffectedRowsNumber(char *fname)
 	{
 		SciErr sciErr;
-		QSqlDatabase *db;
+		QSqlQuery *query;
+		QStringList slTables;		
 
-		char *cpLastError;
+		sciGetQueryParam(fname, 1, &query);
 
-		if(Rhs == 0)
-		{
-			db = &(QSqlDatabase::database("default"));		
-		}
-		else
-		{
-			getDatabaseParam(fname, 1, &db);
-		}
+		int iRowsAffected = query->numRowsAffected();
 
-		cpLastError = db->lastError().text().toLatin1().data();
-
-		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, 1, &cpLastError);
+		sciErr = createMatrixOfInteger32(pvApiCtx, Rhs + 1, 1, slTables.count(), &iRowsAffected);
 		if(sciErr.iErr)
 		{
 			printError(&sciErr, 0);
 			return 0;
 		}	
+
+		LhsVar(1) = Rhs + 1;
 
 		return 0;
 	}

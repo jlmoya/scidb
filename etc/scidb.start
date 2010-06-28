@@ -29,6 +29,15 @@ if or(getscilabmode() == ["NW";"STD"]) then
     end
 end
 
+// Load demos
+// =============================================================================
+if or(getscilabmode() == ["NW";"STD"]) then
+	mprintf("\tLoad demos\n");
+	pathdemos = pathconvert(root_tlbx+"/demos/scidb.dem.gateway.sce",%F,%T);
+	add_demo("SciDb",pathdemos);
+	clear pathdemos add_demo;
+end
+
 DbInitDatabaseModule();
 
 clear root_tlbx;

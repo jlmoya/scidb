@@ -17,11 +17,11 @@
           xmlns:db="http://docbook.org/ns/docbook"
           version="5.0-subset Scilab"
           xml:lang="en"
-          xml:id="DbDisconnect">
+          xml:id="DbLastDbError">
 
     <refnamediv>
-        <refname>DbDisconnect</refname>
-        <refpurpose>close connection to a database</refpurpose>
+        <refname>DbLastDbError</refname>
+        <refpurpose>get the last error, occured during database interaction</refpurpose>
     </refnamediv>
 
     <!-- ===================================================================== -->
@@ -30,8 +30,8 @@
     <refsynopsisdiv>
         <title>Calling Sequence</title>
         <synopsis>
-            DbDisconnect(dblink)
-            DbDisconnect()
+		DbLastDbError()
+            DbLastDbError(dblink)            
         </synopsis>
     </refsynopsisdiv>
 
@@ -49,8 +49,7 @@
 					a pointer to database connection object (returned by DbConnect())
                     </para>					
                 </listitem>
-            </varlistentry>          
-
+            </varlistentry>		 
         </variablelist>
     </refsection>
 
@@ -62,15 +61,15 @@
         <title>Description</title>
         <para>
 		<literal>
-		DbDisconnect()
+		DbLastDbError()
 		</literal>
-		closes a connection to a default database.
+		Returns last error, occured at default database.
         </para>		
 		<para>
 		<literal>
-		DbDisconnect(dblink)
+		DbLastDbError(dblink)
 		</literal>
-		closes a connection to a database, represented by dblink pointer.
+		Returns last error, occured at database, represented by pointer dblink.
         </para>		
     </refsection>
 
@@ -83,20 +82,11 @@
         <title>Examples</title>
         <programlisting role="example"><![CDATA[
 		// Opens a “PostgreSQL” connection with a connexion string
-		DbConnect("PSQL", ..
+		dblink = DbConnect("PSQL", ..
 		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		//Do some queries, computations, etc. WITHOU CREATING OTHER CONNECTIONS
-		//Disconnect from default (the last) database myDataBase
-		DbDisconnect();
-    ]]></programlisting>
-	  <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dbConnection = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		//Do some queries, computations, CONNECT TO OTHER DATABASES, etc.  
-		//Disconnect from default database myDataBase
-		DbDisconnect(dbConnection);
-    ]]></programlisting>
+		//if not connected, get the error by following call
+		DbLastDbError()		
+    ]]></programlisting>	 
     </refsection>
 
 
@@ -113,8 +103,8 @@
 			</link>
         </member>
         <member>
-            <link linkend="DbQuery">
-			DbQuery
+            <link linkend="DbDisconnect">
+			DbDisconnect
 			</link>
         </member>
         </simplelist>

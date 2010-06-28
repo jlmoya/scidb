@@ -17,7 +17,7 @@
           xmlns:db="http://docbook.org/ns/docbook"
           version="5.0-subset Scilab"
           xml:lang="en"
-          xml:id="DbConnect">
+          xml:id="DbQuery">
 
     <refnamediv>
         <refname>DbQuery</refname>
@@ -30,7 +30,7 @@
     <refsynopsisdiv>
         <title>Calling Sequence</title>
         <synopsis>
-			DbQuery(query)
+		DbQuery(query)
             DbQuery(dblink, query)            
         </synopsis>
     </refsynopsisdiv>

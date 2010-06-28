@@ -8,7 +8,7 @@
 #include "sci_util.h"
 #include "sci_db.h"
 #include <stdio.h>
-//#include <QtSql\drivers\qsql_psql.cpp>
+//#include <QtSql\drivers\psql\qsql_psql.cpp>
 /* ==================================================================== */
 
 extern QString sDefaultConnection;
@@ -16,7 +16,7 @@ extern QString sDefaultConnection;
 extern QMap<QString,QList<QString> > mslsProviderConnectionOptions;
 
 extern QList<QString> lsCommonConnectionParameters;
-	
+
 extern QList<QString> lsProviders;
 
 extern "C" 
@@ -140,7 +140,7 @@ extern "C"
 				else
 				{
 					sSpecificConnectionParams.append(mi.key() + " = " + mi.value() + ";");
-				}			
+				}
 			}
 			db.setConnectOptions(sSpecificConnectionParams);
 
@@ -153,7 +153,7 @@ extern "C"
 			{
 				sciprint("Connected to database %s as %s!\n", QString("database").toLatin1().data(),
 					QString("user").toLatin1().data());
-			}		
+			}
 		}
 		else
 		{
@@ -170,15 +170,13 @@ extern "C"
 
 			sciGetStringAt(fname, 2, &connStr);
 
-			//if(strcmp(provider, "QPSQL"))
-			//{
-			//	PGconn *con = PQconnectdb("host=server user=bart password=simpson dbname=springfield");
-			//	QPSQLDriver *drv =  new QPSQLDriver(con);
-			//	db = QSqlDatabase::addDatabase(drv);
-			//}
+			if(strcmp(provider, "QPSQL"))
+			{
+				//PGconn *con = PQconnectdb("host=server user=bart password=simpson dbname=springfield");
+				//QPSQLDriver *drv =  new QPSQLDriver(con);
+				//db = QSqlDatabase::addDatabase(drv);
+			}
 		}
-
-		
 
 		QSqlDatabase *dbc = new QSqlDatabase(db);
 
@@ -195,6 +193,6 @@ extern "C"
 
 		return 0;
 	}
-/* ==================================================================== */	
+/* ==================================================================== */
 } /* extern "C" */
 /* ==================================================================== */
