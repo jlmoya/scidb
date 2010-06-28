@@ -48,11 +48,42 @@ scidb_files =  ["sci_db.cxx"                  ;
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
 
-QT_libs = ["../../Qt/lib/QtCore4"  ;
-           "../../Qt/lib/QtSql4"   ;
-           "../../Qt/lib/qsqlpsql4";
-           "../../Qt/lib/qsqlite4" ;
-           "../../Qt/lib/qsqlodbc4"];
+
+// Guess the platform
+
+[dynamic_info,static_info] = getdebuginfo();
+arch_info = static_info(grep(static_info,"/^Compiler Architecture:/","r"))
+
+if ~isempty(arch_info) & (regexp(arch_info,"/\sX64$/","o") <> []) then
+    ARCH = "64";
+else
+    ARCH = "32";
+end
+
+OSNAME = convstr(getos(),"l");
+
+WINDOWS  = (strcmpi(getos(),"windows") == 0);
+MACOSX   = (strcmpi(getos(),"darwin" ) == 0);
+LINUX    = (strcmpi(getos(),"linux"  ) == 0);
+
+if WINDOWS then
+
+    QT_libs = ["../../Qt/lib/windows"+ARCH+"/QtCore4"  ;
+               "../../Qt/lib/windows"+ARCH+"/QtSql4"   ;
+               "../../Qt/lib/windows"+ARCH+"/qsqlpsql4";
+               "../../Qt/lib/windows"+ARCH+"/qsqlite4" ;
+               "../../Qt/lib/windows"+ARCH+"/qsqlodbc4"];
+
+elseif LINUX then
+
+    QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
+               "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
+               "../../Qt/lib/linux"+ARCH+"/libQtCore";
+               "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
+               "../../Qt/lib/linux"+ARCH+"/libsqlite3";
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite";
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql" ;
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ];
 
 if getos() == "Windows" then
     QT_includes = "-I""" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include""";
