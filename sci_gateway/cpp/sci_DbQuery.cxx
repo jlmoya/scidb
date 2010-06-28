@@ -26,15 +26,27 @@ extern "C"
 		}
 		else
 		{
-			getDatabaseParam(fname, 2, &db);		
+			getDatabaseParam(fname, 1, &db);		
 
 			qry = new QSqlQuery(*db);
 		}
 
 		char *pcQueryString;
-        sciGetStringAt(fname, 1, &pcQueryString);
+        sciGetStringAt(fname, 2, &pcQueryString);
 		
 		QString sQry = QString(pcQueryString);				
+
+		if(!db->isOpen())
+		{
+			Scierror(999, "The connection is not opened!");
+			return 0;
+		}
+
+		if(!db->isValid())
+		{
+			Scierror(999, "The connection is not valid!");
+			return 0;
+		}
 
 		if(qry->exec(sQry))
 		{
@@ -42,7 +54,7 @@ extern "C"
 		}
 		else
 		{
-			Scierror(999, "Cannot execute query: %s\n\t%s", QSqlDatabase::database("default").lastError().text().toLatin1().data(), 
+			Scierror(999, "Cannot execute query: %s\n\t%s", db->lastError().text().toLatin1().data(), 
 				qry->lastError().text().toLatin1().data());
 		}
 
