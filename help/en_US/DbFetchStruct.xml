@@ -17,11 +17,11 @@
           xmlns:db="http://docbook.org/ns/docbook"
           version="5.0-subset Scilab"
           xml:lang="en"
-          xml:id="DbFetchReal">
+          xml:id="DbFetchStruct">
 
     <refnamediv>
-        <refname>DbFetchReal</refname>
-        <refpurpose>get a record from result as matrix of doubles</refpurpose>
+        <refname>DbFetchStruct</refname>
+        <refpurpose>get a record from result as struct</refpurpose>
     </refnamediv>
 
     <!-- ===================================================================== -->
@@ -30,7 +30,7 @@
     <refsynopsisdiv>
         <title>Calling Sequence</title>
         <synopsis>
-		DbFetchReal(resultHandler)                      
+		DbFetchStruct(resultHandler)                      
         </synopsis>
     </refsynopsisdiv>
 
@@ -60,9 +60,9 @@
         <title>Description</title>
         <para>
 		<literal>
-		DbFetchReal(resultHandler)
+		DbFetchStruct(resultHandler)
 		</literal>
-		gets a record from query result, represented by resultHandler pointer as matrix of doubles
+		gets a record from query result, represented by resultHandler pointer, as struct
         </para>					
     </refsection>
 
@@ -80,8 +80,7 @@
 		
 		resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
 		
-		recordReal = DbFetchReal(resulthandle);	
-		
+		recordStruct = DbFetchStruct(resulthandle);		
     ]]></programlisting>	 
     </refsection>
 
@@ -110,7 +109,7 @@
         </member>
 		<member>
             <link linkend="DbFetchAllReal">
-			DbFetchAllReal
+			DbFetchAllString
 			</link>
         </member>
         </simplelist>
