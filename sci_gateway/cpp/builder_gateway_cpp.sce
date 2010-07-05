@@ -68,11 +68,20 @@ LINUX    = (strcmpi(getos(),"linux"  ) == 0);
 
 if WINDOWS then
 
-    QT_libs = ["../../Qt/lib/windows"+ARCH+"/QtCore4"  ;
-               "../../Qt/lib/windows"+ARCH+"/QtSql4"   ;
-               "../../Qt/lib/windows"+ARCH+"/qsqlpsql4";
-               "../../Qt/lib/windows"+ARCH+"/qsqlite4" ;
-               "../../Qt/lib/windows"+ARCH+"/qsqlodbc4"];
+    QT_libs = ["../../Qt/lib/windows"+ARCH+"/libpq"     ;
+		   "../../Qt/lib/windows"+ARCH+"/sqlite"    ;
+		   "../../Qt/lib/windows"+ARCH+"/sqlite3"   ;
+		   "../../Qt/lib/windows"+ARCH+"/QtCore4"   ;
+               "../../Qt/lib/windows"+ARCH+"/QtSql4"    ;
+               "../../Qt/lib/windows"+ARCH+"/qsqlpsql4" ;
+               "../../Qt/lib/windows"+ARCH+"/qsqlite4"  ;
+               "../../Qt/lib/windows"+ARCH+"/qsqlodbc4" ;
+		   "../../Qt/lib/windows"+ARCH+"/qsqlsite24";
+		   "../../Qt/lib/windows"+ARCH+"/qsqldb24"  ;
+		   "../../Qt/lib/windows"+ARCH+"/qsqloci4"  ;
+		   "../../Qt/lib/windows"+ARCH+"/qsqlibase4";
+		   "../../Qt/lib/windows"+ARCH+"/qsqlmysql4"];
+
 
 elseif LINUX then
 
@@ -81,9 +90,14 @@ elseif LINUX then
                "../../Qt/lib/linux"+ARCH+"/libQtCore";
                "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
                "../../Qt/lib/linux"+ARCH+"/libsqlite3";
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite";
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql" ;
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ];
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
+               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ; 
+		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlsite2";
+		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
+		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
+		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
+		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
 
 if getos() == "Windows" then
     QT_includes = "-I""" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include""";
