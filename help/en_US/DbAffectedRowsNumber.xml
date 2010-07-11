@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (C) Igor GRIDCHYN
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+ *
+ -->
+
+<refentry xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook"
+          version="5.0-subset Scilab"
+          xml:lang="en"
+          xml:id="DbAffectedRowsNumber">
+
+    <refnamediv>
+        <refname>DbAffectedRowsNumber</refname>
+        <refpurpose>get a number of rows affected by a query</refpurpose>
+    </refnamediv>
+
+    <!-- ===================================================================== -->
+    <!-- Calling Sequence -->
+    <!-- ===================================================================== -->
+    <refsynopsisdiv>
+        <title>Calling Sequence</title>
+        <synopsis>
+          DbAffectedRowsNumber(resultHandler)
+        </synopsis>
+    </refsynopsisdiv>
+
+    <!-- ===================================================================== -->
+    <!-- Parameters -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Parameters</title>
+        <variablelist>
+            <varlistentry>
+                <term>resultHandler</term>
+                <listitem>
+                    <para>
+                      a pointer to object of result (returned by DbQuery())
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Description -->
+    <!-- ===================================================================== -->
+    <refsection>
+        <title>Description</title>
+        <para>
+          <literal>
+            DbAffectedRowsNumber(resultHandler)
+          </literal>
+          gets a number of rows affected by a query.
+        </para>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Examples -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Examples</title>
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+
+resultHandler = DbQuery('SELECT * FROM addressbook');
+
+//get the number of results returned
+DbAffectedRowsNumber(resultHandler);
+
+resulthandler = DbQuery('DELETE FROM addressbook WHERE name LIKE ''Igor%'' ');
+//get the number of records deleted from table
+DbAffectedRowsNumber(resultHandler);
+
+//Disconnect from default (the last) database myDataBase
+DbDisconnect();
+    ]]></programlisting>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- See also -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>See Also</title>
+        <simplelist type="inline">
+          <member>
+            <link linkend="DbConnect">
+              DbConnect
+            </link>
+          </member>
+          <member>
+            <link linkend="DbDisconnect">
+              DbDisconnect
+            </link>
+          </member>
+          <member>
+            <link linkend="DbQuery">
+            DbQuery
+            </link>
+          </member>
+        </simplelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Authors -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Authors</title>
+        <simplelist type="vert">
+        <member>Igor GRIDCHYN</member>
+        </simplelist>
+    </refsection>
+
+</refentry>
