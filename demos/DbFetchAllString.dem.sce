@@ -1,23 +1,24 @@
-// ====================================================================
-// Copyright DIGITEO 2008
-// Igor GRIDCHYN
-// This file is released into the public domain
-// ====================================================================
-mode(-1);
-lines(0);
+// Copyright (C) 2010 - Igor GRIDCHYN
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution. The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-disp('connStr = struct (''provider'', ''QSQLITE'', ''database'', ''addressbook'')');
-connStr = struct ('provider', 'QSQLITE', 'database', 'addressbook')
-disp('Connecting to a database:');
-disp('DbConnect(connStr)');
+database = get_absolute_file_path("DbFetchAllString.dem.sce") + "addressbook";
+
+disp("connStr = struct (""provider"", ""QSQLITE"", ""database"", """+database+""")");
+connStr = struct ("provider", "QSQLITE", "database", database)
+disp("Connecting to a database:");
+disp("DbConnect(connStr)");
 DbConnect(connStr)
-disp('resultHandler = DbQuery(''SELECT * FROM addressbook'')');
-resultHandler = DbQuery('SELECT * FROM addressbook');
+disp("resultHandler = DbQuery(""SELECT * FROM addressbook"")");
+resultHandler = DbQuery("SELECT * FROM addressbook");
 
-disp('resultStrings  = DbFetchAllString(resultHandler)');
+disp("resultStrings  = DbFetchAllString(resultHandler)");
 resultStrings = DbFetchAllString(resultHandler);
+disp(resultStrings , "resultStrings =");
 
-disp('DbDisconnect()');
+disp("DbDisconnect()");
 DbDisconnect()
-
-// ====================================================================

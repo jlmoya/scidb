@@ -6,14 +6,16 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-database = get_absolute_file_path("DbQuery.dem.sce") + "addressbook";
+database = get_absolute_file_path("DbTables.dem.sce") + "addressbook";
 
 disp("conn = struct (""provider"", ""QSQLITE"", ""database"", """+database+""")");
-conn = struct("provider", "QSQLITE", "database", database);
+conn = struct("provider", "QSQLITE", "database", database)
 disp("Connecting to a database:");
 disp("DbConnect(conn)");
 DbConnect(conn);
-disp("resultHandler = DbQuery(""SELECT * FROM addressbook"")");
-resultHandler = DbQuery("SELECT * FROM addressbook");
+
+disp("DbTables()");
+disp(DbTables());
+
 disp("DbDisconnect()");
 DbDisconnect();

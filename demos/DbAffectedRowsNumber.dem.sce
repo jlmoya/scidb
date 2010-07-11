@@ -6,19 +6,18 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-database = get_absolute_file_path("DbFetchAllStruct.dem.sce") + "addressbook";
+database = get_absolute_file_path("DbAffectedRowsNumber.dem.sce") + "addressbook";
 
-disp("connStr = struct (""provider"", ""QSQLITE"", ""database"", """+database+""")");
-connStr = struct ("provider", "QSQLITE", "database", database)
+disp("conn = struct (""provider"", ""QSQLITE"", ""database"", """+database+""")");
+conn = struct("provider", "QSQLITE", "database",database)
 disp("Connecting to a database:");
-disp("DbConnect(connStr)");
-DbConnect(connStr)
+disp("DbConnect(conn)");
+DbConnect(conn)
 disp("resultHandler = DbQuery(""SELECT * FROM addressbook"")");
 resultHandler = DbQuery("SELECT * FROM addressbook");
 
-disp("resultStructs = DbFetchAllStruct(resultHandler)");
-resultStructs = DbFetchAllStruct(resultHandler);
-disp(resultStructs, "resultStructs=");
+disp("DbAffectedRowsNumber(resultHandler)");
+disp(DbAffectedRowsNumber(resultHandler));
 
 disp("DbDisconnect()");
 DbDisconnect()

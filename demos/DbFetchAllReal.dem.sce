@@ -1,23 +1,26 @@
-// ====================================================================
-// Copyright DIGITEO 2008
-// Igor GRIDCHYN
-// This file is released into the public domain
-// ====================================================================
-mode(-1);
-lines(0);
+// Copyright (C) 2010 - Igor GRIDCHYN
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution. The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-disp('connStr = struct(''provider'', ''QODBC'', ''database'', ''DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=DbTest.mdb''');
-connStr = struct('provider', 'QODBC', 'database', 'DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb')
-disp('Connecting to a database:');
-disp('DbConnect(conn)');
+chdir(get_absolute_file_path("DbFetchAllReal.dem.sce"));
+
+disp("connStr = struct(""provider"", ""QODBC"", ""database"", ""DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb""");
+connStr = struct("provider", "QODBC", "database", "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb")
+disp("Connecting to a database:");
+disp("DbConnect(conn)");
 DbConnect(connStr)
-disp('resultHandler = DbQuery(''SELECT * FROM addressbook'')');
-resultHandler = DbQuery('SELECT * FROM addressbook');
+disp("resultHandler = DbQuery(""SELECT * FROM test"")");
+resultHandler = DbQuery("SELECT * FROM test");
 
-disp('allReals = DbFetchAllReal(resultHandler)');
+
+disp("allReals = DbFetchAllReal(resultHandler)");
 allReals = DbFetchAllReal(resultHandler)
 
-disp('DbDisconnect()');
-DbDisconnect()
+disp(allReals, "allReals =");
 
-// ====================================================================
+disp("DbDisconnect()");
+DbDisconnect()

@@ -6,14 +6,17 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-database = get_absolute_file_path("DbQuery.dem.sce") + "addressbook";
+chdir(get_absolute_file_path("DbLastDbError.dem.sce");
 
-disp("conn = struct (""provider"", ""QSQLITE"", ""database"", """+database+""")");
-conn = struct("provider", "QSQLITE", "database", database);
+disp("connStr = struct(""provider"", ""QODBC"", ""database"", ""DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=DbWrongFile.mdb""");
+connStr = struct("provider", "QODBC", "database", "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=DbWrongFile.mdb");
 disp("Connecting to a database:");
+
 disp("DbConnect(conn)");
-DbConnect(conn);
-disp("resultHandler = DbQuery(""SELECT * FROM addressbook"")");
-resultHandler = DbQuery("SELECT * FROM addressbook");
+DbConnect(connStr);
+
+disp("DbLastDbError()")
+disp(DbLastDbError());
+
 disp("DbDisconnect()");
 DbDisconnect();
