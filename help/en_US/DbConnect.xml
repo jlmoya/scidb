@@ -74,7 +74,97 @@
                 <listitem>
                     <para>
 					A scilab struct, containing connection parameters. Must at least field 'provider', which has the same values as 'provider' - parameter.
-					Other provider-independent values of struct: host, port, database, user, password. There are also provider-specific parameters for each
+					Other provider-independent values of struct: host, port, database, user, password. 
+					But format if this can also vary depending on provider. 
+					For Firebird(InterBase) provider and SQLite providers you must five the name of file of the database, for server-oriented databases
+					you must specify the name of the database on server.
+					
+					Exapmles of connection struct for different providers:
+					<itemizedlist>					
+					<listitem>
+					<para>
+					For Firebird:
+					<programlisting role="example">
+					connStr = struct ('provider', 'IBASE', 'database', 'D:\TEST.FDB', 'user', 'SYSDBA', 'password', 'masterkey')
+					</programlisting>
+					Here 'SYSDBA' and 'masterkey' are default credentials for Firebird provider.					
+					</para>
+					</listitem>
+					
+					<listitem>
+					<para>
+					For SQLite:
+					<programlisting role="example">
+					connStr = struct ('provider', 'SQLITE', 'database', 'addressbook')
+					</programlisting>
+					This tries to connect to database addressbook in current directory.
+					If SQLite database addressbook does not exist in the current directory, it will be created.
+					</para>
+					</listitem>
+					
+					<listitem>
+					<para>
+					For PostgreSQL:
+					<programlisting role="example">
+					connStr = struct ('provider', 'QPSQL', 'user', 'postgres', 'database', 'test')
+					</programlisting>					
+					</para>
+					</listitem>
+					
+					<listitem>
+					<para>
+					For ODBC:
+					<itemizedlist>
+					<listitem>
+					<para>	
+					For local Access database
+					<programlisting role="example">
+					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb')
+					</programlisting>	
+					</para>
+					</listitem>
+					<listitem>
+					<para>
+					For remote connection to MSSQL database:
+					<programlisting role="example">
+					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=11.111.11.111,33301;DATABASE=remote_db', 'user', 'remote_user', 'password', 'remote_user_password')
+					</programlisting>					
+					</para>
+					</listitem>
+					<listitem>
+					<para>
+					For trusted connection to local MSSQL database:
+					<programlisting role="example">
+					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=localhost;DATABASE=local_database; Trusted_Connection=yes')
+					</programlisting>					
+					</para>
+					</listitem>
+					</itemizedlist>
+					</para>
+					</listitem>		
+
+					<listitem>
+					<para>
+					For MySQL:
+					<programlisting role="example">
+					connStr2 = struct ('provider', 'MYSQL', 'database', 'mytest', 'user', 'root', 'password', 'admin')
+					</programlisting>					
+					</para>
+					</listitem>
+					
+					<listitem>
+					<para>
+					For OCI (Oracle):
+					<programlisting role="example">
+					connStr2 = struct ('provider', 'OCI', 'database', 'XE', 'user', 'HR', 'password', 'hr')
+					</programlisting>					
+					</para>
+					</listitem>				
+
+					
+					</itemizedlist>
+					
+					There are also provider-specific parameters for each
 					database provider. 
 					</para>
 					<itemizedlist>
@@ -323,6 +413,8 @@
 		</literal>
 		opens a connection to database and returns a pointer to connection object or results in an error if it is not possible to open a connection.
 		Last succesfull connection becomes default.
+		
+		
         </para>		
     </refsection>
 
