@@ -45,9 +45,9 @@ int getDatabaseParam(char *fname, int iPos, QSqlDatabase **db)
 	{
 		printError(&sciErr, 0);
 		return 0;
-	}
+	}		
 
-	*db = (QSqlDatabase*)pvPtr;
+	*db = (QSqlDatabase*)pvPtr;		
 
 	return 0;
 }
@@ -56,7 +56,7 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 	switch(vValue.type())
 	{
 		case QVariant::Bool:
-		{
+		{			
 			bool bField = vValue.toBool();
 			int iBool;
 			if(bField)
@@ -70,7 +70,7 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 
 		case QVariant::Int:
 		{
-			int iField = vValue.toInt();
+			int iField = vValue.toInt();					
 
 			int *res = (int*)malloc(sizeof(int));
 			*res = iField;
@@ -81,7 +81,7 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 
 		case QVariant::UInt:
 		{
-			unsigned int iField = vValue.toUInt();
+			unsigned int iField = vValue.toUInt();					
 
 			unsigned int *res = (unsigned int*)malloc(sizeof(unsigned int));
 			*res = iField;
@@ -92,7 +92,7 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 
     	case QVariant::LongLong:
 		{
-			int iField = vValue.toInt();
+			int iField = vValue.toInt();					
 
 			int *res = (int*)malloc(sizeof(int));
 			*res = iField;
@@ -103,7 +103,7 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 
 		case QVariant::ULongLong:
 		{
-			unsigned int iField = vValue.toUInt();
+			unsigned int iField = vValue.toUInt();					
 
 			unsigned int *res = (unsigned int*)malloc(sizeof(unsigned int));
 			*res = iField;
@@ -115,12 +115,10 @@ int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 
 		case QVariant::Double:
 		{
-			double dField = vValue.toDouble();
+			double dField = vValue.toDouble();					
 
 			double *res = (double*)malloc(sizeof(double));
-			*res = dField;
-			
-			sciprint("Value: %f\n", *res);
+			*res = dField;			
 
 			createMatrixOfDoubleInList(pvApiCtx, Rhs+1, piList, position, 1, 1, res);
 			break;
@@ -188,7 +186,7 @@ int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 
 		int * piListItem = NULL;
 
-		for(int i = 0 ; i < iItemNumber ; i++)
+		for(int i = 0 ; i < iItemNumber ; i++)		
 		{
 			//sciprint("Getting List item Address...\n");
 			sciErr = getListItemAddress(pvApiCtx, piAddr, i + 1, &piListItem);
@@ -206,10 +204,10 @@ int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 
 			int iRows, iCols;
 
-			//getting string
+			//getting string			
 			//sciprint("Getting rows/ columns count...\n");
 		
-			sciErr = getMatrixOfStringInList(pvApiCtx, piAddr, i + 1, &iRows, &iCols, NULL, NULL);
+			sciErr = getMatrixOfStringInList(pvApiCtx, piAddr, i + 1, &iRows, &iCols, NULL, NULL);			
 			if(sciErr.iErr)
 			{
 				printError(&sciErr, 0);

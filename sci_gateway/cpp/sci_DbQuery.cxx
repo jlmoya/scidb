@@ -17,22 +17,22 @@ extern "C"
 		QSqlQuery *qry;
 		SciErr sciErr;
 
+		char *pcQueryString;
+
 		//using default connection
-		if(Rhs == 1)
+		if (Rhs == 1)
 		{
-			QSqlDatabase db = QSqlDatabase::database(sDefaultConnection);			
-			
-			qry = new QSqlQuery(db);
+			db = &QSqlDatabase::database(sDefaultConnection);		
+			qry = new QSqlQuery(*db);
+
+	        sciGetStringAt(fname, 1, &pcQueryString);
 		}
 		else
 		{
-			getDatabaseParam(fname, 1, &db);		
-
+			getDatabaseParam(fname, 1, &db);
 			qry = new QSqlQuery(*db);
+	        sciGetStringAt(fname, 2, &pcQueryString);
 		}
-
-		char *pcQueryString;
-        sciGetStringAt(fname, 2, &pcQueryString);
 		
 		QString sQry = QString(pcQueryString);				
 
@@ -55,7 +55,7 @@ extern "C"
 		else
 		{
 			Scierror(999, "Cannot execute query: %s\n\t%s", db->lastError().text().toLatin1().data(), 
-				qry->lastError().text().toLatin1().data());
+			qry->lastError().text().toLatin1().data());
 		}
 
 		LhsVar(1) = Rhs + 1;

@@ -9,6 +9,7 @@
 #include "sci_db.h"
 #include <stdio.h>
 //#include <QtSql\drivers\psql\qsql_psql.cpp>
+//#include <QtSql\drivers\mysql\qsql_mysql.cpp>
 //#include <QtSql\drivers\sqlite\qsql_sqlite.cpp>
 //#include <QtSql\drivers\ibase\qsql_ibase.cpp>
 //#include <QtSql\drivers\odbc\qsql_odbc.cpp>
@@ -18,8 +19,8 @@ extern QString sDefaultConnection;
 
 extern QMap<QString,QList<QString> > mslsProviderConnectionOptions;
 
-extern QList<QString> lsCommonConnectionParameters;
-
+extern QList<QString> lsCommonConnectionParameters;	
+	
 extern QList<QString> lsProviders;
 
 extern "C" 
@@ -42,14 +43,14 @@ extern "C"
 		{
 		  printError(&sciErr, 0);
 		  return 0;
-		}		
+		}
 
 		sciErr = getVarType(pvApiCtx, piAddr, &iType1);
 		if(sciErr.iErr)
 		{
 		  printError(&sciErr, 0);
 		  return 0;
-		}
+		} 
 
 		if ( iType1 != sci_mlist && iType1 != sci_strings)
 		{
@@ -74,7 +75,7 @@ extern "C"
 			}
 			
 			//setting connection params			
-			if(! qmConnParams.contains (QString("provider")))
+			if(! qmConnParams.contains (QString("provider")))				
 			{
 				Scierror(999, "%s: Wrong value for input argument #1: At least a provider must be specified.\n", fname);						
 				return 0;
@@ -89,16 +90,16 @@ extern "C"
 			do
 			{
 				iRand = rand();			
-				sprintf(cpRandName, "%d", iRand);
+				sprintf(cpRandName, "%d", iRand);						
 			}
-			while (QSqlDatabase::contains(QString(cpRandName)));
+			while (QSqlDatabase::contains(QString(cpRandName)));			
 
 			sDefaultConnection = QString(cpRandName);
 
 			//!!! the name must be provided by a user or be a name of output variable
-			db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), QString(cpRandName));
+			db = QSqlDatabase::addDatabase(qmConnParams.value(QString("provider")), QString(cpRandName));			
 			
-			db.setDatabaseName(qmConnParams.value(QString("database")));
+			db.setDatabaseName(qmConnParams.value(QString("database")));		
 
 			if(qmConnParams.contains("user"))
 				db.setUserName(qmConnParams.value(QString("user")));
@@ -107,7 +108,7 @@ extern "C"
 				db.setHostName(qmConnParams.value(QString("localhost")));
 
 			if(qmConnParams.contains("password"))
-				db.setPassword(qmConnParams.value(QString("password")));
+				db.setPassword(qmConnParams.value(QString("password")));				
 
 			if(qmConnParams.contains("port"))
 			{
@@ -143,7 +144,7 @@ extern "C"
 				else
 				{
 					sSpecificConnectionParams.append(mi.key() + " = " + mi.value() + ";");
-				}
+				}			
 			}
 			db.setConnectOptions(sSpecificConnectionParams);
 
@@ -173,6 +174,15 @@ extern "C"
 			//	drv =  new QPSQLDriver(con);							
 			//}	
 
+			//if (!strcmp(provider, "QMYSQL"))
+			//{
+			//	MYSQL *conn;
+			//	mysql_init(conn);
+			//	mysql_real_connect();				
+
+			//	drv = new QMYSQLDriver(conn);
+			//}
+
 			//if (!strcmp(provider, "QSQLITE"))
 			//{
 			//	sqlite3 *conn;
@@ -182,7 +192,7 @@ extern "C"
 
 			//if (!strcmp(provider, "QIBASE"))
 			//{
-			//	isc_db_handle conn;	
+			//	isc_db_handle conn;
 			//	ISC_STATUS status_vector[20];
 
 			//	isc_detach_database(status_vector, &conn);
@@ -192,18 +202,18 @@ extern "C"
 
 			do
 			{
-				iRand = rand();			
-				sprintf(cpRandName, "%d", iRand);						
+				iRand = rand();	
+				sprintf(cpRandName, "%d", iRand);
 			}
-			while (QSqlDatabase::contains(QString(cpRandName)));			
+			while (QSqlDatabase::contains(QString(cpRandName)));
 			sDefaultConnection = QString(cpRandName);
 
-			db = QSqlDatabase::addDatabase(drv, QString(cpRandName));	
-		}		
+			db = QSqlDatabase::addDatabase(drv, QString(cpRandName));
+		}
 
-		db.open();	
+		db.open();
 
-		QSqlDatabase *dbc = new QSqlDatabase(db);			
+		QSqlDatabase *dbc = new QSqlDatabase(db);
 
 		//writing the pointer to the connection object
 		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)dbc);
@@ -218,6 +228,6 @@ extern "C"
 
 		return 0;
 	}
-/* ==================================================================== */
+/* ==================================================================== */	
 } /* extern "C" */
 /* ==================================================================== */
