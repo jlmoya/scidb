@@ -15,6 +15,9 @@ extern "C"
 		SciErr sciErr;
 		QSqlQuery *psqQuery;
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
 		if(!psqQuery->isActive())
@@ -30,7 +33,12 @@ extern "C"
 		rec = psqQuery->record();
 		int iFiledCount = rec.count();
 
-		while(psqQuery->next())
+		if(!psqQuery->isValid())
+		{
+			psqQuery->next();
+		}
+
+		do
 		{
 			iRecsCount++;
 			ppcResultStrings = (char**)realloc(ppcResultStrings, sizeof(char*)*iRecsCount*iFiledCount);
@@ -44,6 +52,7 @@ extern "C"
 				strcpy(ppcResultStrings[( iRecsCount - 1 ) * iFiledCount + i ], sVal.toLatin1().data());
 			}
 		}
+		while(psqQuery->next());
 
 		char **ppcTransposedResults = NULL;		
 		transposeStringMatrix(ppcResultStrings, iRecsCount, iFiledCount, &ppcTransposedResults);

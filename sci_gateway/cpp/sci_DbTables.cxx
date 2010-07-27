@@ -16,6 +16,9 @@ extern "C"
 		QSqlDatabase *db;
 		QStringList slTables;		
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		if(Rhs == 0)
 		{
 			db = &(QSqlDatabase::database(sDefaultConnection));		

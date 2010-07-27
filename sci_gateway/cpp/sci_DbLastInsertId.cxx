@@ -10,7 +10,7 @@
 /* ==================================================================== */
 extern "C"
 {
-	int sci_DbFetchString(char *fname)
+	int sci_DbLastInsertId(char *fname)
 	{
 		SciErr sciErr;
 		QSqlQuery *psqQuery;
@@ -18,41 +18,18 @@ extern "C"
 		CheckRhs(1,1);
 		CheckLhs(0,1);
 
-		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+		sciGetQSqlQueryAt(fname, 1, &psqQuery);		
 
-		if(!psqQuery->isActive())
-		{
-			Scierror(999, "Given query was not successfully executed.\n");
-			return 0;
-		}
-		
-		if(!psqQuery->isValid() && !psqQuery->next())
-		{
-			Scierror(999, "No results in query.\n");
-			return 0;
-		}
+		QVariant vLastInsertId = psqQuery->lastInsertId();									
 
-		QSqlRecord rec = psqQuery-> record();
+		char *cLastInsertId = vLastInsertId.toString().toLatin1().data();
 
-		char **ppcResultStrings  = (char**)malloc(sizeof(char*) * rec.count());
-
-		for(int i=0; i < rec.count(); i++)
-		{
-			QString sVal = rec.value(i).toString();
-			ppcResultStrings[i] = (char*)malloc(sizeof(char) * sVal.length());
-			strcpy(ppcResultStrings[i], sVal.toLatin1().data());
-		}
-
-		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, rec.count(), ppcResultStrings);
+		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, 1, &cLastInsertId);
 		if(sciErr.iErr)
 		{
 			printError(&sciErr, 0);
 			return 0;
 		}
-
-		free(ppcResultStrings);
-
-		psqQuery->next();
 
 		LhsVar(1) = Rhs + 1;
 

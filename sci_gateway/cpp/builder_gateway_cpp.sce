@@ -23,7 +23,9 @@ scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbFetchAllStruct"    , "sci_DbFetchAllStruct"     ;
                 "DbTables"            , "sci_DbTables"             ;
                 "DbAffectedRowsNumber", "sci_DbAffectedRowsNumber" ;
-                "DbLastQueryError"    , "sci_DbLastQueryError"     ];
+                "DbLastQueryError"    , "sci_DbLastQueryError"     ;
+		    "DbFirst"		  , "sci_DbFirst"			 ;
+		    "DbLastInsertId"	  , "sci_DbLastInsertId"];
 
 
 scidb_files =  ["sci_db.cxx"                  ;
@@ -44,7 +46,9 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbInitDatabaseModule.cxx";
                 "sci_DbTables.cxx"            ;
                 "sci_DbAffectedRowsNumber.cxx";
-                "sci_DbLastQueryError"        ];
+                "sci_DbLastQueryError.cxx"    ;    
+		    "sci_DbLastInsertId.cxx"      ;
+		    "sci_DbFirst.cxx"];
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
 

@@ -14,6 +14,9 @@ extern "C"
 	{		
 		QSqlQuery *psqQuery;
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
 		if(!psqQuery->isActive())
@@ -22,13 +25,13 @@ extern "C"
 			return 0;
 		}		
 
-		if(!psqQuery->next())
+		if(!psqQuery->isValid() && !psqQuery->next())
 		{
 			Scierror(999, "No results in query.\n");
 			return 0;
 		}
 
-		QSqlRecord rec = psqQuery-> record();
+		QSqlRecord rec = psqQuery-> record();		
 
 		char **pstLabels = (char**)malloc(sizeof(char*)*(rec.count() + 2));
 		pstLabels[0] = "st";
@@ -53,6 +56,8 @@ extern "C"
 		{
 			sciWriteVarIntoList(piStructAddress, i+3, rec.value(i));
 		}
+
+		psqQuery->next();
 
 		LhsVar(1) = Rhs + 1;
 

@@ -8,11 +8,12 @@
 #include "sci_util.h"
 #include "sci_db.h"
 #include <stdio.h>
-//#include <QtSql\drivers\psql\qsql_psql.cpp>
-//#include <QtSql\drivers\mysql\qsql_mysql.cpp>
-//#include <QtSql\drivers\sqlite\qsql_sqlite.cpp>
-//#include <QtSql\drivers\ibase\qsql_ibase.cpp>
-//#include <QtSql\drivers\odbc\qsql_odbc.cpp>
+//#include <QtSql\sqldrivers\psql\qsql_psql.cpp>
+//#include <QtSql\sqldrivers\mysql\qsql_mysql.cpp>
+//#include <QtSql\sqldrivers\sqlite\qsql_sqlite.cpp>
+//#include <QtSql\sqldrivers\ibase\qsql_ibase.cpp>
+//#include <QtSql\sqldrivers\odbc\qsql_odbc.cpp>
+//#include <QtSql\sqldrivers\oci\qsql_oci.cpp>
 /* ==================================================================== */
 
 extern QString sDefaultConnection;
@@ -37,6 +38,9 @@ extern "C"
 		QSqlDatabase db;
 		int iRand;
 		char *cpRandName = (char*)malloc(sizeof(char)*30);
+
+		CheckRhs(1,2);
+		CheckLhs(0,1);
 
 		sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
 		if(sciErr.iErr)
@@ -198,6 +202,16 @@ extern "C"
 			//	isc_detach_database(status_vector, &conn);
 
 			//	drv = new QIBaseDriver(conn);
+			//}
+
+			//if (!strcmp(provider, "QOCI"))
+			//{
+			//	OCIEnv **ociEnv = (OCIEnv **)malloc(sizeof(OCIEnv *));
+			//	ociEnv = OCIEnvCreate(ociEnv); 
+
+			//	OCISvcCtx **ociSvcCtx;
+
+			//	drv = new QOCIDriver(ociEnv, ociSvcCtx);
 			//}
 
 			do

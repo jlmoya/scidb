@@ -15,6 +15,9 @@ extern "C"
 		SciErr sciErr;
 		QSqlQuery *psqQuery;
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
 		if(!psqQuery->isActive())
@@ -31,7 +34,12 @@ extern "C"
 		rec = psqQuery->record();
 		int iFiledCount = rec.count();
 
-		while(psqQuery->next())
+		if(!psqQuery->isValid())
+		{
+			psqQuery->next();
+		}
+
+		do
 		{
 			iRecsCount++;
 			pdResults = (double*)realloc(pdResults, sizeof(double) * iRecsCount * iFiledCount);
@@ -53,6 +61,7 @@ extern "C"
 				}
 			}
 		}
+		while(psqQuery->next());
 
 		double *pdTranspResults = NULL;
 		transposeDoubleMatrix(pdResults, iFiledCount, iRecsCount, &pdTranspResults);

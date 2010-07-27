@@ -13,8 +13,10 @@ extern "C"
 	int sci_DbFetchReal(char *fname)
 	{
 		SciErr sciErr;
-
 		QSqlQuery *psqQuery;
+
+		CheckRhs(1,1);
+		CheckLhs(0,1);
 
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
@@ -22,9 +24,9 @@ extern "C"
 		{
 			Scierror(999, "Given query was not successfully executed.\n");
 			return 0;
-		}
-		
-		if(!psqQuery->next())
+		}	
+
+		if(!psqQuery->isValid() && !psqQuery->next())
 		{
 			Scierror(999, "No results in query.\n");
 			return 0;
@@ -59,6 +61,8 @@ extern "C"
 
 		free(pdResults);
 		free(pbConvertOk);
+
+		psqQuery->next();
 
 		LhsVar(1) = Rhs + 1;
 

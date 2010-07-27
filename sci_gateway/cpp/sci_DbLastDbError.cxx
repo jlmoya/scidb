@@ -15,6 +15,9 @@ extern "C"
 		SciErr sciErr;
 		QSqlDatabase *db;
 
+		CheckRhs(0,1);
+		CheckLhs(0,1);
+
 		char *cpLastError;
 
 		if(Rhs == 0)

@@ -14,6 +14,9 @@ extern "C"
 	{		
 		QSqlQuery *psqQuery;
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
 		if(!psqQuery->isActive())
@@ -26,9 +29,9 @@ extern "C"
 		double pdblDims[]  = {1,1};
 		
 		QSqlRecord rec;
-		int iFieldsNumber;
+		int iFieldsNumber;		
 
-		if(psqQuery->next())
+		if(psqQuery->isValid() || psqQuery->next())
 		{
 			rec = psqQuery-> record();
 
@@ -52,7 +55,7 @@ extern "C"
 			return 0;
 		}
 
-		QList< QList<QVariant> > llvRecords = QList< QList<QVariant> >();
+		QList< QList<QVariant> > llvRecords = QList< QList<QVariant> >();				
 
 		do
 		{

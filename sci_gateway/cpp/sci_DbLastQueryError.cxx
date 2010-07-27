@@ -15,6 +15,9 @@ extern "C"
 		SciErr sciErr;
 		QSqlQuery *query;
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		char *cpLastError;
 
 		sciGetQueryParam(fname, 1, &query);

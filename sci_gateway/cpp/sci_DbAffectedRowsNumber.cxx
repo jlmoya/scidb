@@ -16,6 +16,9 @@ extern "C"
 		QSqlQuery *query;
 		QStringList slTables;		
 
+		CheckRhs(1,1);
+		CheckLhs(0,1);
+
 		sciGetQueryParam(fname, 1, &query);
 
 		int iRowsAffected = query->numRowsAffected();

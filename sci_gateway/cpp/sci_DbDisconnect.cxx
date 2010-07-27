@@ -15,6 +15,9 @@ extern "C"
 	{
 		QSqlDatabase *db;
 
+		CheckRhs(0,1);
+		CheckLhs(0,0);
+
 		if(Rhs==1)
 		{
 			getDatabaseParam(fname, 1, &db);
