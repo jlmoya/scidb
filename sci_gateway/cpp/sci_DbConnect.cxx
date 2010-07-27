@@ -9,6 +9,9 @@
 #include "sci_db.h"
 #include <stdio.h>
 //#include <QtSql\drivers\psql\qsql_psql.cpp>
+//#include <QtSql\drivers\sqlite\qsql_sqlite.cpp>
+//#include <QtSql\drivers\ibase\qsql_ibase.cpp>
+//#include <QtSql\drivers\odbc\qsql_odbc.cpp>
 /* ==================================================================== */
 
 extern QString sDefaultConnection;
@@ -31,6 +34,8 @@ extern "C"
 		int lenStVarOne = 0;
 		int iType1 = 0;	
 		QSqlDatabase db;
+		int iRand;
+		char *cpRandName = (char*)malloc(sizeof(char)*30);
 
 		sciErr = getVarAddressFromPosition(pvApiCtx, 1, &piAddr);
 		if(sciErr.iErr)
@@ -71,7 +76,7 @@ extern "C"
 			//setting connection params			
 			if(! qmConnParams.contains (QString("provider")))
 			{
-				Scierror(999, "At least provider must be specified!\n");
+				Scierror(999, "%s: Wrong value for input argument #1: At least a provider must be specified.\n", fname);						
 				return 0;
 			}
 
@@ -80,9 +85,6 @@ extern "C"
 				Scierror(999, "Unknown provider: %s\n", qmConnParams.value(QString("provider")));
 				return 0;
 			}
-
-			int iRand;
-			char *cpRandName = (char*)malloc(sizeof(char)*30);
 			
 			do
 			{
@@ -135,7 +137,8 @@ extern "C"
 					.value(qmConnParams.value(QString("provider")))
 					.contains(mi.key()))
 				{
-					sciprint("Warning: unknown connection parameter %s ignored!\n", mi.key().toLatin1().data());
+					//sciprint("Warning: unknown connection parameter %s ignored!\n", mi.key().toLatin1().data());
+					Scierror(999, "%s: Wrong value for input argument #1: \"%s\" is not a valid parameter.", fname, mi.key().toLatin1().data());
 				}
 				else
 				{
@@ -145,15 +148,6 @@ extern "C"
 			db.setConnectOptions(sSpecificConnectionParams);
 
 			//trying to open connection
-			if (!db.open())
-			{
-				sciprint("Cannot open connection: %s\n", db.lastError().text().toLatin1().data());
-			}
-			else
-			{
-				sciprint("Connected to database %s as %s!\n", QString("database").toLatin1().data(),
-					QString("user").toLatin1().data());
-			}
 		}
 		else
 		{
@@ -162,7 +156,7 @@ extern "C"
 
 			sciGetStringAt(fname, 1, &provider);
 
-			if(lsProviders.contains(provider))
+			if(!lsProviders.contains(provider))
 			{
 				Scierror(999, "Unknown provider: %s\n", provider);
 				return 0;
@@ -170,15 +164,46 @@ extern "C"
 
 			sciGetStringAt(fname, 2, &connStr);
 
-			if(strcmp(provider, "QPSQL"))
-			{
-				//PGconn *con = PQconnectdb("host=server user=bart password=simpson dbname=springfield");
-				//QPSQLDriver *drv =  new QPSQLDriver(con);
-				//db = QSqlDatabase::addDatabase(drv);
-			}
-		}
+			QSqlDriver *drv;
 
-		QSqlDatabase *dbc = new QSqlDatabase(db);
+			//if(!strcmp(provider, "QPSQL"))
+			//{
+			//	sciprint("Connecting to PostgreSQL with connection string %s ...\n", connStr);
+			//	PGconn *con = PQconnectdb(connStr);
+			//	drv =  new QPSQLDriver(con);							
+			//}	
+
+			//if (!strcmp(provider, "QSQLITE"))
+			//{
+			//	sqlite3 *conn;
+			//	sqlite3_open(connStr, &conn);
+			//	drv = new QSQLiteDriver(conn);
+			//}
+
+			//if (!strcmp(provider, "QIBASE"))
+			//{
+			//	isc_db_handle conn;	
+			//	ISC_STATUS status_vector[20];
+
+			//	isc_detach_database(status_vector, &conn);
+
+			//	drv = new QIBaseDriver(conn);
+			//}
+
+			do
+			{
+				iRand = rand();			
+				sprintf(cpRandName, "%d", iRand);						
+			}
+			while (QSqlDatabase::contains(QString(cpRandName)));			
+			sDefaultConnection = QString(cpRandName);
+
+			db = QSqlDatabase::addDatabase(drv, QString(cpRandName));	
+		}		
+
+		db.open();	
+
+		QSqlDatabase *dbc = new QSqlDatabase(db);			
 
 		//writing the pointer to the connection object
 		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)dbc);

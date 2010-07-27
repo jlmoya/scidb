@@ -251,14 +251,10 @@ int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 			{
 				valuesList.append(pstData[0]);
 			}
-		}
-
-		sciprint("Obtained values:\n");
+		}		
 
 		for (int i = 0; i < iItemNumber - 2; i++)
 		{
-			sciprint("%s == %s\n", namesList[i].toLatin1().data(), valuesList[i].toLatin1().data());
-
 			map->insert(namesList[i], valuesList[i]);
 		}
 
