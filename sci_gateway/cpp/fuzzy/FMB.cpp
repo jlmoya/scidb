@@ -467,6 +467,10 @@ FuzzyLabel FMB::GetFuzzyLabel(int fuzzyId)
 {
 	return _mFuzzyLabels.value(fuzzyId);
 }
+FuzzyLabel FMB::GetFuzzyLabel(QString fuzzy_name)
+{
+	return _mFuzzyLabelsByName.value(fuzzy_name);
+}
 FuzzyApproxMuch FMB::GetFuzzyApproxMuch(int columnId)
 {
 	return _mFuzzyApproxMuch.value(columnId);

@@ -1,5 +1,5 @@
 #include "fuzzysql.h"
-#include "fuzzyobjecttype2.h"
+#include "FuzzyConstantType2.h"
 
 QMap<QString ,QString> functions;
 
@@ -133,7 +133,7 @@ QString FuzzySQL::FSQL2SQL(QString queryString)
         QString left = LeftOperand(queryString, *opInd, leftStart);
         QString right = RightOperand(queryString, *opInd + 3, rightEnd);
 
-        FuzzyObjectType2 rightObj(right);
+		FuzzyConstantType2 rightObj(right, _fmb);
 
         //ONLY FOR ATTRS TYPE 2
         QString call = QString(functionCall + "( %1, %2, %3, %4, %5, %6, %7, %8, %9, %10)")
@@ -418,11 +418,6 @@ void FuzzySQL::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, d
 	 query.bindValue(":delta", delta);
      query.exec();
 }
-
-
-
-
-
 
 void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
 {

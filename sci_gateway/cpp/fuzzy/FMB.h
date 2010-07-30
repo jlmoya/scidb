@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QtCore>
 #include <QtSql>
 
@@ -61,6 +63,7 @@ public:
 	FuzzyDegreeSig GetFuzzyDegreeSig(int codeSig);
 	FuzzyObject GetFuzzyObject(int fuzzyId);
 	FuzzyLabel GetFuzzyLabel(int fuzzyId);
+	FuzzyLabel GetFuzzyLabel(QString fuzzy_name);
 	FuzzyApproxMuch GetFuzzyApproxMuch(int columnId);
 	FuzzyNearness GetFuzzyNearness(int fuzzyId1, int fuzzyId2);
 	QList<int>* GetFuzzyCompatibleCols(int adapteeId);

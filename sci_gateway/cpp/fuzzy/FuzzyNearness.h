@@ -1,3 +1,4 @@
+#pragma once
 #include <QtSql>
 
 class __declspec( dllexport ) FuzzyNearness
