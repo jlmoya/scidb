@@ -13,6 +13,7 @@ public:
 
     int type;
     double* data;
+	QList<QString> labels;
 };
 
 #endif // FUZZYOBJECTTYPE2_H

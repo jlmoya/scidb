@@ -43,6 +43,9 @@ public:
 		double alpha, double beta, double gamma, double delta);
 	void FuzzySQL::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, double alpha,
 		double beta, double gamma, double delta);
+
+	//============================================================//
+	int FuzzySQL::OperandType(QString operand);
 };
 
 //#endif // FUZZYSQL_H

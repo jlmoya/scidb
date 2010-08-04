@@ -18,6 +18,7 @@
 
 class __declspec( dllexport ) FMB 
 {
+public:
 	QMap<QString, FuzzyTableInfo> _mFuzzyTables;
 	
 	QMap<int, FuzzyCol> _mFuzzyColumns;
@@ -39,7 +40,6 @@ class __declspec( dllexport ) FMB
 
 	QSqlDatabase *_db;
 
-public:
 	///loadsinfo from tables and fills collections
 	void LoadFMB();
 	void SetDb(QSqlDatabase *pDb);	

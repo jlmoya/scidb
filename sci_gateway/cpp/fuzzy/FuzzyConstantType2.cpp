@@ -52,21 +52,41 @@ FuzzyConstantType2::FuzzyConstantType2(QString str, FMB fuzzyMetaBase)
     if(str.startsWith('{'))
     {
         if(str.contains('/'))
-        {
-			type = 11;
+        {			
 
             QStringList args = str.mid(1, str.length() - 2).split(',');
 
-            data = new double[args.count() * 2];
+			QStringList cplt = ((QString) args.at(0)).split('/');
+			if (QString("0123456789").contains(cplt.at(2).at(0)))
+			{
+				type = 12;
 
-            for (int i = 0; i < args.size(); ++i)
-            {
-                QStringList cpl = ((QString) args.at(i)).split('/');
-                data[2*i] = ((QString) cpl.at(0)).toDouble();
-                data[2*i + 1] = ((QString) cpl.at(1)).toDouble();
-            }
+				data = new double[args.count() * 2];
 
-            return;
+				for (int i = 0; i < args.size(); ++i)
+				{
+					QStringList cpl = ((QString) args.at(i)).split('/');
+					data[2*i] = ((QString) cpl.at(0)).toDouble();
+					data[2*i + 1] = ((QString) cpl.at(1)).toDouble();
+				}
+
+				return;
+			}
+			else
+			{
+				type = 13;
+				
+				data = new double[args.count()];
+
+				for (int i = 0; i < args.size(); ++i)
+				{
+					QStringList cpl = ((QString) args.at(i)).split('/');
+					data[i] = ((QString) cpl.at(0)).toDouble();
+					labels.append(cpl.at(1));
+				}
+
+				return;
+			}
         }
 
         else
@@ -75,12 +95,21 @@ FuzzyConstantType2::FuzzyConstantType2(QString str, FMB fuzzyMetaBase)
 
             QStringList args = str.mid(1, str.length() - 2).split(',');            
 
-            data = new double[args.count()];
+			if (QString("0123456789").contains(args.at(0)))
+			{
+				type = 10;
 
-            for (int i = 0; i < args.size(); ++i)
-                 data[i] = ((QString) args.at(i)).toDouble();
+				data = new double[args.count()];
 
-            return;
+				for (int i = 0; i < args.size(); ++i)
+					 data[i] = ((QString) args.at(i)).toDouble();
+
+				return;
+			}
+			else
+			{
+				type = 11;
+			}
         }
     }
 
@@ -91,7 +120,7 @@ FuzzyConstantType2::FuzzyConstantType2(QString str, FMB fuzzyMetaBase)
 
         type = 4;
 
-		data = new double[args.count()];
+		data = new double[4];
 		
 		data[0] = lbl.alpha();
 		data[1] = lbl.beta();
@@ -139,5 +168,6 @@ FuzzyConstantType2::FuzzyConstantType2(QString str, FMB fuzzyMetaBase)
         return;
     }
 
+	//bad constant
     type = -1;    
 }

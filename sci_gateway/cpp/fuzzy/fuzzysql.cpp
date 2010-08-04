@@ -117,6 +117,67 @@ int FirstSELECTPositionToLeftFrom(QString qry, int from)
     return prev;
 }
 
+int FuzzySQL::OperandType(QString operand)
+{
+	if (operand.contains('+') ||
+		operand.contains('-') ||
+		operand.contains('*') ||
+		operand.contains('/'))
+	{
+		return 7;
+	}
+
+	//trying to parse a fuzzy object out of it
+	FuzzyConstantType2 operConst(operand, _fmb);
+	
+	if (operConst.type >= 0)
+	{
+		return 10 + operConst.type;
+	}
+
+	//now considering we have a fuzzy column
+	if (operand.contains('.'))
+	{
+		QStringList slOperParts = operand.split('.');
+
+		if (slOperParts.length() > 2)
+		{
+			return 0;
+		}
+
+		if (!_fmb._mFuzzyTables.contains(slOperParts.at(0)) ||
+			!_fmb._mFuzzyColumnsByName.contains(slOperParts.at(1)))
+		{
+			return 10;
+		}	
+		else
+		{
+			FuzzyCol col = _fmb._mFuzzyColumnsByName.value(slOperParts.at(1));
+			
+			return col.fType();
+		}
+	}
+	else
+	{
+		if(!_fmb._mFuzzyColumnsByName.contains(operand))
+		{
+			return 10;
+		}
+		else
+		{
+			FuzzyCol col = _fmb._mFuzzyColumnsByName.value(operand);
+			
+			return col.fType();
+		}
+	}
+
+	return 0;
+}
+
+QList<QString> CallParameters(QString sArgument, int iArgType)
+{
+}
+
 //Fuzzy SELECT ...
 QString FuzzySQL::FSQL2SQL(QString queryString)
 {
@@ -124,14 +185,22 @@ QString FuzzySQL::FSQL2SQL(QString queryString)
     int *opInd;
     QString functionCall = FuzzyOperatorCallReplacement(queryString, opInd);
 
-    //int opInd = queryString.indexOf(" FEQ ", 0, Qt::CaseSensitive);
-
+	//while there are fuzzy operator calls replace them
     while (*opInd > 0)
     {
         int *leftStart, *rightEnd;
 
         QString left = LeftOperand(queryString, *opInd, leftStart);
         QString right = RightOperand(queryString, *opInd + 3, rightEnd);
+
+		//defining types of operands: 1-columnType1, 2-columnType2, 3-ColumnType3, 4-ColumnType4,
+		//5-ConstantType1,2(Crisp also) 6-ConstantType3,4 7-expression
+		int iLeftType = OperandType(left);
+		int iRightType = OperandType(right);
+
+		//checking for compatibility
+			
+		//constructing calls
 
 		FuzzyConstantType2 rightObj(right, _fmb);
 
