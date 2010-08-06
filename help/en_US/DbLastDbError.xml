@@ -19,107 +19,105 @@
           xml:lang="en"
           xml:id="DbLastDbError">
 
-    <refnamediv>
-        <refname>DbLastDbError</refname>
-        <refpurpose>get the last error, occured during database interaction</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbLastDbError</refname>
+    <refpurpose>get the last error, occured during database interaction</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-		DbLastDbError()
-            DbLastDbError(dblink)            
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      DbLastDbError()
+      DbLastDbError(dblink)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>		
-        <variablelist>
-            <varlistentry>
-                <term>dblink</term>
-                <listitem>
-                    <para>
-					a pointer to database connection object (returned by DbConnect())
-                    </para>					
-                </listitem>
-            </varlistentry>		 
-        </variablelist>
-    </refsection>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>dblink</term>
+        <listitem>
+          <para>
+            a pointer to database connection object (returned by DbConnect())
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
 
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-		<literal>
-		DbLastDbError()
-		</literal>
-		Returns last error, occured at default database.
-        </para>		
-		<para>
-		<literal>
-		DbLastDbError(dblink)
-		</literal>
-		Returns last error, occured at database, represented by pointer dblink.
-        </para>		
-    </refsection>
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+      DbLastDbError()
+      </literal>
+      Returns last error, occured at default database.
+    </para>
+    <para>
+      <literal>
+      DbLastDbError(dblink)
+      </literal>
+      Returns last error, occured at database, represented by pointer dblink.
+    </para>
+  </refsection>
 
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
 
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dblink = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		//if not connected, get the error by following call
-		DbLastDbError()		
-    ]]></programlisting>	 
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbConnect">
-			DbConnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Examples</title>
+    <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+//if not connected, get the error by following call
+DbLastDbError()
+  ]]></programlisting>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+    <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

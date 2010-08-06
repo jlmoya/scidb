@@ -19,100 +19,99 @@
           xml:lang="en"
           xml:id="DbLastDbError">
 
-    <refnamediv>
-        <refname>DbLastQueryError</refname>
-        <refpurpose>get the last error, occured query execution</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbLastQueryError</refname>
+    <refpurpose>get the last error, occured query execution</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>		  
-          DbLastQueryError(resultHandler)            
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      DbLastQueryError(resultHandler)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>		
-        <variablelist>
-            <varlistentry>
-                <term>dblink</term>
-                <listitem>
-                    <para>
-					a pointer to database connection object (returned by DbConnect())
-                    </para>					
-                </listitem>
-            </varlistentry>		 
-        </variablelist>
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>       
-		<para>
-		<literal>
-		DbLastQueryError(resultHandler)
-		</literal>
-		Returns last error, occured at query execution.
-        </para>		
-    </refsection>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>dblink</term>
+        <listitem>
+          <para>
+            a pointer to database connection object (returned by DbConnect())
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
+  
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+        DbLastQueryError(resultHandler)
+      </literal>
+      Returns last error, occured at query execution.
+    </para>
+  </refsection>
 
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dblink = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		resultHandler = DbQuery('SELECT * FROM Non_existing-talbe');
-		DbLastQueryError(resultHandler);
-    ]]></programlisting>	 
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>Examples</title>
+    <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+resultHandler = DbQuery('SELECT * FROM Non_existing-talbe');
+DbLastQueryError(resultHandler);
+  ]]></programlisting>
+  </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbConnect">
-			DbConnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

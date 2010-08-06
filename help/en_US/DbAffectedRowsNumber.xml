@@ -19,61 +19,59 @@
           xml:lang="en"
           xml:id="DbAffectedRowsNumber">
 
-    <refnamediv>
-        <refname>DbAffectedRowsNumber</refname>
-        <refpurpose>get a number of rows affected by a query</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbAffectedRowsNumber</refname>
+    <refpurpose>get a number of rows affected by a query</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-          DbAffectedRowsNumber(resultHandler)
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+      <title>Calling Sequence</title>
+      <synopsis>
+        DbAffectedRowsNumber(resultHandler)
+      </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>
-        <variablelist>
-            <varlistentry>
-                <term>resultHandler</term>
-                <listitem>
-                    <para>
-                      a pointer to object of result (returned by DbQuery())
-                    </para>
-                </listitem>
-            </varlistentry>
-        </variablelist>
-    </refsection>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>resultHandler</term>
+        <listitem>
+          <para>
+            a pointer to object of result (returned by DbQuery())
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+        DbAffectedRowsNumber(resultHandler)
+      </literal>
+      gets a number of rows affected by a query.
+    </para>
+  </refsection>
 
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-          <literal>
-            DbAffectedRowsNumber(resultHandler)
-          </literal>
-          gets a number of rows affected by a query.
-        </para>
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
 
-
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
+  <refsection>
+      <title>Examples</title>
+      <programlisting role="example"><![CDATA[
 // Opens a “PostgreSQL” connection with a connexion string
 dblink = DbConnect("PSQL", ..
 "Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
@@ -89,45 +87,45 @@ DbAffectedRowsNumber(resultHandler);
 
 //Disconnect from default (the last) database myDataBase
 DbDisconnect();
-    ]]></programlisting>
-    </refsection>
+  ]]></programlisting>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-          <member>
-            <link linkend="DbConnect">
-              DbConnect
-            </link>
-          </member>
-          <member>
-            <link linkend="DbDisconnect">
-              DbDisconnect
-            </link>
-          </member>
-          <member>
-            <link linkend="DbQuery">
-            DbQuery
-            </link>
-          </member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbQuery">
+          DbQuery
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

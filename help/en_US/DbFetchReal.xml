@@ -19,113 +19,111 @@
           xml:lang="en"
           xml:id="DbFetchReal">
 
-    <refnamediv>
-        <refname>DbFetchReal</refname>
-        <refpurpose>get a record from result as matrix of doubles</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbFetchReal</refname>
+    <refpurpose>get a record from result as matrix of doubles</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-		DbFetchReal(resultHandler)                      
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      DbFetchReal(resultHandler)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>		
-        <variablelist>
-            <varlistentry>
-                <term>resultHandler</term>
-                <listitem>
-                    <para>
-					a pointer to result handler object (returned by DbQuery())
-                    </para>					
-                </listitem>
-            </varlistentry>          			
-        </variablelist>
-    </refsection>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>resultHandler</term>
+        <listitem>
+          <para>
+            a pointer to result handler object (returned by DbQuery())
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
-
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-		<literal>
-		DbFetchReal(resultHandler)
-		</literal>
-		gets a record from query result, represented by resultHandler pointer as matrix of doubles
-        </para>					
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dblink = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		
-		resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
-		
-		recordReal = DbFetchReal(resulthandle);	
-		
-    ]]></programlisting>	 
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+      DbFetchReal(resultHandler)
+      </literal>
+      gets a record from query result, represented by resultHandler pointer as matrix of doubles
+    </para>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbConnect">
-			DbConnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-		  <member>
-            <link linkend="DbQuery">
-			DbQuery
-			</link>
-        </member>
-		<member>
-            <link linkend="DbFetchAllReal">
-			DbFetchAllReal
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Examples</title>
+    <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+
+resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
+
+recordReal = DbFetchReal(resulthandle);
+
+  ]]></programlisting>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbQuery">
+          DbQuery
+        </link>
+      </member>
+      <member>
+        <link linkend="DbFetchAllReal">
+          DbFetchAllReal
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

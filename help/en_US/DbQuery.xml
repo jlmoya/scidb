@@ -19,121 +19,120 @@
           xml:lang="en"
           xml:id="DbQuery">
 
-    <refnamediv>
-        <refname>DbQuery</refname>
-        <refpurpose>execute a query on previously opened connection</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbQuery</refname>
+    <refpurpose>execute a query on previously opened connection</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-		DbQuery(query)
-            DbQuery(dblink, query)            
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      DbQuery(query)
+      DbQuery(dblink, query)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <refsection>
-        <title>Parameters</title>		
-        <variablelist>
-            <varlistentry>
-                <term>dblink</term>
-                <listitem>
-                    <para>
-					a pointer to database connection object (returned by DbConnect())
-                    </para>					
-                </listitem>
-            </varlistentry>          
-			<varlistentry>
-                <term>query</term>
-                <listitem>
-                    <para>
-					a string value of query executed
-                    </para>					
-                </listitem>
-            </varlistentry>   
-        </variablelist>
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>dblink</term>
+        <listitem>
+          <para>
+            a pointer to database connection object (returned by DbConnect())
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>query</term>
+        <listitem>
+          <para>
+            a string value of query executed
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-		<literal>
-		DbQuery()
-		</literal>
-		executes a query on default connection and returns a pointer to result handler or results in an error if a query cannot be executed.
-        </para>		
-		<para>
-		<literal>
-		DbDisconnect(dblink)
-		</literal>
-		executes a query on previously opened connection, represented by dblink pointer and returns a pointer to result handler
-		or results in an error if a query cannot be executed.
-        </para>		
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
 
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+        DbQuery()
+      </literal>
+      executes a query on default connection and returns a pointer to result handler or results in an error if a query cannot be executed.
+    </para>
+    <para>
+      <literal>
+        DbDisconnect(dblink)
+      </literal>
+      executes a query on previously opened connection, represented by dblink pointer and returns a pointer to result handler
+      or results in an error if a query cannot be executed.
+    </para>
+  </refsection>
 
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dblink = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		
-		resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
-		
-		results = DbFetchStruct(resulthandle);
-		
-		//Disconnect from default (the last) database myDataBase
-		DbDisconnect();
-    ]]></programlisting>	 
-    </refsection>
+  <refsection>
+    <title>Examples</title>
+    <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
 
+resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
 
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
+results = DbFetchStruct(resulthandle);
 
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbConnect">
-			DbConnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
+//Disconnect from default (the last) database myDataBase
+DbDisconnect();
+  ]]></programlisting>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

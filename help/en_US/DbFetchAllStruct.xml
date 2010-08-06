@@ -19,113 +19,108 @@
           xml:lang="en"
           xml:id="DbFetchAllStruct">
 
-    <refnamediv>
-        <refname>DbFetchAllStruct</refname>
-        <refpurpose>get all records from result as list of structs</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbFetchAllStruct</refname>
+    <refpurpose>get all records from result as list of structs</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-		DbFetchAllStruct(resultHandler)                      
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      DbFetchAllStruct(resultHandler)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>		
-        <variablelist>
-            <varlistentry>
-                <term>resultHandler</term>
-                <listitem>
-                    <para>
-					a pointer to result handler object (returned by DbQuery())
-                    </para>					
-                </listitem>
-            </varlistentry>          			
-        </variablelist>
-    </refsection>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+        <term>resultHandler</term>
+        <listitem>
+          <para>
+            a pointer to result handler object (returned by DbQuery())
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsection>
 
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+        DbFetchAllStruct(resultHandler)
+      </literal>
+      gets all records from query result, represented by resultHandler pointer, as list of structs
+    </para>
+  </refsection>
 
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-		<literal>
-		DbFetchAllStruct(resultHandler)
-		</literal>
-		gets all records from query result, represented by resultHandler pointer, as list of structs
-        </para>					
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
 
+  <refsection>
+    <title>Examples</title>
+    <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+dblink = DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
 
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
+resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
 
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		dblink = DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-		
-		resultHandle = DbQuery(dblink, "SELECT * FROM data_table");
-		
-		resultsStructs = DbFetchAllStruct(resulthandle);	
-		
-    ]]></programlisting>	 
-    </refsection>
+resultsStructs = DbFetchAllStruct(resulthandle);
+  ]]></programlisting>
+  </refsection>
 
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
 
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbConnect">
+          DbConnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbQuery">
+          DbQuery
+        </link>
+      </member>
+      <member>
+        <link linkend="DbFetchStruct">
+          DbFetchString
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
 
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbConnect">
-			DbConnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-		  <member>
-            <link linkend="DbQuery">
-			DbQuery
-			</link>
-        </member>
-		<member>
-            <link linkend="DbFetchStruct">
-			DbFetchString
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
 
-
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>

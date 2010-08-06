@@ -19,461 +19,463 @@
           xml:lang="en"
           xml:id="DbConnect">
 
-    <refnamediv>
-        <refname>DbConnect</refname>
-        <refpurpose>connect to a database</refpurpose>
-    </refnamediv>
+  <refnamediv>
+    <refname>DbConnect</refname>
+    <refpurpose>connect to a database</refpurpose>
+  </refnamediv>
 
-    <!-- ===================================================================== -->
-    <!-- Calling Sequence -->
-    <!-- ===================================================================== -->
-    <refsynopsisdiv>
-        <title>Calling Sequence</title>
-        <synopsis>
-            dblink = DbConnect(provider,connectionString)
-            dblink = DbConnect(connectionStruct)
-        </synopsis>
-    </refsynopsisdiv>
+  <!-- ===================================================================== -->
+  <!-- Calling Sequence -->
+  <!-- ===================================================================== -->
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      dblink = DbConnect(provider,connectionString)
+      dblink = DbConnect(connectionStruct)
+    </synopsis>
+  </refsynopsisdiv>
 
-    <!-- ===================================================================== -->
-    <!-- Parameters -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Parameters -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Parameters</title>
-        <variablelist>
+  <refsection>
+    <title>Parameters</title>
+    <variablelist>
 
-            <varlistentry>
-                <term>provider</term>
-                <listitem>
+      <varlistentry>
+        <term>provider</term>
+        <listitem>
+            <para>
+              A string - name of the provider. Must have one of the following values :
+              "MYSQL" - MySQL,
+              "PSQL" - PostgreSQL (versions 7.3 and above),
+              "OCI" - Oracle Call Interface Driver,
+              "SQLITE" - SQLite version 3,
+              "TDS" -  Sybase Adaptive Server,
+              "IBASE" - Borland InterBase,
+              "ODBC" - Open Database Connectivity (ODBC) - Microsoft SQL Server and other ODBC-compliant databases,
+              "DB2" - IBM DB2 (version 7.1 and above)
+            </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>connectionString</term>
+        <listitem>
+          <para>
+            Connection string, specific for provider, given as first argument at
+            function call. See connection string formats for providers you use.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>connectionStruct</term>
+        <listitem>
+          <para>
+            A scilab struct, containing connection parameters. Must at least
+            field 'provider', which has the same values as 'provider' - parameter.
+            Other provider-independent values of struct: host, port, database, user, password.
+            But format if this can also vary depending on provider.
+            For Firebird(InterBase) provider and SQLite providers you must five
+            the name of file of the database, for server-oriented databases
+            you must specify the name of the database on server.
+
+            Examples of connection struct for different providers:
+            
+            <itemizedlist>
+              <listitem>
+                <para>
+                For Firebird:
+                  <programlisting role="example">
+                  connStr = struct ('provider', 'IBASE', 'database', 'D:\TEST.FDB', 'user', 'SYSDBA', 'password', 'masterkey')
+                  </programlisting>
+                Here 'SYSDBA' and 'masterkey' are default credentials for Firebird provider.
+                </para>
+              </listitem>
+
+              <listitem>
+                <para>
+                For SQLite:
+                  <programlisting role="example">
+                  connStr = struct ('provider', 'SQLITE', 'database', 'addressbook')
+                  </programlisting>
+                This tries to connect to database addressbook in current directory.
+                If SQLite database addressbook does not exist in the current directory, it will be created.
+                </para>
+              </listitem>
+
+              <listitem>
+                <para>
+                For PostgreSQL:
+                  <programlisting role="example">
+                  connStr = struct ('provider', 'QPSQL', 'user', 'postgres', 'database', 'test')
+                  </programlisting>
+                </para>
+              </listitem>
+
+              <listitem>
+                <para>
+                  For ODBC:
+                  <itemizedlist>
+                    <listitem>
                     <para>
-					A string - name of the provider. Must have one of the following values : 
-					"MYSQL" - MySQL,
-					"PSQL" - PostgreSQL (versions 7.3 and above),
-					"OCI" - Oracle Call Interface Driver,
-					"SQLITE" - SQLite version 3,
-					"TDS" -	Sybase Adaptive Server,
-					"IBASE" - Borland InterBase,
-					"ODBC" - Open Database Connectivity (ODBC) - Microsoft SQL Server and other ODBC-compliant databases,
-					"DB2" - IBM DB2 (version 7.1 and above)
-                    </para>					
-                </listitem>
-            </varlistentry>
-
-            <varlistentry>
-                <term>connectionString</term>
-                <listitem>
-                    <para>
-					Connection string, specific for provider, given as first argument at function call. See connection string formats for providers you use.					
+                    For local Access database
+                      <programlisting role="example">
+                      connStr = struct('provider', 'ODBC', 'database', 'DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb')
+                      </programlisting>
                     </para>
-                </listitem>
-            </varlistentry>
+                    </listitem>
+                    <listitem>
+                      <para>
+                      For remote connection to MSSQL database:
+                        <programlisting role="example">
+                        connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=11.111.11.111,33301;DATABASE=remote_db', 'user', 'remote_user', 'password', 'remote_user_password')
+                        </programlisting>
+                      </para>
+                    </listitem>
+                    <listitem>
+                      <para>
+                      For trusted connection to local MSSQL database:
+                        <programlisting role="example">
+                        connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=localhost;DATABASE=local_database; Trusted_Connection=yes')
+                        </programlisting>
+                      </para>
+                    </listitem>
+                  </itemizedlist>
+                </para>
+              </listitem>
 
-            <varlistentry>
-                <term>connectionStruct</term>
+              <listitem>
+                <para>
+                For MySQL:
+                  <programlisting role="example">
+                    connStr2 = struct ('provider', 'MYSQL', 'database', 'mytest', 'user', 'root', 'password', 'admin')
+                  </programlisting>
+                </para>
+              </listitem>
+
+              <listitem>
+                <para>
+                For OCI (Oracle):
+                  <programlisting role="example">
+                  connStr2 = struct ('provider', 'OCI', 'database', 'XE', 'user', 'HR', 'password', 'hr')
+                  </programlisting>
+                </para>
+              </listitem>
+
+            </itemizedlist>
+
+            There are also provider-specific parameters for each
+            database provider.
+            
+          </para>
+
+          <itemizedlist>
+            
+            <listitem>
+              <para>
+                For ODBC:
+              </para>
+              <itemizedlist>
                 <listitem>
-                    <para>
-					A scilab struct, containing connection parameters. Must at least field 'provider', which has the same values as 'provider' - parameter.
-					Other provider-independent values of struct: host, port, database, user, password. 
-					But format if this can also vary depending on provider. 
-					For Firebird(InterBase) provider and SQLite providers you must five the name of file of the database, for server-oriented databases
-					you must specify the name of the database on server.
-					
-					Exapmles of connection struct for different providers:
-					<itemizedlist>					
-					<listitem>
-					<para>
-					For Firebird:
-					<programlisting role="example">
-					connStr = struct ('provider', 'IBASE', 'database', 'D:\TEST.FDB', 'user', 'SYSDBA', 'password', 'masterkey')
-					</programlisting>
-					Here 'SYSDBA' and 'masterkey' are default credentials for Firebird provider.					
-					</para>
-					</listitem>
-					
-					<listitem>
-					<para>
-					For SQLite:
-					<programlisting role="example">
-					connStr = struct ('provider', 'SQLITE', 'database', 'addressbook')
-					</programlisting>
-					This tries to connect to database addressbook in current directory.
-					If SQLite database addressbook does not exist in the current directory, it will be created.
-					</para>
-					</listitem>
-					
-					<listitem>
-					<para>
-					For PostgreSQL:
-					<programlisting role="example">
-					connStr = struct ('provider', 'QPSQL', 'user', 'postgres', 'database', 'test')
-					</programlisting>					
-					</para>
-					</listitem>
-					
-					<listitem>
-					<para>
-					For ODBC:
-					<itemizedlist>
-					<listitem>
-					<para>	
-					For local Access database
-					<programlisting role="example">
-					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb')
-					</programlisting>	
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					For remote connection to MSSQL database:
-					<programlisting role="example">
-					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=11.111.11.111,33301;DATABASE=remote_db', 'user', 'remote_user', 'password', 'remote_user_password')
-					</programlisting>					
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					For trusted connection to local MSSQL database:
-					<programlisting role="example">
-					connStr = struct('provider', 'ODBC', 'database', 'DRIVER={SQL Native Client};SERVER=localhost;DATABASE=local_database; Trusted_Connection=yes')
-					</programlisting>					
-					</para>
-					</listitem>
-					</itemizedlist>
-					</para>
-					</listitem>		
-
-					<listitem>
-					<para>
-					For MySQL:
-					<programlisting role="example">
-					connStr2 = struct ('provider', 'MYSQL', 'database', 'mytest', 'user', 'root', 'password', 'admin')
-					</programlisting>					
-					</para>
-					</listitem>
-					
-					<listitem>
-					<para>
-					For OCI (Oracle):
-					<programlisting role="example">
-					connStr2 = struct ('provider', 'OCI', 'database', 'XE', 'user', 'HR', 'password', 'hr')
-					</programlisting>					
-					</para>
-					</listitem>				
-
-					
-					</itemizedlist>
-					
-					There are also provider-specific parameters for each
-					database provider. 
-					</para>
-					<itemizedlist>
-					<listitem>
-					<para>
-					For ODBC: 
-					</para>
-					<itemizedlist>
-					<listitem>
-						<para>					
-							SQL_ATTR_ACCESS_MODE
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							SQL_ATTR_LOGIN_TIMEOUT
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							SQL_ATTR_CONNECTION_TIMEOUT
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							SQL_ATTR_CURRENT_CATALOG
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							SQL_ATTR_METADATA_ID
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							SQL_ATTR_PACKET_SIZE
-						</para>
-					</listitem>
-					<listitem>
-					<para>
-					SQL_ATTR_TRACEFILE
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					SQL_ATTR_TRACE
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					SQL_ATTR_CONNECTION_POOLING
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					SQL_ATTR_ODBC_VERSION
-					</para>
-					</listitem>
-					</itemizedlist>
-					</listitem>
-					
-					<listitem>
-					<para>
-					For MySQL:					
-					</para>
-					<itemizedlist>
-					<listitem>
-					<para>					
-					CLIENT_COMPRESS
-					</para>
-					</listitem>
-					<listitem>
-					<para>					
-					CLIENT_FOUND_ROWS
-					</para>
-					</listitem>
-					<listitem>
-					<para>					
-					CLIENT_IGNORE_SPACE
-					</para>
-					</listitem>
-					<listitem>
-					<para>					
-					CLIENT_SSL
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					CLIENT_ODBC
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					CLIENT_NO_SCHEMA
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					CLIENT_INTERACTIVE
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					UNIX_SOCKET
-					</para>
-					</listitem>
-					<listitem>
-					<para>
-					MYSQL_OPT_RECONNECT
-					</para>
-					</listitem>
-					</itemizedlist>					
-					</listitem>				
-					
-					<listitem>
-						<para>
-							For PostgreSQL:
-						</para>
-						
-						<itemizedlist>											
-						<listitem>
-						<para>					
-							connect_timeout
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							options
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							tty
-						</para>
-					</listitem>
-					<listitem>
-						<para>					
-							requiressl
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							service
-						</para>
-					</listitem>					
-					</itemizedlist>					
-					</listitem>
-					
-					<listitem>
-						<para>
-							For DB2:
-						</para>
-						
-						<itemizedlist>											
-						<listitem>
-							<para>					
-								SQL_ATTR_ACCESS_MODE
-							</para>
-						</listitem>
-					<listitem>
-						<para>					
-							SQL_ATTR_LOGIN_TIMEOUT
-						</para>
-					</listitem>									
-					</itemizedlist>					
-					</listitem>
-					
-					<listitem>
-						<para>
-							For OCI:
-						</para>
-						
-						<itemizedlist>											
-						<listitem>
-							<para>					
-								OCI_ATTR_PREFETCH_ROWS
-							</para>
-						</listitem>
-					<listitem>
-						<para>					
-								OCI_ATTR_PREFETCH_MEMORY
-						</para>
-					</listitem>									
-					</itemizedlist>					
-					</listitem>
-					
-					<listitem>
-						<para>
-							For SQLite:
-						</para>
-						
-						<itemizedlist>											
-						<listitem>
-							<para>					
-								QSQLITE_BUSY_TIMEOUT
-							</para>
-						</listitem>
-					<listitem>
-						<para>					
-								QSQLITE_OPEN_READONLY
-						</para>
-					</listitem>		
-					<listitem>
-						<para>					
-								QSQLITE_ENABLE_SHARED_CACHE
-						</para>
-					</listitem>							
-					</itemizedlist>					
-					</listitem>
-					
-					<listitem>
-						<para>
-							For Interbase:
-						</para>
-						
-						<itemizedlist>											
-						<listitem>
-							<para>					
-								ISC_DPB_LC_CTYPE
-							</para>
-						</listitem>
-					<listitem>
-						<para>					
-								ISC_DPB_SQL_ROLE_NAME
-						</para>
-					</listitem>									
-					</itemizedlist>					
-					</listitem>									
-                    
-					</itemizedlist>
+                  <para>
+                    SQL_ATTR_ACCESS_MODE
+                  </para>
                 </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_LOGIN_TIMEOUT
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_CONNECTION_TIMEOUT
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_CURRENT_CATALOG
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_METADATA_ID
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_PACKET_SIZE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_TRACEFILE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_TRACE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_CONNECTION_POOLING
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_ODBC_VERSION
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For MySQL:
+              </para>
+              <itemizedlist>
+                <listitem>
+                  <para>
+                  CLIENT_COMPRESS
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_FOUND_ROWS
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_IGNORE_SPACE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_SSL
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_ODBC
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_NO_SCHEMA
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    CLIENT_INTERACTIVE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    UNIX_SOCKET
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    MYSQL_OPT_RECONNECT
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For PostgreSQL:
+              </para>
+      
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    connect_timeout
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    options
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    tty
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    requiressl
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    service
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For DB2:
+              </para>
+      
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    SQL_ATTR_ACCESS_MODE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    SQL_ATTR_LOGIN_TIMEOUT
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For OCI:
+              </para>
+      
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    OCI_ATTR_PREFETCH_ROWS
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                      OCI_ATTR_PREFETCH_MEMORY
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For SQLite:
+              </para>
+      
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    QSQLITE_BUSY_TIMEOUT
+                  </para>
+                </listitem>
+              <listitem>
+                <para>
+                    QSQLITE_OPEN_READONLY
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                    QSQLITE_ENABLE_SHARED_CACHE
+                </para>
+              </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>
+                For Interbase:
+              </para>
+              <itemizedlist>
+                <listitem>
+                  <para>
+                    ISC_DPB_LC_CTYPE
+                  </para>
+                </listitem>
+                <listitem>
+                  <para>
+                    ISC_DPB_SQL_ROLE_NAME
+                  </para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            </itemizedlist>
+              </listitem>
             </varlistentry>
 
-        </variablelist>
-    </refsection>
+          </variablelist>
+        </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- Description -->
+  <!-- ===================================================================== -->
+  
+  <refsection>
+    <title>Description</title>
+    <para>
+      <literal>
+        DbConnect(...)
+      </literal>
+      opens a connection to database and returns a pointer to connection object or results in an error if it is not possible to open a connection.
+      Last succesfull connection becomes default.
+    </para>
+  </refsection>
+
+  <!-- ===================================================================== -->
+  <!-- Examples -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+      <title>Examples</title>
+      <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a connexion string
+DbConnect("PSQL", ..
+"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;");
+  ]]></programlisting>
+   <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
+
+DbConnect(connexionStruct);
+  ]]></programlisting>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Description -->
-    <!-- ===================================================================== -->
-    <refsection>
-        <title>Description</title>
-        <para>
-		<literal>
-		DbConnect(...)
-		</literal>
-		opens a connection to database and returns a pointer to connection object or results in an error if it is not possible to open a connection.
-		Last succesfull connection becomes default.
-		
-		
-        </para>		
-    </refsection>
+  <!-- ===================================================================== -->
+  <!-- See also -->
+  <!-- ===================================================================== -->
+
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="DbDisconnect">
+          DbDisconnect
+        </link>
+      </member>
+      <member>
+        <link linkend="DbQuery">
+          DbQuery
+        </link>
+      </member>
+    </simplelist>
+  </refsection>
 
 
-    <!-- ===================================================================== -->
-    <!-- Examples -->
-    <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Authors -->
+  <!-- ===================================================================== -->
 
-    <refsection>
-        <title>Examples</title>
-        <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a connexion string
-		DbConnect("PSQL", ..
-		"Server=127.0.0.1;Database=myDataBase;User Id=myUsername;Password=myPassword;"); 
-    ]]></programlisting>	
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
-
-		DbConnect(connexionStruct);
-    ]]></programlisting>
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- See also -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>See Also</title>
-        <simplelist type="inline">
-        <member>
-            <link linkend="DbDisconnect">
-			DbDisconnect
-			</link>
-        </member>
-        <member>
-            <link linkend="DbQuery">
-			DbQuery
-			</link>
-        </member>
-        </simplelist>
-    </refsection>
-
-
-    <!-- ===================================================================== -->
-    <!-- Authors -->
-    <!-- ===================================================================== -->
-
-    <refsection>
-        <title>Authors</title>
-        <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
-        </simplelist>
-    </refsection>
+  <refsection>
+    <title>Authors</title>
+    <simplelist type="vert">
+      <member>Igor GRIDCHYN</member>
+    </simplelist>
+  </refsection>
 
 </refentry>
