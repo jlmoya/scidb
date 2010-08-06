@@ -8,10 +8,10 @@
 #include "sci_util.h"
 #include "sci_db.h"
 #include <stdio.h>
-//#include <QtSql\sqldrivers\psql\qsql_psql.cpp>
-//#include <QtSql\sqldrivers\mysql\qsql_mysql.cpp>
+#include <QtSql/sqldrivers/psql/qsql_psql.cpp>
+#include <QtSql/sqldrivers/mysql/qsql_mysql.cpp>
 //#include <QtSql\sqldrivers\sqlite\qsql_sqlite.cpp>
-//#include <QtSql\sqldrivers\ibase\qsql_ibase.cpp>
+//#include <QtSql/sqldrivers/ibase/qsql_ibase.cpp>
 //#include <QtSql\sqldrivers\odbc\qsql_odbc.cpp>
 //#include <QtSql\sqldrivers\oci\qsql_oci.cpp>
 /* ==================================================================== */
@@ -169,23 +169,115 @@ extern "C"
 
 			sciGetStringAt(fname, 2, &connStr);
 
-			QSqlDriver *drv;
+			QSqlDriver *drv = NULL;
 
-			//if(!strcmp(provider, "QPSQL"))
-			//{
-			//	sciprint("Connecting to PostgreSQL with connection string %s ...\n", connStr);
-			//	PGconn *con = PQconnectdb(connStr);
-			//	drv =  new QPSQLDriver(con);							
-			//}	
+			QMap<QString, QString> *mConnectionStringMembers;
+			if(getConnectionStringMembers(QString(connStr), &mConnectionStringMembers) > 0)
+			{
+				Scierror(999, "Invalid connection string.");				
+			}
 
-			//if (!strcmp(provider, "QMYSQL"))
-			//{
-			//	MYSQL *conn;
-			//	mysql_init(conn);
-			//	mysql_real_connect();				
+			char *sUser, *sPassword, *sHost, *sDb;
+			int iPort, iSocket;
 
-			//	drv = new QMYSQLDriver(conn);
-			//}
+			if (mConnectionStringMembers->contains("Uid"))
+			{
+				sUser = mConnectionStringMembers->value("Uid").toLatin1().data();
+			}
+			else
+			{
+				if (mConnectionStringMembers->contains("UserName"))
+				{
+					sUser = mConnectionStringMembers->value("UserName").toLatin1().data();
+				}
+				else
+				{
+					if(mConnectionStringMembers->contains("User ID"))
+					{
+						sUser = mConnectionStringMembers->value("User ID").toLatin1().data();
+					}
+					else
+					{
+						if(mConnectionStringMembers->contains("User"))
+						{
+							sUser = mConnectionStringMembers->value("User").toLatin1().data();
+						}
+					}
+				}
+			}
+
+			if (mConnectionStringMembers->contains("Password"))
+			{
+				sPassword = mConnectionStringMembers->value("Password").toLatin1().data();
+			}
+			else
+			{
+				if (mConnectionStringMembers->contains("Pwd"))
+				{
+					sPassword = mConnectionStringMembers->value("Pwd").toLatin1().data();
+				}				
+			}
+
+			if (mConnectionStringMembers->contains("Host"))
+			{
+				sHost = mConnectionStringMembers->value("Host").toLatin1().data();
+			}
+			else
+			{
+				if (mConnectionStringMembers->contains("Location"))
+				{
+					sHost = mConnectionStringMembers->value("Location").toLatin1().data();
+				}
+				else
+				{
+					if(mConnectionStringMembers->contains("User ID"))
+					{
+						sHost = mConnectionStringMembers->value("User ID").toLatin1().data();
+					}
+					else
+					{
+						if(mConnectionStringMembers->contains("Data Source"))
+						{
+							sHost = mConnectionStringMembers->value("Data Source").toLatin1().data();
+						}
+					}
+				}
+			}
+
+			if (mConnectionStringMembers->contains("Database"))
+			{
+				sDb = mConnectionStringMembers->value("Database").toLatin1().data();
+			}
+			else
+			{
+				if (mConnectionStringMembers->contains("Data Source"))
+				{
+					sDb = mConnectionStringMembers->value("Data Source").toLatin1().data();
+				}				
+			}
+
+			if(!strcmp(provider, "QPSQL"))
+			{				
+				PGconn *con = PQconnectdb(connStr);
+				drv =  new QPSQLDriver(con);												
+			}	
+
+			if (!strcmp(provider, "QMYSQL"))
+			{
+				MYSQL *conn;
+				mysql_init(conn);
+				
+				mysql_real_connect(conn, 
+					sHost,
+					sUser,
+					sPassword,
+					sDb,
+					1234, //port
+					"socket",
+					12345);				 //client flag
+
+				drv = new QMYSQLDriver(conn);
+			}
 
 			//if (!strcmp(provider, "QSQLITE"))
 			//{
@@ -199,20 +291,53 @@ extern "C"
 			//	isc_db_handle conn;
 			//	ISC_STATUS status_vector[20];
 
-			//	isc_detach_database(status_vector, &conn);
+			//	isc_attach_database( status_vector, strlen(sDb), sDb, &conn,  &conn);
 
 			//	drv = new QIBaseDriver(conn);
 			//}
 
 			//if (!strcmp(provider, "QOCI"))
 			//{
-			//	OCIEnv **ociEnv = (OCIEnv **)malloc(sizeof(OCIEnv *));
-			//	ociEnv = OCIEnvCreate(ociEnv); 
+			//	OCIEnv *ociEnv = (OCIEnv *)0;
+			//	//don't know which parameters to pass...
+			//	OCIEnvCreate(&ociEnv, (ub4) OCI_DEFAULT, (dvoid *)0,
+   //                         (dvoid * (*)(dvoid *, size_t)) 0,
+   //                         (dvoid * (*)(dvoid *, dvoid *, size_t))0,
+   //                         (void (*)(dvoid *, dvoid *)) 0,
+   //                         (size_t)0, (dvoid **)0); 
 
-			//	OCISvcCtx **ociSvcCtx;
+			//	OCISvcCtx *svchp = (OCISvcCtx *)0;
+			//	OCIError *ociErr;
+			//	OCILogon2(ociEnv, ociErr, &svchp,
+			//		(CONST OraText *)sUser, (ub4)strlen(sUser),
+			//		(CONST OraText *)sPassword, (ub4)strlen(sPassword),
+			//		(CONST OraText *)"poolName", (ub4)strlen("poolname"), OCI_CPOOL);
 
-			//	drv = new QOCIDriver(ociEnv, ociSvcCtx);
+			//	drv = new QOCIDriver(ociEnv, svchp);
 			//}
+
+			//if (!strcmp(provider, "QODBC") || strcmp(provider, "QDB2"))
+			//{
+			//	SQLHANDLE hEnv;
+			//	SQLHANDLE hDbc;
+
+			//	SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &hEnv);
+			//	SQLSetEnvAttr(hEnv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0);
+			//	SQLAllocHandle(SQL_HANDLE_DBC, hEnv, &hDbc);
+
+			//	//need connection parameters
+			//	SQLConnect(hDbc, (SQLCHAR*)sHost,
+			//		(SQLSMALLINT)strlen(sHost),
+			//		(SQLCHAR*)sUser,
+			//		(SQLSMALLINT)strlen(sUser),
+			//		(SQLCHAR*)sPassword,
+			//		(SQLSMALLINT)strlen(sPassword));
+
+			//	if (!strcmp(provider, "QODBC"))
+			//		drv = new QODBCDriver(hEnv, hDbc);
+			//	else;
+			//		//drv = new QDB2Driver(hEnv, hDbc);
+			//}			
 
 			do
 			{
@@ -222,8 +347,8 @@ extern "C"
 			while (QSqlDatabase::contains(QString(cpRandName)));
 			sDefaultConnection = QString(cpRandName);
 
-			db = QSqlDatabase::addDatabase(drv, QString(cpRandName));
-		}
+			db = QSqlDatabase::addDatabase(drv, QString(cpRandName));				
+		}		
 
 		db.open();
 

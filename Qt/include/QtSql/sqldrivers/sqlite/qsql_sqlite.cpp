@@ -41,23 +41,23 @@
 
 #include "qsql_sqlite.h"
 
-#include <QtCore\qcoreapplication.h>
-#include <QtCore\qvariant.h>
-#include <QtSql\qsqlerror.h>
-#include <QtSql\qsqlfield.h>
-#include <QtSql\qsqlindex.h>
-#include <QtSql\qsqlquery.h>
-#include <QtCore\qstringlist.h>
-#include <QtCore\qvector.h>
-#include <QtCore\qdebug.h>
+#include <QtCore/qcoreapplication.h>
+#include <QtCore/qvariant.h>
+#include <QtSql/qsqlerror.h>
+#include <QtSql/qsqlfield.h>
+#include <QtSql/qsqlindex.h>
+#include <QtSql/qsqlquery.h>
+#include <QtCore/qstringlist.h>
+#include <QtCore/qvector.h>
+#include <QtCore/qdebug.h>
 
 #if defined Q_OS_WIN
-# include <QtCore\qt_windows.h>
+# include <QtCore/qt_windows.h>
 #else
 # include <unistd.h>
 #endif
 
-#include <QtSql\drivers\sqlite\sqlite3.h>
+#include <QtSql/drivers/sqlite/sqlite3.h>
 
 Q_DECLARE_METATYPE(sqlite3*)
 Q_DECLARE_METATYPE(sqlite3_stmt*)

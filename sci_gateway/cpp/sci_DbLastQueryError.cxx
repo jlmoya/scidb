@@ -25,6 +25,8 @@ extern "C"
 		cpLastError = (char*)malloc(sizeof(char) * query->lastError().text().length());
 		strcpy(cpLastError, query->lastError().text().toLatin1().data());
 
+		sciprint("Last error: %s", query->lastError().text().toLatin1().data());
+
 		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, 1, &cpLastError);
 		if(sciErr.iErr)
 		{

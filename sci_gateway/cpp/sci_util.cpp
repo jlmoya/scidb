@@ -373,3 +373,44 @@ int transposeStringMatrix(char **pdMatr, int iRows, int iCols, char ***ppdRes)
 
 	return 0;
 }
+int getConnectionStringMembers(QString sConnectionString, QMap<QString, QString> **mConnectionStringMembers)
+{
+	try
+	{
+		QStringList slCSparts = sConnectionString.split(';', QString::SkipEmptyParts);
+		*mConnectionStringMembers = new QMap<QString, QString>();
+
+		for(int i=0; i<slCSparts.size(); i++)
+		{
+			QStringList slKeyValue = slCSparts.at(i).split('=');
+
+			QString key = slKeyValue.at(0);			
+			while (key.at(0) == ' ')
+			{
+				key.remove(0,1);
+			}
+			while (key.at(key.length() - 1) == ' ')
+			{
+				key.remove(key.length() - 1,1);
+			}
+
+			QString value = slKeyValue.at(1);			
+			while (value.at(0) == ' ')
+			{
+				value.remove(0,1);
+			}			
+			while (value.at(value.length() - 1) == ' ')
+			{
+				value.remove(value.length() - 1,1);
+			}
+
+			(**mConnectionStringMembers).insert(key, slKeyValue.at(1));
+		}
+
+		return 0;
+	}
+	catch(int ex)
+	{
+		return ex;
+	}
+}

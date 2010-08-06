@@ -25,7 +25,7 @@ extern "C"
 			db = &QSqlDatabase::database(sDefaultConnection);		
 			qry = new QSqlQuery(*db);
 
-	        sciGetStringAt(fname, 1, &pcQueryString);
+	        sciGetStringAt(fname, 1, &pcQueryString);			
 		}
 		else
 		{
@@ -48,15 +48,13 @@ extern "C"
 			return 0;
 		}
 
-		if(qry->exec(sQry))
+		qry->exec(sQry);		
+
+		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)qry);
+		if(sciErr.iErr)
 		{
-			sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)qry);		
-		}
-		else
-		{
-			Scierror(999, "Cannot execute query: %s\n\t%s", db->lastError().text().toLatin1().data(), 
-			qry->lastError().text().toLatin1().data());
-		}
+			printError(&sciErr, 0);			
+		}	
 
 		LhsVar(1) = Rhs + 1;
 

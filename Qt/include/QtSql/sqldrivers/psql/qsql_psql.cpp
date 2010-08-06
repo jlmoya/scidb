@@ -42,21 +42,21 @@
 #include "qsql_psql.h"
 #include "moc_qsql_psql.h"
 
-#include <QtCore\qcoreapplication.h>
-#include <QtCore\qvariant.h>
-#include <QtCore\qdatetime.h>
-#include <QtCore\qregexp.h>
-#include <QtSql\qsqlerror.h>
-#include <QtSql\qsqlfield.h>
-#include <QtSql\qsqlindex.h>
-#include <QtSql\qsqlrecord.h>
-#include <QtSql\qsqlquery.h>
-#include <QtCore\qsocketnotifier.h>
-#include <QtCore\qstringlist.h>
-#include <QtCore\qmutex.h>
+#include <QtCore/qcoreapplication.h>
+#include <QtCore/qvariant.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qregexp.h>
+#include <QtSql/qsqlerror.h>
+#include <QtSql/qsqlfield.h>
+#include <QtSql/qsqlindex.h>
+#include <QtSql/qsqlrecord.h>
+#include <QtSql/qsqlquery.h>
+#include <QtCore/qsocketnotifier.h>
+#include <QtCore/qstringlist.h>
+#include <QtCore/qmutex.h>
 
-#include <QtSql\drivers\libpq-fe.h>
-#include <QtSql\drivers\pg_config.h>
+#include <QtSql/drivers/libpq-fe.h>
+#include <QtSql/drivers/pg_config.h>
 
 #include <stdlib.h>
 #include <math.h>

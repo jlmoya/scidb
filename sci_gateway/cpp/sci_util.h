@@ -8,3 +8,4 @@ int sciGetStringAt(char *fname, int iPos, char **ppcResult);
 int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery);
 int transposeDoubleMatrix(double *pdMatr, int iRows, int iCols, double **ppdRes);
 int transposeStringMatrix(char **pdMatr, int iRows, int iCols, char ***ppdRes);
+int getConnectionStringMembers(QString sConnectionString, QMap<QString, QString> **mConnectionStringMembers);
