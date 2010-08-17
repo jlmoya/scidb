@@ -13,7 +13,6 @@ scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbDisconnect"        , "sci_DbDisconnect"         ;
                 "DbQuery"             , "sci_DbQuery"              ;
                 "DbLastDbError"       , "sci_DbLastDbError"        ;
-                "DbTest"              , "sci_DbTest"               ;
                 "DbInitDatabaseModule", "sci_DbInitDatabaseModule" ;
                 "DbFetchString"       , "sci_DbFetchString"        ;
                 "DbFetchAllString"    , "sci_DbFetchAllString"     ;
@@ -24,15 +23,12 @@ scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbTables"            , "sci_DbTables"             ;
                 "DbAffectedRowsNumber", "sci_DbAffectedRowsNumber" ;
                 "DbLastQueryError"    , "sci_DbLastQueryError"     ;
-		    "DbFirst"		  , "sci_DbFirst"			 ;
-		    "DbLastInsertId"	  , "sci_DbLastInsertId"];
+                "DbFirst"             , "sci_DbFirst"              ;
+                "DbLastInsertId"      , "sci_DbLastInsertId"       ];
 
 
 scidb_files =  ["sci_db.cxx"                  ;
-                "sci_db.h"                    ;
                 "sci_util.cpp"                ;
-                "sci_util.h"                  ;
-                "sci_test.cpp"                ;
                 "sci_DbConnect.cxx"           ;
                 "sci_DbDisconnect.cxx"        ;
                 "sci_DbQuery.cxx"             ;
@@ -46,9 +42,27 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbInitDatabaseModule.cxx";
                 "sci_DbTables.cxx"            ;
                 "sci_DbAffectedRowsNumber.cxx";
-                "sci_DbLastQueryError.cxx"    ;    
-		    "sci_DbLastInsertId.cxx"      ;
-		    "sci_DbFirst.cxx"];
+                "sci_DbLastQueryError.cxx"    ;
+                "sci_DbLastInsertId.cxx"      ;
+                "sci_DbFirst.cxx"             ;
+                "FMB.h"                       ;
+                "FuzzyApproxMuch.h"           ;
+                "FuzzyCol.h"                  ;
+                "FuzzyCompatibleCol.h"        ;
+                "FuzzyConstant.h"             ;
+                "FuzzyDegreeCol.h"            ;
+                "FuzzyDegreeSig.h"            ;
+                "FuzzyDegreeTable.h"          ;
+                "FuzzyLabel.h"                ;
+                "FuzzyNearness.h"             ;
+                "FuzzyObject.h"               ;
+                "FuzzyQualifier.h"            ;
+                "fuzzysql.h"                  ;
+                "FuzzySystemQuantifier.h"     ;
+                "FuzzyTableInfo.h"            ;
+                "FuzzyTableQuantifier.h"      ;
+                "sci_db.h"                    ;
+                "sci_util.h"                  ];
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
 
@@ -72,36 +86,36 @@ LINUX    = (strcmpi(getos(),"linux"  ) == 0);
 
 if WINDOWS then
 
-    QT_libs = ["../../Qt/lib/windows"+ARCH+"/libpq"     ;
-		   "../../Qt/lib/windows"+ARCH+"/sqlite"    ;
-		   "../../Qt/lib/windows"+ARCH+"/sqlite3"   ;
-		   "../../Qt/lib/windows"+ARCH+"/QtCore4"   ;
-               "../../Qt/lib/windows"+ARCH+"/QtSql4"    ;
-               "../../Qt/lib/windows"+ARCH+"/qsqlpsql4" ;
-               "../../Qt/lib/windows"+ARCH+"/qsqlite4"  ;
-               "../../Qt/lib/windows"+ARCH+"/qsqlodbc4" ;
-		   "../../Qt/lib/windows"+ARCH+"/qsqlsite24";
-		   "../../Qt/lib/windows"+ARCH+"/qsqldb24"  ;
-		   "../../Qt/lib/windows"+ARCH+"/qsqloci4"  ;
-		   "../../Qt/lib/windows"+ARCH+"/qsqlibase4";
-		   "../../Qt/lib/windows"+ARCH+"/qsqlmysql4"];
+  QT_libs = [ "../../Qt/lib/windows"+ARCH+"/libpq"     ;
+              "../../Qt/lib/windows"+ARCH+"/sqlite"    ;
+              "../../Qt/lib/windows"+ARCH+"/sqlite3"   ;
+              "../../Qt/lib/windows"+ARCH+"/QtCore4"   ;
+              "../../Qt/lib/windows"+ARCH+"/QtSql4"    ;
+              "../../Qt/lib/windows"+ARCH+"/qsqlpsql4" ;
+              "../../Qt/lib/windows"+ARCH+"/qsqlite4"  ;
+              "../../Qt/lib/windows"+ARCH+"/qsqlodbc4" ;
+              "../../Qt/lib/windows"+ARCH+"/qsqlsite24";
+              "../../Qt/lib/windows"+ARCH+"/qsqldb24"  ;
+              "../../Qt/lib/windows"+ARCH+"/qsqloci4"  ;
+              "../../Qt/lib/windows"+ARCH+"/qsqlibase4";
+              "../../Qt/lib/windows"+ARCH+"/qsqlmysql4"];
 
 
 elseif LINUX then
 
-    QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
-               "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
-               "../../Qt/lib/linux"+ARCH+"/libQtCore";
-               "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
-               "../../Qt/lib/linux"+ARCH+"/libsqlite3";
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
-               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ; 
-		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlsite2";
-		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
-		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
-		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
-		   "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
+  QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
+              "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
+              "../../Qt/lib/linux"+ARCH+"/libQtCore";
+              "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
+              "../../Qt/lib/linux"+ARCH+"/libsqlite3";
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlsite2";
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
 
 if getos() == "Windows" then
     QT_includes = "-I""" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include""";

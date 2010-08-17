@@ -51,6 +51,88 @@ int getDatabaseParam(char *fname, int iPos, QSqlDatabase **db)
 
 	return 0;
 }
+
+int getFSQLParam(char *fname, int iPos, FuzzySQL **fsql)
+{
+	int *piAddr;
+	void *pvPtr;
+	SciErr sciErr;
+
+	sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
+	
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}		
+
+	*fsql = (FuzzySQL*)pvPtr;		
+
+	return 0;
+}
+
+int sciGetIntAt(char *fname, int iPos, int *piResult)
+{
+	int *piAddr;
+	void *pvPtr;
+	SciErr sciErr;
+
+	sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	int *piRows, *piCols;
+
+	sciErr = getMatrixOfInteger32(pvApiCtx, piAddr, piRows, piCols, &piResult);
+	
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}			
+
+	return 0;
+}
+
+int sciWriteMapIntoList(QMap<QString, QVariant> *mValues)
+{
+	QList<QString> lNames = mValues->keys();
+
+	char **pstLabels = (char**)malloc(sizeof(char*)*(lNames.count() + 2));
+	pstLabels[0] = "st";
+	pstLabels[1] = "dims";
+	double pdblDims[]  = {1,1};
+
+	for(int j=0; j<lNames.count();j++)
+	{
+		pstLabels[j+2] = (char*)malloc(sizeof(char)*lNames.at(j).length());
+		strcpy(pstLabels[j+2], lNames.at(j).toLatin1().data());	
+	}
+
+	int *piStructAddress;
+
+	createMList(pvApiCtx, Rhs + 1, lNames.count() + 2, &piStructAddress);
+	createMatrixOfStringInList(pvApiCtx, Rhs + 1, piStructAddress, 1, 1, lNames.count() + 2, pstLabels);
+	createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, piStructAddress, 2, 1, 2, pdblDims);
+
+	for(int i=0; i < lNames.count(); i++)
+	{
+		sciWriteVarIntoList(piStructAddress, i+3, mValues->values().at(i));
+	}
+
+	return 0;
+}
+
 int sciWriteVarIntoList(int *piList, int position, QVariant vValue)
 {
 	switch(vValue.type())
@@ -259,51 +341,110 @@ int sciStructStringFields(int *piAddr, QMap<QString, QString> *map, char *fname)
 		return 0;
 }
 
+int sciGetIntInList(char *fname, int *piListAddress, int iPos, int *piResult)
+{
+	SciErr sciErr;
+	int iRows           = 0;
+	int iCols           = 0;
 
+	double* pdbl   = NULL;		
+
+	sciErr = getMatrixOfDoubleInList(pvApiCtx, piListAddress, iPos, &iRows, &iCols, &pdbl);
+
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	*piResult = (int)pdbl[0];
+
+	return 0;
+}
+
+int sciGetStringInList(char *fname, int *piListAddress, int iPos, char **psResult)
+{
+	int *piAddress, *piLen;
+	int iRows, iCols;
+	char **pstData;
+	SciErr sciErr;
+
+	getListItemAddress(pvApiCtx, piListAddress, iPos, &piAddress);
+
+	sciErr = getMatrixOfStringInList(pvApiCtx, piListAddress, iPos, &iRows, &iCols, NULL, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	piLen = (int*)malloc(sizeof(int) * iRows * iCols);
+	sciErr = getMatrixOfStringInList(pvApiCtx, piListAddress, iPos, &iRows, &iCols, piLen, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	pstData = (char**)malloc(sizeof(char*) * iRows * iCols);
+	for(int i = 0 ; i < iRows * iCols ; i++)
+	{
+		pstData[i] = (char*)malloc(sizeof(char) * (piLen[i] + 1));//+ 1 for null termination
+	}
+
+	sciErr = getMatrixOfStringInList(pvApiCtx, piListAddress, iPos, &iRows, &iCols, piLen, pstData);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	*psResult = pstData[0];
+}
 
 int sciGetStringAt(char *fname, int iPos, char **ppcResult)
 {
-		SciErr sciErr;
-		int i;
-		int iRows       = 0;
-		int iCols       = 0;
-		int* piLen      = NULL;
-		char **pstData = NULL;
-		int *piPos;
+	SciErr sciErr;
+	int i;
+	int iRows       = 0;
+	int iCols       = 0;
+	int* piLen      = NULL;
+	char **pstData = NULL;
+	int *piPos;
 
-		sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piPos);
+	sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piPos);
 
-		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, NULL, NULL);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
-
-		piLen = (int*)malloc(sizeof(int) * iRows * iCols);
-		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, NULL);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
-
-		pstData = (char**)malloc(sizeof(char*) * iRows * iCols);
-		for(i = 0 ; i < iRows * iCols ; i++)
-		{
-			pstData[i] = (char*)malloc(sizeof(char) * (piLen[i] + 1));//+ 1 for null termination
-		}
-
-		sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, pstData);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
-
-		*ppcResult = pstData[0];
-
+	sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, NULL, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
 		return 0;
+	}
+
+	piLen = (int*)malloc(sizeof(int) * iRows * iCols);
+	sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	pstData = (char**)malloc(sizeof(char*) * iRows * iCols);
+	for(i = 0 ; i < iRows * iCols ; i++)
+	{
+		pstData[i] = (char*)malloc(sizeof(char) * (piLen[i] + 1));//+ 1 for null termination
+	}
+
+	sciErr = getMatrixOfString(pvApiCtx, piPos, &iRows, &iCols, piLen, pstData);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	*ppcResult = pstData[0];
+
+	return 0;
 }
 int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery)
 {
@@ -333,7 +474,7 @@ int sciGetQSqlQueryAt(char *fname, int iPos, QSqlQuery **ppSqlQuery)
 		if ( iType1 != sci_pointer )
 		{
 		  Scierror(999,"%s: Wrong type for input argument #%d: A pointer expected.\n", fname, 1);
-		  return 0;
+		  return 1;
 		}
 
 		sciErr = getPointer(pvApiCtx, piAddr, &pvPtr);
@@ -412,5 +553,84 @@ int getConnectionStringMembers(QString sConnectionString, QMap<QString, QString>
 	catch(int ex)
 	{
 		return ex;
+	}
+}
+
+int sciGetValuesMapFromStruct(char *fname, int *piListPos, QMap<QString, QVariant> *mValues)
+{
+	int iNumberOfItems;
+	SciErr sciErr;
+	int iCols, iRows;
+	char **pstData;
+	int *piAddr;	
+	int *piLen;	
+
+	sciErr = getListItemNumber(pvApiCtx, piListPos, &iNumberOfItems);
+    if(sciErr.iErr)
+    {
+        printError(&sciErr, 0);
+        sciprint("This variable is not a list");
+        return 0;
+    }
+
+	getListItemAddress(pvApiCtx, piListPos, 1, &piAddr);
+
+
+	sciErr = getMatrixOfString(pvApiCtx, piAddr, &iRows, &iCols, NULL, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	piLen = (int*)malloc(sizeof(int) * iRows * iCols);
+	sciErr = getMatrixOfString(pvApiCtx, piAddr, &iRows, &iCols, piLen, NULL);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	pstData = (char**)malloc(sizeof(char*) * iRows * iCols);
+	for(int i = 0 ; i < iRows * iCols ; i++)
+	{
+		pstData[i] = (char*)malloc(sizeof(char) * (piLen[i] + 1));
+	}
+
+	sciErr = getMatrixOfString(pvApiCtx, piAddr, &iRows, &iCols, piLen, pstData);
+	if(sciErr.iErr)
+	{
+		printError(&sciErr, 0);
+		return 0;
+	}
+
+	for (int i = 3; i <= iNumberOfItems; i++)
+	{		
+		int iIntItem;;
+		char *sStringItem;
+		int iType;
+		int *piListItemAddress;
+
+		getListItemAddress(pvApiCtx, piListPos, i, &piListItemAddress);
+	
+		sciErr = getVarType(pvApiCtx, piListItemAddress, &iType);
+		if(sciErr.iErr)
+		{
+			printError(&sciErr, 0);
+			return 0;
+		}
+
+		switch(iType)
+		{
+			case sci_matrix :
+				sciGetIntInList(fname, piListPos, i, &iIntItem);
+				mValues->insert(pstData[i-1], QVariant(iIntItem));
+				break;
+
+			case sci_strings :
+				sciGetStringInList(fname, piListPos, i, &sStringItem);
+				mValues->insert(pstData[i-1], QVariant(sStringItem));
+				break;
+		}
 	}
 }

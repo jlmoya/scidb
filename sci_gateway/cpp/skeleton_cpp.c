@@ -19,6 +19,15 @@ extern Gatefunc sci_DbTables;
 extern Gatefunc sci_DbAffectedRowsNumber;
 extern Gatefunc sci_DbFirst;
 extern Gatefunc sci_DbLastInsertId;
+
+extern Gatefunc sci_DbFuzzyCreateFMB;
+extern Gatefunc sci_DbFuzzyLoadFMB;
+extern Gatefunc sci_DbFuzzyCreate;
+extern Gatefunc sci_DbFuzzyGet;
+extern Gatefunc sci_DbFuzzyUpdate;
+extern Gatefunc sci_DbFuzzyDelete;
+extern Gatefunc sci_DbFuzzyQuery;
+
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbConnect,"DbConnect"},
   {(Myinterfun)sci_gateway,sci_DbDisconnect,"DbDisconnect"},
@@ -36,7 +45,15 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbAffectedRowsNumber,"DbAffectedRowsNumber"},
   {(Myinterfun)sci_gateway,sci_DbLastQueryError,"DbLastQueryError"},
   {(Myinterfun)sci_gateway,sci_DbFirst,"DbFirst"},
-   {(Myinterfun)sci_gateway,sci_DbLastInsertId,"DbLastInsertId"},
+  {(Myinterfun)sci_gateway,sci_DbLastInsertId,"DbLastInsertId"},
+
+	{(Myinterfun)sci_gateway,sci_DbFuzzyCreateFMB,"DbFuzzyCreateFMB"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyLoadFMB,"DbFuzzyLoadFMB"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyCreate,"DbFuzzyCreate"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyGet,"DbFuzzyGet"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyUpdate,"DbFuzzyUpdate"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyDelete,"DbFuzzyDelete"},
+	{(Myinterfun)sci_gateway,sci_DbFuzzyQuery,"DbFuzzyQuery"},
 };
  
 int C2F(skeleton_cpp)()
