@@ -6,13 +6,12 @@
 // are also available at
 // http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
 
-connStr2 = struct ("provider", "QPSQL", ..
-                   "user", "postgres" , ..
-                   "database", "test" );
+connStr = struct ("provider", "SQLITE", ..
+                   "database", "reals" );
 
-conn2    = DbConnect(connStr2);
-qr2      = DbQuery("SELECT * FROM dtest");
-strs     = DbFetchString(qr2);
+conn    = DbConnect(connStr);
+query   = DbQuery("SELECT * FROM reals");
+strs    = DbFetchString(query);
 
-if strs(1) <> "3.2" ..
- | strs(2) <> "4.3" then pause,end
+if strs(1) <> "1.1" ..
+ | strs(2) <> "2.2" then pause,end
