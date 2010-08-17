@@ -1,15 +1,16 @@
-#pragma once
 #include <QtCore>
+#include <QtSql>
 
-class FuzzyDegreeSig
+class __declspec( dllexport ) FuzzyDegreeSig
 {
 	int _codeSig;
-	char *_significance;
+	QString _significance;
 
 public:	
 	int codeSig();
 	QString significance();
 
+	FuzzyDegreeSig(QSqlQuery qry);
 	FuzzyDegreeSig(void);
 	~FuzzyDegreeSig(void);
 };

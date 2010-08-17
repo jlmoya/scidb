@@ -1,11 +1,11 @@
-#pragma once
 #include <QtCore>
+#include <QtSql>
 
-class FuzzyObject
+class __declspec( dllexport ) FuzzyObject
 {
 	int _columnId;
 	int _fuzzyId;
-	char *_fuzzyName;
+	QString _fuzzyName;
 	int _fuzzyType;
 
 public:
@@ -14,6 +14,7 @@ public:
 	QString fuzzyName();
 	int fuzzyType();
 
+	FuzzyObject(QSqlQuery qry);
 	FuzzyObject(void);
 	~FuzzyObject(void);
 };

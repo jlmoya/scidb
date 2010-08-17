@@ -1,5 +1,12 @@
 #include "FuzzyApproxMuch.h"
 
+FuzzyApproxMuch::FuzzyApproxMuch(QSqlQuery qry)
+{
+	_columnId = qry.value(qry.record().indexOf("col")).toInt();
+	_margin = qry.value(qry.record().indexOf("margin")).toDouble();
+	_much = qry.value(qry.record().indexOf("much")).toDouble();
+}
+
 FuzzyApproxMuch::FuzzyApproxMuch(void)
 {
 }

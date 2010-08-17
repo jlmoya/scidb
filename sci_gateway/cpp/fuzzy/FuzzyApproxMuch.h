@@ -1,6 +1,6 @@
-#pragma once
+#include <QtSql>
 
-class FuzzyApproxMuch
+class __declspec( dllexport ) FuzzyApproxMuch
 {
 	int _columnId;
 	double _margin;
@@ -11,6 +11,7 @@ public:
 	double margin();
 	double much();
 
+	FuzzyApproxMuch(QSqlQuery qry);
 	FuzzyApproxMuch(void);
 	~FuzzyApproxMuch(void);
 };

@@ -1,14 +1,18 @@
-#pragma once
+#include <QtCore>
+#include <QtSql>
 
-class FuzzyDegreeTable
+class __declspec( dllexport ) FuzzyDegreeTable
 {
+	int _tableId;
 	int _columnId;
-	char _degreeType;
+	QChar _degreeType;
 
 public:
+	int tableId();
 	int columnId();
-	char degreeType();
+	QChar degreeType();
 
+	FuzzyDegreeTable(QSqlQuery qry);
 	FuzzyDegreeTable(void);
 	~FuzzyDegreeTable(void);
 };

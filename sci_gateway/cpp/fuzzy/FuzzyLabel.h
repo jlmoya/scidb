@@ -1,14 +1,18 @@
-#pragma once
+#include <QtSql>
 
-class FuzzyLabel
+class __declspec( dllexport ) FuzzyLabel
 {
 	int _fuzzyId;
 	double _alpha, _beta, _gamma, _delta;
 
 public:
 	int fuzzyId();
-	double alpha(), beta(), gamma(), delta();
+	double alpha();
+	double beta();
+	double gamma();
+	double delta();
 
+	FuzzyLabel(QSqlQuery qry);
 	FuzzyLabel(void);
 	~FuzzyLabel(void);
 };

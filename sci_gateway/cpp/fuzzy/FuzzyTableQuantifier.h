@@ -1,10 +1,10 @@
-#pragma once
 #include <QtCore>
+#include <QtSql>
 
-class FuzzyTableQuantifier
+class __declspec( dllexport ) FuzzyTableQuantifier
 {
 	int _tableId;
-	char *_fuzzyName;
+   QString _fuzzyName;
 	int _fuzzyType;
 	double _alpha, _beta, _gamma, _delta;
 
@@ -12,8 +12,13 @@ public:
 	int tableId();
 	QString fuzzyName();
 	int fuzzyType();
-	double alpha(), beta(), gamma(), delta();
 
+	double alpha();
+	double beta();
+	double gamma();
+	double delta();
+
+	FuzzyTableQuantifier(QSqlQuery qry);
 	FuzzyTableQuantifier(void);
 	~FuzzyTableQuantifier(void);
 };

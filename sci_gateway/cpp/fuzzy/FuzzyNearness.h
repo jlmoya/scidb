@@ -1,6 +1,6 @@
-#pragma once
+#include <QtSql>
 
-class FuzzyNearness
+class __declspec( dllexport ) FuzzyNearness
 {
 	int _fuzzyId1;
 	int _fuzzyId2;
@@ -11,6 +11,7 @@ public:
 	int fuzzyId2();
 	double degree();
 
+	FuzzyNearness(QSqlQuery qry);
 	FuzzyNearness(void);
 	~FuzzyNearness(void);
 };

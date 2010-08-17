@@ -1,35 +1,34 @@
-#pragma once
 #include <QtCore>
+#include <QtSql>
 
-class FuzzyCol
+class __declspec( dllexport ) FuzzyCol
 {
 	int _tableId;
 	int _columnId;
+	QString _name;
 	//1-8 (1-4 - attributes, 5-7 - degrees
 	int _fType;	
 	//for types 3-4
 	int _len;
 	//code of meaning of degree;
 	int _codeSig;
-	char *_columnName;
-	char *_com;
+	QString _columnName;
+	QString _com;
 	//unit of measurement
-	char *_um;
+	QString _um;
 
 public:
 	int tableId();
 	int columnId();
-	//1-8 (1-4 - attributes, 5-7 - degrees
-	int fType();
-	//for types 3-4
-	int len();
-	//code of meaning of degree;
+	QString name();
+	int fType();	
+	int len();	
 	int codeSig();
 	QString columnName();
-	QString com();
-	//unit of measurement
+	QString com();	
 	QString um();
 
+	FuzzyCol(QSqlQuery qry);
 	FuzzyCol(void);
 	~FuzzyCol(void);
 };

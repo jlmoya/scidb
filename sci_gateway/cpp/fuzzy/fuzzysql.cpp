@@ -30,6 +30,14 @@ FuzzySQL::FuzzySQL()
     functions[" NFDIF "] = "nfdif";
 }
 
+FuzzySQL::FuzzySQL(QSqlDatabase *db)
+{
+	_dataBase = db;
+
+	_fmb.SetDb(db);
+	_fmb.LoadFMB();
+}
+
 //LEFT OPERAND MUST BE COLUMN!
 QString LeftOperand(QString query, int position, int *start)
 {
@@ -204,6 +212,7 @@ QString FuzzySQL::FSQL2SQL(QString queryString)
     return queryString;
 }
 
+<<<<<<< HEAD
 void FuzzySQL::InsertLabelTrapecic(QString name, int a, int b, int c, int d, QSqlDatabase db)
 {
     QString query = "INSERT INTO linguistic_labels(id,  \"type\", \"name\") VALUES (5, 1, '" + name + "')";
@@ -234,25 +243,20 @@ QList<QString> FuzzySQL::GetLinguisticLabels(QSqlDatabase db)
     return lstr;
 }
 
-void FuzzySQL::CreateTableMetaInfo(QSqlDatabase db, QString tableName)
+void FuzzySQL::CreateTableMetaInfo(QSqlDatabase *db, QString tableName)
 {
-    QSqlQuery query(db);
+    QSqlQuery query(*db);
 
     query.exec("INSERT INTO FUZZY_META_TABLES (name) VALUES (" + tableName + ")");
 }
 
-void FuzzySQL::CreateColumnMetaInfo(QSqlDatabase db, QString tableName, QString columnName)
+void FuzzySQL::CreateColumnMetaInfo(QSqlDatabase *db, QString tableName, QString columnName)
 {
-    QSqlQuery query(db);
+    QSqlQuery query(*db);
 
     query.exec("INSERT INTO FUZZY_META_COLUMNS (table_id, name) VALUES ("
                "(SELECT table_id from FUZZY_META_TABLES where name = "+tableName + ", " + columnName+")"
                ")");
-}
-
-QString FuzzySQL::ColumnIdQuery(QString columnName)
-{
-	return "SELECT col_id FROM FUZZY_META_COLUMNS WHERE name = " + columnName;
 }
 
 QString FuzzySQL::ColumnIdQuery(QString table, QString columnName)
@@ -269,7 +273,7 @@ QString FuzzySQL::TableIdQuery(QString tableName)
 void FuzzySQL::CreateFuzzyCol(QString column, int f_type, int len, int code_sig, 
 							  QString columnName, QString com, QString um)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_COL_LIST"
 		 "VALUES (:column, :f_type, :len, :code_sig, :columnName, :com, :um)");
      query.bindValue(":column", column);
@@ -284,7 +288,7 @@ void FuzzySQL::CreateFuzzyCol(QString column, int f_type, int len, int code_sig,
 
 void FuzzySQL::CreateFuzzyDegreeSig(int code_sig, int significance)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_DEGREE_SIG"
 		 "VALUES (:code_sig, :significance)");
      query.bindValue(":code_sig", code_sig);
@@ -292,12 +296,12 @@ void FuzzySQL::CreateFuzzyDegreeSig(int code_sig, int significance)
      query.exec();
 }
 
-void FuzzySQL::CreateFuzzyObject(QString column, QString fuzzy_name, int fuzzy_type)
+void FuzzySQL::CreateFuzzyObject(QString table, QString column, QString fuzzy_name, int fuzzy_type)
 {
-	QSqlQuery query(dataBase);
+	QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_OBJECT_LIST"
 		 "VALUES (:column, NULL, :fuzzy_name, :fuzzy_type)");
-     query.bindValue(":column", ColumnIdQuery(column));
+     query.bindValue(":column", ColumnIdQuery(table, column));
      query.bindValue(":fuzzy_name", fuzzy_name);
      query.bindValue(":fuzzy_type", fuzzy_type);
      query.exec();
@@ -306,7 +310,7 @@ void FuzzySQL::CreateFuzzyObject(QString column, QString fuzzy_name, int fuzzy_t
 void FuzzySQL::CreateFuzzyLabelDef(QString table, QString column, int fuzzy_id, 
 		double alpha, double beta, double gamma, double delta)
 {
-	QSqlQuery query(dataBase);
+	QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_LABEL_DEF"
 		 "VALUES (:column, NULL, :fuzzy_id, :alpha, :beta, :gamma, :delta)");
      query.bindValue(":column", ColumnIdQuery(table, column));
@@ -320,7 +324,7 @@ void FuzzySQL::CreateFuzzyLabelDef(QString table, QString column, int fuzzy_id,
 
 void FuzzySQL::CreateFuzzyApproxMuch(QString table, QString column, double margin, double much)
 {
-	QSqlQuery query(dataBase);
+	QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_APPROX_MUCH"
 		 "VALUES (:column, :margin, :much)");
      query.bindValue(":column", ColumnIdQuery(table, column));
@@ -332,7 +336,7 @@ void FuzzySQL::CreateFuzzyApproxMuch(QString table, QString column, double margi
 void FuzzySQL::CreateFuzzyNearness(QString table, QString column, int fuzzy_id1, int fuzzy_id2,
 		double degree)
 {
-	QSqlQuery query(dataBase);
+	QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_NEARNESS_DEF"
 		 "VALUES (:column, :fuzzy_id1, :fuzzy_id2, :degree)");
      query.bindValue(":column", ColumnIdQuery(table, column));
@@ -345,7 +349,7 @@ void FuzzySQL::CreateFuzzyNearness(QString table, QString column, int fuzzy_id1,
 
 void FuzzySQL::CreateFuzzyCompatibleCol(QString table1, QString col1, QString table2, QString col2)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_COMPATIBLE_COL"
 		 "VALUES (:column1, :column2)");
      query.bindValue(":column1", ColumnIdQuery(table1, col1));
@@ -355,7 +359,7 @@ void FuzzySQL::CreateFuzzyCompatibleCol(QString table1, QString col1, QString ta
 
 void FuzzySQL::CreateFuzzyQualifier(QString table, QString column, int fuzzy_id, double qualifier)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_QUALIFIERS_DEF"
 		 "VALUES (:column, :fuzzy_id, :qualifier)");
      query.bindValue(":column", ColumnIdQuery(table, column));
@@ -366,7 +370,7 @@ void FuzzySQL::CreateFuzzyQualifier(QString table, QString column, int fuzzy_id,
 
 void FuzzySQL::CreateFuzzyDegreeCol(QString table1, QString col1, QString table2, QString col2)
 {
-		 QSqlQuery query(dataBase);
+		 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_DEGREE_COLS"
 		 "VALUES (:column1, :column2)");
      query.bindValue(":column1", ColumnIdQuery(table1, col1));
@@ -376,7 +380,7 @@ void FuzzySQL::CreateFuzzyDegreeCol(QString table1, QString col1, QString table2
 
 void FuzzySQL::CreateFuzzyDegreeTable(QString table, QString col, char degree_type)
 {
-		 QSqlQuery query(dataBase);
+		 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_DEGREE_TABLE"
 		 "VALUES (:column, :deree_type)");
      query.bindValue(":column", ColumnIdQuery(table, col));
@@ -387,7 +391,7 @@ void FuzzySQL::CreateFuzzyDegreeTable(QString table, QString col, char degree_ty
 void FuzzySQL::CreateFuzzyTableQuantifier(QString table, QString fuzzy_name, int fuzzy_type, 
 		double alpha, double beta, double gamma, double delta)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_TABLE_QUANTIFIERS"
 		 "VALUES (:table, :fuzzy_name, :fuzzy_type, :alpha, :beta, :gamma, :delta)");
      query.bindValue(":table", TableIdQuery(table));
@@ -403,7 +407,7 @@ void FuzzySQL::CreateFuzzyTableQuantifier(QString table, QString fuzzy_name, int
 void FuzzySQL::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, double alpha,
 		double beta, double gamma, double delta)
 {
-	 QSqlQuery query(dataBase);
+	 QSqlQuery query(*_dataBase);
      query.prepare("INSERT INTO FUZZY_SYSTEM_QUANTIFIERS"
 		 "VALUES (:fuzzy_name, :fuzzy_type, :alpha, :beta, :gamma, :delta)");     
 	 query.bindValue(":fuzzy_name", fuzzy_name);     
@@ -420,9 +424,9 @@ void FuzzySQL::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, d
 
 
 
-void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase db)
+void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
 {
-    QSqlQuery query(db);
+    QSqlQuery query(*db);
 
     query.exec("CREATE TABLE FUZZY_COL_LIST ("            
             "col       integer,"

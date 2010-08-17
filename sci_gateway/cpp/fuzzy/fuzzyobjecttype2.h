@@ -3,7 +3,7 @@
 
 #include <QtSql>
 
-class FuzzyObjectType2
+class __declspec( dllexport ) FuzzyObjectType2
 {
 public:
     FuzzyObjectType2();

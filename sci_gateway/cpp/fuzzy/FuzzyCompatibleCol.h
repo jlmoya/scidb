@@ -1,12 +1,14 @@
-#pragma once
+#include <QtSql>
 
-class FuzzyCompatibleCol
+class __declspec( dllexport ) FuzzyCompatibleCol
 {
 	int _columnId1, _columnId2;
 
 public:
-	int columnId1(), columnId2();
+	int columnId1();
+	int columnId2();
 
+	FuzzyCompatibleCol(QSqlQuery qry);
 	FuzzyCompatibleCol(void);
 	~FuzzyCompatibleCol(void);
 };
