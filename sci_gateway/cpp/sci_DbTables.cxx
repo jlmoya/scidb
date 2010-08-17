@@ -16,7 +16,7 @@ extern "C"
 		QSqlDatabase *db;
 		QStringList slTables;		
 
-		CheckRhs(1,1);
+		CheckRhs(0,1);
 		CheckLhs(0,1);
 
 		if(Rhs == 0)

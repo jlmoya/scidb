@@ -14,6 +14,7 @@
 //#include <QtSql/sqldrivers/ibase/qsql_ibase.cpp>
 //#include <QtSql\sqldrivers\odbc\qsql_odbc.cpp>
 //#include <QtSql\sqldrivers\oci\qsql_oci.cpp>
+//#include <QtSql\sqldrivers\db2\qsql_db2.cpp>
 /* ==================================================================== */
 
 extern QString sDefaultConnection;
@@ -171,6 +172,7 @@ extern "C"
 
 			QSqlDriver *drv = NULL;
 
+
 			QMap<QString, QString> *mConnectionStringMembers;
 			if(getConnectionStringMembers(QString(connStr), &mConnectionStringMembers) > 0)
 			{
@@ -179,6 +181,26 @@ extern "C"
 
 			char *sUser, *sPassword, *sHost, *sDb;
 			int iPort, iSocket;
+
+			//if(!strcmp(provider, "QPSQL"))
+			//{				
+			//	PGconn *con = PQconnectdb(connStr);
+			//	drv =  new QPSQLDriver(con);							
+			//}	
+
+			//if (!strcmp(provider, "QMYSQL"))
+			//{
+			//	MYSQL *conn;
+			//	mysql_init(conn);
+			//	//need connection parameters
+			//	mysql_real_connect(conn, 
+			//		"host",
+			//		"user",
+			//		"pass",
+			//		"db",
+			//		1234, //port
+			//		"socket",
+			//		12345);				 //client flag
 
 			if (mConnectionStringMembers->contains("Uid"))
 			{
@@ -309,8 +331,8 @@ extern "C"
 			//	OCISvcCtx *svchp = (OCISvcCtx *)0;
 			//	OCIError *ociErr;
 			//	OCILogon2(ociEnv, ociErr, &svchp,
-			//		(CONST OraText *)sUser, (ub4)strlen(sUser),
-			//		(CONST OraText *)sPassword, (ub4)strlen(sPassword),
+			//		(CONST OraText *)"user", (ub4)strlen("user"),
+			//		(CONST OraText *)"pass", (ub4)strlen("pass"),
 			//		(CONST OraText *)"poolName", (ub4)strlen("poolname"), OCI_CPOOL);
 
 			//	drv = new QOCIDriver(ociEnv, svchp);
@@ -326,12 +348,12 @@ extern "C"
 			//	SQLAllocHandle(SQL_HANDLE_DBC, hEnv, &hDbc);
 
 			//	//need connection parameters
-			//	SQLConnect(hDbc, (SQLCHAR*)sHost,
-			//		(SQLSMALLINT)strlen(sHost),
-			//		(SQLCHAR*)sUser,
-			//		(SQLSMALLINT)strlen(sUser),
-			//		(SQLCHAR*)sPassword,
-			//		(SQLSMALLINT)strlen(sPassword));
+			//	SQLConnect(hDbc, (SQLCHAR*)"server",
+			//		(SQLSMALLINT)strlen("server"),
+			//		(SQLCHAR*)"user",
+			//		(SQLSMALLINT)strlen("user"),
+			//		(SQLCHAR*)"pass",
+			//		(SQLSMALLINT)strlen("pass"));
 
 			//	if (!strcmp(provider, "QODBC"))
 			//		drv = new QODBCDriver(hEnv, hDbc);

@@ -16,7 +16,7 @@ extern "C"
 		QSqlDatabase *db;
 
 		CheckRhs(0,1);
-		CheckLhs(0,0);
+		CheckLhs(0,1);
 
 		if(Rhs==1)
 		{

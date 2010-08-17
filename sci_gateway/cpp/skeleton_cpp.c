@@ -17,6 +17,8 @@ extern Gatefunc sci_DbFetchStruct;
 extern Gatefunc sci_DbFetchAllStruct;
 extern Gatefunc sci_DbTables;
 extern Gatefunc sci_DbAffectedRowsNumber;
+extern Gatefunc sci_DbFirst;
+extern Gatefunc sci_DbLastInsertId;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbConnect,"DbConnect"},
   {(Myinterfun)sci_gateway,sci_DbDisconnect,"DbDisconnect"},
@@ -33,6 +35,8 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sci_DbTables,"DbTables"},
   {(Myinterfun)sci_gateway,sci_DbAffectedRowsNumber,"DbAffectedRowsNumber"},
   {(Myinterfun)sci_gateway,sci_DbLastQueryError,"DbLastQueryError"},
+  {(Myinterfun)sci_gateway,sci_DbFirst,"DbFirst"},
+   {(Myinterfun)sci_gateway,sci_DbLastInsertId,"DbLastInsertId"},
 };
  
 int C2F(skeleton_cpp)()

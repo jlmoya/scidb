@@ -13,8 +13,7 @@ extern "C"
 	int sci_DbAffectedRowsNumber(char *fname)
 	{
 		SciErr sciErr;
-		QSqlQuery *query;
-		QStringList slTables;		
+		QSqlQuery *query;	
 
 		CheckRhs(1,1);
 		CheckLhs(0,1);
@@ -23,7 +22,7 @@ extern "C"
 
 		int iRowsAffected = query->numRowsAffected();
 
-		sciErr = createMatrixOfInteger32(pvApiCtx, Rhs + 1, 1, slTables.count(), &iRowsAffected);
+		sciErr = createMatrixOfInteger32(pvApiCtx, Rhs + 1, 1, 1, &iRowsAffected);
 		if(sciErr.iErr)
 		{
 			printError(&sciErr, 0);

@@ -16,8 +16,10 @@ extern "C"
 		QSqlDatabase *db;
 		QSqlQuery *qry;
 		SciErr sciErr;
-
 		char *pcQueryString;
+
+		CheckRhs(1,2);
+		CheckLhs(0,1);
 
 		//using default connection
 		if (Rhs == 1)
