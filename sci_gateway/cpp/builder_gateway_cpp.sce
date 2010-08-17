@@ -50,7 +50,6 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbInitDatabaseModule.cxx";
                 "sci_DbTables.cxx"            ;
                 "sci_DbAffectedRowsNumber.cxx";
-<<<<<<< HEAD
                 "sci_DbLastQueryError.cxx"    ;
                 "sci_DbLastInsertId.cxx"      ;
                 "sci_DbFirst.cxx"             ;
