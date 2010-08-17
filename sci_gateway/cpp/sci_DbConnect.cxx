@@ -1,10 +1,14 @@
-/* ==================================================================== */
-/* Igor GRIDCHYN */
-/* Scidb toolbox */
-/* This file is released into the public domain */
-/* ==================================================================== */
+/*
+ * Copyright (C) 2010 - Igor GRIDCHYN
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+ *
+ */
 
-/* ==================================================================== */
 #include "sci_util.h"
 #include "sci_db.h"
 #include <stdio.h>
@@ -15,7 +19,6 @@
 //#include <QtSql\sqldrivers\odbc\qsql_odbc.cpp>
 //#include <QtSql\sqldrivers\oci\qsql_oci.cpp>
 //#include <QtSql\sqldrivers\db2\qsql_db2.cpp>
-/* ==================================================================== */
 
 extern QString sDefaultConnection;
 
