@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (C) Igor GRIDCHYN
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+ *
+ -->
+
+<refentry xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook"
+          version="5.0-subset Scilab"
+          xml:lang="en"
+          xml:id="DbFuzzyLoadFMB">
+
+    <refnamediv>
+        <refname>DbFuzzyLoadFMB</refname>
+        <refpurpose>loads a copy of FMB from database (if it exists in the database)</refpurpose>
+    </refnamediv>
+
+    <!-- ===================================================================== -->
+    <!-- Calling Sequence -->
+    <!-- ===================================================================== -->
+    <refsynopsisdiv>
+        <title>Calling Sequence</title>
+        <synopsis>
+          fuzzySQL = DbFuzzyLoadFMB(dbConnection)
+        </synopsis>
+    </refsynopsisdiv>
+
+    <!-- ===================================================================== -->
+    <!-- Parameters -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Parameters</title>
+        <variablelist>
+
+          <varlistentry>
+            <term>dbConnection</term>
+            <listitem>
+              <para>
+                A pointer to database connection object
+              </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>fuzzySQL</term>
+            <listitem>
+              <para>
+                A pointer to a FuzzySQL object, which must be used for all fuzzy operations, including
+                fuzzy queries and fuzzy objects manipulations
+              </para>
+            </listitem>
+          </varlistentry>
+
+        </variablelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Description -->
+    <!-- ===================================================================== -->
+    <refsection>
+        <title>Description</title>
+        <para>
+		<literal>
+		DbFuzzyLoadFMB(...)
+		</literal>
+		Loads a local copy of FMB from database, if it exists in the database. Returns a pointer
+    to FuzzySQL object, which may further be used for fuzzy queries and handling fuzzy objects.
+    Whether the FMB exists in a database, may be checked using DbFuzzyHasFMB() function.
+        </para>		
+    </refsection>
+
+    <!-- ===================================================================== -->
+    <!-- Examples -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Examples</title>       
+	   <programlisting role="example"><![CDATA[
+		// Opens a “PostgreSQL” connection with a structure
+		connexionStruct          = struct(); 
+		connexionStruct.provider = "postgresql";
+		connexionStruct.database = "myDataBase"; 
+		connexionStruct.hostname = "127.0.0.1" ; 
+		connexionStruct.use      = "myUsername"; 
+		connexionStruct.password = "myPassword"; 
+
+		DbConnect(connexionStruct);
+    
+    //creating FuzzySQL object on default connection;
+    fuzzySQL = DbFuzzyLoadFMB();    
+    ]]></programlisting>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- See also -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>See Also</title>
+        <simplelist type="inline">
+        <member>
+            <link linkend="DbFuzzyLoadFMB">
+			DbFuzzyLoadFMB
+			</link>
+        </member>
+        <member>
+            <link linkend="DbFuzzyHasFMB">
+              DbFuzzyHasFMB
+            </link>
+        </member>
+        </simplelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Authors -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Authors</title>
+        <simplelist type="vert">
+        <member>Igor GRIDCHYN</member>
+        </simplelist>
+    </refsection>
+
+</refentry>
+

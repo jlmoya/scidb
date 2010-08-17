@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (C) Igor GRIDCHYN
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+ *
+ -->
+
+<refentry xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook"
+          version="5.0-subset Scilab"
+          xml:lang="en"
+          xml:id="DbFuzzyQuery">
+
+    <refnamediv>
+        <refname>DbFuzzyQuery</refname>
+        <refpurpose>executes a fuzzy query using a FuzzySQL object</refpurpose>
+    </refnamediv>
+
+    <!-- ===================================================================== -->
+    <!-- Calling Sequence -->
+    <!-- ===================================================================== -->
+    <refsynopsisdiv>
+        <title>Calling Sequence</title>
+        <synopsis>
+          resultHandle = DbFuzzyQuery(fuzzySQL, queryString)
+                </synopsis>
+    </refsynopsisdiv>
+
+    <!-- ===================================================================== -->
+    <!-- Parameters -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Parameters</title>
+        <variablelist>
+
+            <varlistentry>
+                <term>fuzzySQL</term>
+                <listitem>
+                    <para>
+					FuzzySQL pointer object, returned by either DbFuzzyLoadFMB() or DbFuzzyCreateFMB() functions
+                    </para>					
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term>queryString</term>
+                <listitem>
+                    <para>
+                     A fuzzy query in FSQL language.
+			             </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Description -->
+    <!-- ===================================================================== -->
+    <refsection>
+        <title>Description</title>
+        <para>
+		<literal>
+		DbFuzzyQuery(...)
+		</literal>
+		Executes fuzzy query in a FSQL language. Returns resultHandle. The behavior is much the same as one of
+    DbQuery(...) function, but instead dbConnection object a FuzzySQL object is required, and a query is first 
+    translated to a raw SQL query from FSQL, and then executed, if it was correct (as for fuzzy object usage).
+  </para>		
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Examples -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Examples</title>       
+	   <programlisting role="example"><![CDATA[
+		// Opens a “PostgreSQL” connection with a structure
+		connexionStruct          = struct(); 
+		connexionStruct.provider = "postgresql";
+		connexionStruct.database = "myDataBase"; 
+		connexionStruct.hostname = "127.0.0.1" ; 
+		connexionStruct.use      = "myUsername"; 
+		connexionStruct.password = "myPassword"; 
+
+		DbConnect(connexionStruct);
+    
+    //creating FuzzySQL object on default connection;
+    fuzzySQL = DbFuzzyLoadFMB();
+    
+    //Executing a fuzzy query in FSQL
+    resultHandle = DbFuzzyQuery(fuzzySQL, "SELECT * FROM Person WHERE Height FEQ $tall THOLD 0.7");
+    ]]></programlisting>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- See also -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>See Also</title>
+        <simplelist type="inline">
+        <member>
+            <link linkend="DbFuzzyLoadFMB">
+			DbFuzzyLoadFMB
+			</link>
+        </member>
+        <member>
+            <link linkend="DbFuzzyCreateFMB">
+              DbFuzzyCreateFMB
+            </link>
+        </member>
+        </simplelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Authors -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Authors</title>
+        <simplelist type="vert">
+        <member>Igor GRIDCHYN</member>
+        </simplelist>
+    </refsection>
+
+</refentry>
+

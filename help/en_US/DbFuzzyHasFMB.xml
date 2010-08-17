@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (C) Igor GRIDCHYN
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+ *
+ -->
+
+<refentry xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:db="http://docbook.org/ns/docbook"
+          version="5.0-subset Scilab"
+          xml:lang="en"
+          xml:id="DbFuzzyHasFMB">
+
+    <refnamediv>
+        <refname>DbFuzzyHasFMB</refname>
+        <refpurpose>checkes whether a Fuzzy Meta Base exists in a database</refpurpose>
+    </refnamediv>
+
+    <!-- ===================================================================== -->
+    <!-- Calling Sequence -->
+    <!-- ===================================================================== -->
+    <refsynopsisdiv>
+        <title>Calling Sequence</title>
+        <synopsis>
+          FMBExists = DbFuzzyHasFMB(dbConnection)
+        </synopsis>
+    </refsynopsisdiv>
+
+    <!-- ===================================================================== -->
+    <!-- Parameters -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Parameters</title>
+        <variablelist>
+
+          <varlistentry>
+            <term>dbConnection</term>
+            <listitem>
+              <para>
+                A pointer to database connection object
+              </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>FMBExists</term>
+            <listitem>
+              <para>
+                a bool value, equals true, if a FMB exists in a database
+              </para>
+            </listitem>
+          </varlistentry>
+
+        </variablelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Description -->
+    <!-- ===================================================================== -->
+    <refsection>
+        <title>Description</title>
+        <para>
+		<literal>
+      DbFuzzyHasFMB(...)
+    </literal>
+		Checkes whether a Fuzzy Meta Base exists in a databse. Returns true only if every table 
+    from FMB exists in database.
+        </para>		
+    </refsection>
+
+    <!-- ===================================================================== -->
+    <!-- Examples -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Examples</title>       
+	   <programlisting role="example"><![CDATA[
+		// Opens a “PostgreSQL” connection with a structure
+		connexionStruct          = struct(); 
+		connexionStruct.provider = "postgresql";
+		connexionStruct.database = "myDataBase"; 
+		connexionStruct.hostname = "127.0.0.1" ; 
+		connexionStruct.use      = "myUsername"; 
+		connexionStruct.password = "myPassword"; 
+
+		DbConnect(connexionStruct);
+    
+    //creating FuzzySQL object on default connection;
+    fuzzySQL = DbFuzzyCreateFMB();    
+    ]]></programlisting>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- See also -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>See Also</title>
+        <simplelist type="inline">
+        <member>
+            <link linkend="DbFuzzyLoadFMB">
+			DbFuzzyLoadFMB
+			</link>
+        </member>
+        <member>
+            <link linkend="DbFuzzyCreateFMB">
+              DbFuzzyCreateFMB
+            </link>
+        </member>
+        </simplelist>
+    </refsection>
+
+
+    <!-- ===================================================================== -->
+    <!-- Authors -->
+    <!-- ===================================================================== -->
+
+    <refsection>
+        <title>Authors</title>
+        <simplelist type="vert">
+        <member>Igor GRIDCHYN</member>
+        </simplelist>
+    </refsection>
+
+</refentry>
+
