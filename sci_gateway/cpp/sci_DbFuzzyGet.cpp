@@ -25,7 +25,7 @@ extern "C"
 		QSqlDatabase *db;
 		FuzzySQL *fsql;
 		char *pcObjectType;
-		int *piObjectId;
+		int iObjectId;
 
 		//arguments: FSQL-pointer, object type, {object id | object id1, object id2 (string or int) }
 		// ( 3 variants total )
@@ -51,63 +51,63 @@ extern "C"
 			}
 			else
 			{
-				sciGetIntAt(fname, 3, piObjectId);
+				sciGetIntAt(fname, 3, &iObjectId);
 
 				if (!strcmp(pcObjectType, "FMT"))		
 				{
-					FuzzyTableInfo *ftblInd = fsql->FuzzyMetaBase()->GetFuzzyTableInfo(*piObjectId);
+					FuzzyTableInfo *ftblInd = fsql->FuzzyMetaBase()->GetFuzzyTableInfo(iObjectId);
 
 					QMap<QString, QVariant> *mValues = ftblInd->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				} else if (!strcmp(pcObjectType, "FCL"))
 				{
-					FuzzyCol *fCol = fsql->FuzzyMetaBase()->GetFuzzyCol(*piObjectId);
+					FuzzyCol *fCol = fsql->FuzzyMetaBase()->GetFuzzyCol(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fCol->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				} else if (!strcmp(pcObjectType, "FOB"))
 				{
-					FuzzyObject *fObj = fsql->FuzzyMetaBase()->GetFuzzyObject(*piObjectId);
+					FuzzyObject *fObj = fsql->FuzzyMetaBase()->GetFuzzyObject(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fObj->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				}else if (!strcmp(pcObjectType, "FLD"))
 				{
-					FuzzyLabel *fLab = fsql->FuzzyMetaBase()->GetFuzzyLabel(*piObjectId);
+					FuzzyLabel *fLab = fsql->FuzzyMetaBase()->GetFuzzyLabel(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fLab->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				}else if (!strcmp(pcObjectType, "FAM"))
 				{
-					FuzzyApproxMuch *fApprox = fsql->FuzzyMetaBase()->GetFuzzyApproxMuch(*piObjectId);
+					FuzzyApproxMuch *fApprox = fsql->FuzzyMetaBase()->GetFuzzyApproxMuch(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fApprox->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				}else if (!strcmp(pcObjectType, "FQD"))
 				{
-					FuzzyQualifier *fQual = fsql->FuzzyMetaBase()->GetFuzzyQualifier(*piObjectId);
+					FuzzyQualifier *fQual = fsql->FuzzyMetaBase()->GetFuzzyQualifier(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fQual->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				}else if (!strcmp(pcObjectType, "FDC"))
 				{
-					int iCol = fsql->FuzzyMetaBase()->GetFuzzyDegreeCol(*piObjectId);
+					int iCol = fsql->FuzzyMetaBase()->GetFuzzyDegreeCol(iObjectId);
 
 					QMap<QString, QVariant> *mValues = new QMap<QString, QVariant>();
-					mValues->insert("columnDegId", QVariant(*piObjectId));
+					mValues->insert("columnDegId", QVariant(iObjectId));
 					mValues->insert("columnId", QVariant(iCol));
 
 					sciWriteMapIntoList(mValues);
 				}else if (!strcmp(pcObjectType, "FDT"))
 				{
-					FuzzyDegreeTable *fDegTab = fsql->FuzzyMetaBase()->GetFuzzyDegreeTable(*piObjectId);
+					FuzzyDegreeTable *fDegTab = fsql->FuzzyMetaBase()->GetFuzzyDegreeTable(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fDegTab->ValuesMap();
 					sciWriteMapIntoList(mValues);
 				}
 				else if (!strcmp(pcObjectType, "FDS"))
 				{
-					FuzzyDegreeSig *fDegreeSig = fsql->FuzzyMetaBase()->GetFuzzyDegreeSig(*piObjectId);
+					FuzzyDegreeSig *fDegreeSig = fsql->FuzzyMetaBase()->GetFuzzyDegreeSig(iObjectId);
 
 					QMap<QString, QVariant> *mValues = fDegreeSig->ValuesMap();
 					sciWriteMapIntoList(mValues);
@@ -115,7 +115,7 @@ extern "C"
 				else if (!strcmp(pcObjectType, "FCC"))
 				{
 					//get all compatible cols, including adapters and adaptees
-					QList<int> *fColAdapters = fsql->FuzzyMetaBase()->GetFuzzyCompatibleCols(*piObjectId);
+					QList<int> *fColAdapters = fsql->FuzzyMetaBase()->GetFuzzyCompatibleCols(iObjectId);
 
 					int *piColAdapters = new int[fColAdapters->count()];
 					for (int i = 0; i <  fColAdapters->count(); i++)
@@ -144,7 +144,7 @@ extern "C"
 				char **psStringId;
 				sciGetStringAt(fname, 4, psStringId);
 
-				FuzzyTableQuantifier *fTabQuantif = fsql->FuzzyMetaBase()->GetFuzzyTableQuantifier(*piObjectId, *psStringId);
+				FuzzyTableQuantifier *fTabQuantif = fsql->FuzzyMetaBase()->GetFuzzyTableQuantifier(iObjectId, *psStringId);
 
 				QMap<QString, QVariant> *mValues = fTabQuantif->ValuesMap();
 				sciWriteMapIntoList(mValues);
@@ -154,7 +154,7 @@ extern "C"
 
 				sciGetIntAt(fname, 4, &iSecondId);
 
-				FuzzyNearness *fNearness = fsql->FuzzyMetaBase()->GetFuzzyNearness(*piObjectId, iSecondId);
+				FuzzyNearness *fNearness = fsql->FuzzyMetaBase()->GetFuzzyNearness(iObjectId, iSecondId);
 
 				QMap<QString, QVariant> *mValues = fNearness->ValuesMap();
 				sciWriteMapIntoList(mValues);
@@ -177,13 +177,9 @@ extern "C"
 				Scierror(999, "%s: Wrong argument number for object type %s. 3 arguments expectd", fname, pcObjectType);
 				return 0;
 			}
-		}
+		}			
 
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}				
+		LhsVar(1) = Rhs + 1;
 
 		return 0;
 	}

@@ -26,7 +26,7 @@ extern "C"
 		QSqlDatabase *db;
 		FuzzySQL *fsql;
 		char *pcObjectType;
-		int *piObjectId;
+		int iObjectId;
 
 		//arguments: FSQL-pointer, object type, {object id | object id1, object id2 (string or int) }
 		// ( 3 variants total )
@@ -49,35 +49,35 @@ extern "C"
 			}
 			else
 			{
-				sciGetIntAt(fname, 3, piObjectId);
+				sciGetIntAt(fname, 3, &iObjectId);
 
 				if (!strcmp(pcObjectType, "FMT"))		
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyTableInfo(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyTableInfo(iObjectId);
 				} else if (!strcmp(pcObjectType, "FCL"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyColumn(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyColumn(iObjectId);
 				} else if (!strcmp(pcObjectType, "FOB"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyObject(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyObject(iObjectId);
 				}else if (!strcmp(pcObjectType, "FLD"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyLabel(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyLabel(iObjectId);
 				}else if (!strcmp(pcObjectType, "FAM"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyApproxMuch(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyApproxMuch(iObjectId);
 				}else if (!strcmp(pcObjectType, "FQD"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyQualifier(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyQualifier(iObjectId);
 				}else if (!strcmp(pcObjectType, "FDC"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeCol(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeCol(iObjectId);
 				}else if (!strcmp(pcObjectType, "FDT"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeTable(*piObjectId);				}
+					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeTable(iObjectId);				}
 				else if (!strcmp(pcObjectType, "FDS"))
 				{
-					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeSig(*piObjectId);
+					fsql->FuzzyMetaBase()->DeleteFuzzyDegreeSig(iObjectId);
 				}				
 				else if (strcmp(pcObjectType, "FTQ") && strcmp(pcObjectType, "FND") && strcmp(pcObjectType, "FCC"))
 				{
@@ -98,20 +98,20 @@ extern "C"
 				char **psStringId;
 				sciGetStringAt(fname, 4, psStringId);
 
-				fsql->FuzzyMetaBase()->DeleteFuzzyTableQuantifier(*piObjectId, *psStringId);
+				fsql->FuzzyMetaBase()->DeleteFuzzyTableQuantifier(iObjectId, *psStringId);
 			} else if (!strcmp(pcObjectType, "FND"))
 			{
 				int iSecondId;
 
 				sciGetIntAt(fname, 4, &iSecondId);
 
-				fsql->FuzzyMetaBase()->DeleteFuzzyNearness(*piObjectId, iSecondId);
+				fsql->FuzzyMetaBase()->DeleteFuzzyNearness(iObjectId, iSecondId);
 			}else if (!strcmp(pcObjectType, "FCC"))
 			{
 				int iSecondId;
 				sciGetIntAt(fname, 4, &iSecondId);
 				
-				fsql->FuzzyMetaBase()->DeleteFuzzyCompatibleCol(*piObjectId, iSecondId);
+				fsql->FuzzyMetaBase()->DeleteFuzzyCompatibleCol(iObjectId, iSecondId);
 			}	
 			else if (strcmp(pcObjectType, "FMT") &&
 				strcmp(pcObjectType, "FCL") && 
@@ -131,9 +131,7 @@ extern "C"
 				Scierror(999, "%s: Wrong argument number for object type %s. 3 arguments expectd", fname, pcObjectType);
 				return 0;
 			}
-		}	
-
-		Lhs = Rhs + 1;
+		}			
 
 		return 0;
 	}

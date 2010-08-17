@@ -41,13 +41,7 @@ extern "C"
 		fsql->CreateFuzzyMetaBaseOnDataBase();
 
 		//writing the pointer to the connection object		
-		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)fsql);			
-
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
+		sciErr = createPointer(pvApiCtx, Rhs + 1, (void*)fsql);					
 
 		LhsVar(1) = Rhs + 1;		
 

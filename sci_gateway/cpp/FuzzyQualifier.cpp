@@ -3,7 +3,7 @@
 FuzzyQualifier::FuzzyQualifier(QSqlQuery qry)
 {
 	_fuzzyId = qry.value(qry.record().indexOf("fuzzy_id")).toInt();
-	_qualifier = qry.value(qry.record().indexOf("qualifier")).toInt();
+	_qualifier = qry.value(qry.record().indexOf("qualifier")).toDouble();
 }
 
 FuzzyQualifier::FuzzyQualifier(	int fuzzyId,

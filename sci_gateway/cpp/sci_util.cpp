@@ -92,9 +92,11 @@ int sciGetIntAt(char *fname, int iPos, int *piResult)
 	}
 
 	int *piRows, *piCols;
+	double *dResult;
 
-	sciErr = getMatrixOfInteger32(pvApiCtx, piAddr, piRows, piCols, &piResult);
-	
+	sciErr = getMatrixOfDouble(pvApiCtx, piAddr, piRows, piCols, &dResult);
+	*piResult = (int)*dResult;
+
 	if(sciErr.iErr)
 	{
 		printError(&sciErr, 0);

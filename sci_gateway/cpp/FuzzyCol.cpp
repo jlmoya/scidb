@@ -3,8 +3,7 @@
 FuzzyCol::FuzzyCol(QSqlQuery qry)
 {
 	_tableId = qry.value(qry.record().indexOf("obj")).toInt();
-	_columnId = qry.value(qry.record().indexOf("col")).toInt();
-	_name = qry.value(qry.record().indexOf("name")).toString();
+	_columnId = qry.value(qry.record().indexOf("col")).toInt();	
 	_fType = qry.value(qry.record().indexOf("f_type")).toInt();
 	 _len = qry.value(qry.record().indexOf("len")).toInt();
 	_codeSig  = qry.value(qry.record().indexOf("code_sig")).toInt();

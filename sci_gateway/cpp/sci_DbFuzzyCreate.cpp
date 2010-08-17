@@ -95,15 +95,7 @@ extern "C"
 		else
 		{
 			Scierror(999, "%s: Unknown object type %s", fname, sObjectType);
-		}
-		
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
-
-		LhsVar(1) = Rhs + 1;		
+		}			
 
 		return 0;
 	}
