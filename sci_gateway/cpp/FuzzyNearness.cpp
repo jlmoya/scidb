@@ -2,30 +2,30 @@
 
 FuzzyNearness::FuzzyNearness(QSqlQuery qry)
 {
-	_fuzzyId1 = qry.value(qry.record().indexOf("fuzzy_id1")).toInt();
-	_fuzzyId2 = qry.value(qry.record().indexOf("fuzzy_id2")).toInt();
-	_degree = qry.value(qry.record().indexOf("degree")).toDouble();
+    _fuzzyId1 = qry.value(qry.record().indexOf("fuzzy_id1")).toInt();
+    _fuzzyId2 = qry.value(qry.record().indexOf("fuzzy_id2")).toInt();
+    _degree = qry.value(qry.record().indexOf("degree")).toDouble();
 }
 
-FuzzyNearness::FuzzyNearness(	int fuzzyId1,
-					int fuzzyId2,
-					double degree)
+FuzzyNearness::FuzzyNearness(    int fuzzyId1,
+                    int fuzzyId2,
+                    double degree)
 {
-	_fuzzyId1 = fuzzyId1;
-	_fuzzyId2 = fuzzyId2;
-	_degree = degree;
+    _fuzzyId1 = fuzzyId1;
+    _fuzzyId2 = fuzzyId2;
+    _degree = degree;
 }
-					
+
 FuzzyNearness::FuzzyNearness(QMap<QString, QVariant> *mValues)
 {
-	if (mValues->contains("fuzzyId1"))
-		_fuzzyId1 = mValues->value("fuzzyId1").toInt();
+    if (mValues->contains("fuzzyId1"))
+        _fuzzyId1 = mValues->value("fuzzyId1").toInt();
 
-	if (mValues->contains("fuzzyId2"))
-		_fuzzyId2 = mValues->value("fuzzyId2").toInt();
+    if (mValues->contains("fuzzyId2"))
+        _fuzzyId2 = mValues->value("fuzzyId2").toInt();
 
-	if (mValues->contains("degree"))
-		_degree = mValues->value("degree").toDouble();
+    if (mValues->contains("degree"))
+        _degree = mValues->value("degree").toDouble();
 
 }
 
@@ -43,11 +43,11 @@ double FuzzyNearness::degree() { return _degree; }
 
 QMap<QString, QVariant>* FuzzyNearness::ValuesMap()
 {
-	QMap<QString, QVariant> *pMap = new QMap<QString, QVariant>();
+    QMap<QString, QVariant> *pMap = new QMap<QString, QVariant>();
 
-	pMap->insert("fuzzyId1", QVariant(_fuzzyId1));
-	pMap->insert("fuzzyId2", QVariant(_fuzzyId2));
-	pMap->insert("degree", QVariant(_degree));			
+    pMap->insert("fuzzyId1", QVariant(_fuzzyId1));
+    pMap->insert("fuzzyId2", QVariant(_fuzzyId2));
+    pMap->insert("degree", QVariant(_degree));
 
-	return pMap;
+    return pMap;
 }

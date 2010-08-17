@@ -3,30 +3,30 @@
 
 class __declspec( dllexport ) FuzzySystemQuantifier
 {
-	QString _fuzzyName;
-	int _fuzzyType;
-	double _alpha, _beta, _gamma, _delta;
+    QString _fuzzyName;
+    int _fuzzyType;
+    double _alpha, _beta, _gamma, _delta;
 
 public:
 
-	QString fuzzyName();
-	int fuzzyType();
+    QString fuzzyName();
+    int fuzzyType();
 
-	double alpha();
-	double beta();
-	double gamma();
-	double delta();
+    double alpha();
+    double beta();
+    double gamma();
+    double delta();
 
-	FuzzySystemQuantifier(QSqlQuery qry);
-	FuzzySystemQuantifier(	QString fuzzyName,
-							int fuzzyType,
-							double alpha, 
-							double beta, 
-							double gamma, 
-							double delta);
-	FuzzySystemQuantifier(QMap<QString, QVariant> *mValues);
-	FuzzySystemQuantifier(void);
-	~FuzzySystemQuantifier(void);
+    FuzzySystemQuantifier(QSqlQuery qry);
+    FuzzySystemQuantifier(    QString fuzzyName,
+                            int fuzzyType,
+                            double alpha,
+                            double beta,
+                            double gamma,
+                            double delta);
+    FuzzySystemQuantifier(QMap<QString, QVariant> *mValues);
+    FuzzySystemQuantifier(void);
+    ~FuzzySystemQuantifier(void);
 
-	QMap<QString, QVariant>* ValuesMap();	
+    QMap<QString, QVariant>* ValuesMap();
 };

@@ -10,54 +10,54 @@
 /* ==================================================================== */
 extern "C"
 {
-	int sci_DbFetchString(char *fname)
-	{
-		SciErr sciErr;
-		QSqlQuery *psqQuery;
+    int sci_DbFetchString(char *fname)
+    {
+        SciErr sciErr;
+        QSqlQuery *psqQuery;
 
-		CheckRhs(1,1);
-		CheckLhs(0,1);
+        CheckRhs(1,1);
+        CheckLhs(0,1);
 
-		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+        sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
-		if(!psqQuery->isActive())
-		{
-			Scierror(999, "Given query was not successfully executed.\n");
-			return 0;
-		}
-		
-		if(!psqQuery->isValid() && !psqQuery->next())
-		{
-			Scierror(999, "No results in query.\n");
-			return 0;
-		}
+        if(!psqQuery->isActive())
+        {
+            Scierror(999, "Given query was not successfully executed.\n");
+            return 0;
+        }
 
-		QSqlRecord rec = psqQuery-> record();
+        if(!psqQuery->isValid() && !psqQuery->next())
+        {
+            Scierror(999, "No results in query.\n");
+            return 0;
+        }
 
-		char **ppcResultStrings  = (char**)malloc(sizeof(char*) * rec.count());
+        QSqlRecord rec = psqQuery-> record();
 
-		for(int i=0; i < rec.count(); i++)
-		{
-			QString sVal = rec.value(i).toString();
-			ppcResultStrings[i] = (char*)malloc(sizeof(char) * sVal.length());
-			strcpy(ppcResultStrings[i], sVal.toLatin1().data());
-		}
+        char **ppcResultStrings  = (char**)malloc(sizeof(char*) * rec.count());
 
-		sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, rec.count(), ppcResultStrings);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
+        for(int i=0; i < rec.count(); i++)
+        {
+            QString sVal = rec.value(i).toString();
+            ppcResultStrings[i] = (char*)malloc(sizeof(char) * sVal.length());
+            strcpy(ppcResultStrings[i], sVal.toLatin1().data());
+        }
 
-		free(ppcResultStrings);
+        sciErr = createMatrixOfString(pvApiCtx, Rhs + 1, 1, rec.count(), ppcResultStrings);
+        if(sciErr.iErr)
+        {
+            printError(&sciErr, 0);
+            return 0;
+        }
 
-		psqQuery->next();
+        free(ppcResultStrings);
 
-		LhsVar(1) = Rhs + 1;
+        psqQuery->next();
 
-		return 0;
-	}	
-/* ==================================================================== */	
+        LhsVar(1) = Rhs + 1;
+
+        return 0;
+    }
+/* ==================================================================== */
 } /* extern "C" */
 /* ==================================================================== */

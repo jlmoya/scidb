@@ -10,91 +10,91 @@
 /* ==================================================================== */
 extern "C"
 {
-	int sci_DbFetchAllStruct(char *fname)
-	{		
-		QSqlQuery *psqQuery;
+    int sci_DbFetchAllStruct(char *fname)
+    {
+        QSqlQuery *psqQuery;
 
-		CheckRhs(1,1);
-		CheckLhs(0,1);
+        CheckRhs(1,1);
+        CheckLhs(0,1);
 
-		if(sciGetQSqlQueryAt(fname, 1, &psqQuery) > 0)
-		{
-			return 0;
-		}
+        if(sciGetQSqlQueryAt(fname, 1, &psqQuery) > 0)
+        {
+            return 0;
+        }
 
-		if(!psqQuery->isActive())
-		{
-			Scierror(999, "Given query was not successfully executed.\n");
-			return 0;
-		}		
+        if(!psqQuery->isActive())
+        {
+            Scierror(999, "Given query was not successfully executed.\n");
+            return 0;
+        }
 
-		char **pstLabels;
-		double pdblDims[]  = {1,1};
-		
-		QSqlRecord rec;
-		int iFieldsNumber;		
+        char **pstLabels;
+        double pdblDims[]  = {1,1};
 
-		if(psqQuery->isValid() || psqQuery->next())
-		{
-			rec = psqQuery-> record();
+        QSqlRecord rec;
+        int iFieldsNumber;
 
-			iFieldsNumber = rec.count();
+        if(psqQuery->isValid() || psqQuery->next())
+        {
+            rec = psqQuery-> record();
 
-			pstLabels = (char**)malloc(sizeof(char*)*(iFieldsNumber + 2));
-			pstLabels[0] = "st";
-			pstLabels[1] = "dims";			
+            iFieldsNumber = rec.count();
 
-			for(int j=0; j<iFieldsNumber; j++)
-			{
-				QString sFieldName = rec.field(j).name();
+            pstLabels = (char**)malloc(sizeof(char*)*(iFieldsNumber + 2));
+            pstLabels[0] = "st";
+            pstLabels[1] = "dims";
 
-				pstLabels[j+2] = (char*)malloc(sizeof(char)*sFieldName.length());
-				strcpy(pstLabels[j+2], sFieldName.toLatin1().data());
-			}
-		}
-		else
-		{
-			Scierror(999, "No results in query.\n");
-			return 0;
-		}
+            for(int j=0; j<iFieldsNumber; j++)
+            {
+                QString sFieldName = rec.field(j).name();
 
-		QList< QList<QVariant> > llvRecords = QList< QList<QVariant> >();				
+                pstLabels[j+2] = (char*)malloc(sizeof(char)*sFieldName.length());
+                strcpy(pstLabels[j+2], sFieldName.toLatin1().data());
+            }
+        }
+        else
+        {
+            Scierror(999, "No results in query.\n");
+            return 0;
+        }
 
-		do
-		{
-			rec = psqQuery-> record();	
+        QList< QList<QVariant> > llvRecords = QList< QList<QVariant> >();
 
-			QList<QVariant> lvRecord = QList<QVariant>();
-			
-			for(int i=0; i<rec.count(); i++)
-			{
-				lvRecord.append(rec.value(i));
-			}
+        do
+        {
+            rec = psqQuery-> record();
 
-			llvRecords.append(lvRecord);
-		}
-		while(psqQuery->next());
+            QList<QVariant> lvRecord = QList<QVariant>();
 
-		int *piList, *piStruct;
+            for(int i=0; i<rec.count(); i++)
+            {
+                lvRecord.append(rec.value(i));
+            }
 
-		createList(pvApiCtx, Rhs + 1, llvRecords.size(), &piList);
+            llvRecords.append(lvRecord);
+        }
+        while(psqQuery->next());
 
-		for (int i = 0; i < llvRecords.size(); ++i) 
-		{
-			SciErr err = createMListInList(pvApiCtx, Rhs + 1, piList, i + 1, iFieldsNumber + 2, &piStruct);
-			createMatrixOfStringInList(pvApiCtx, Rhs + 1, piStruct, 1, 1, iFieldsNumber + 2, pstLabels);
-			createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, piStruct, 2, 1, 2, pdblDims);
+        int *piList, *piStruct;
 
-			for (int j = 0; j < iFieldsNumber; j++) 
-			{
-				sciWriteVarIntoList(piStruct, j+3, llvRecords.at(i).at(j));
-			}
-		}
+        createList(pvApiCtx, Rhs + 1, llvRecords.size(), &piList);
 
-		LhsVar(1) = Rhs + 1;
+        for (int i = 0; i < llvRecords.size(); ++i)
+        {
+            SciErr err = createMListInList(pvApiCtx, Rhs + 1, piList, i + 1, iFieldsNumber + 2, &piStruct);
+            createMatrixOfStringInList(pvApiCtx, Rhs + 1, piStruct, 1, 1, iFieldsNumber + 2, pstLabels);
+            createMatrixOfDoubleInList(pvApiCtx, Rhs + 1, piStruct, 2, 1, 2, pdblDims);
 
-		return 0;
-	}
-/* ==================================================================== */	
+            for (int j = 0; j < iFieldsNumber; j++)
+            {
+                sciWriteVarIntoList(piStruct, j+3, llvRecords.at(i).at(j));
+            }
+        }
+
+        LhsVar(1) = Rhs + 1;
+
+        return 0;
+    }
+/* ==================================================================== */
 } /* extern "C" */
 /* ==================================================================== */

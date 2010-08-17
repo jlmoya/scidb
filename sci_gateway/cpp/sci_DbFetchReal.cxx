@@ -10,64 +10,64 @@
 /* ==================================================================== */
 extern "C"
 {
-	int sci_DbFetchReal(char *fname)
-	{
-		SciErr sciErr;
-		QSqlQuery *psqQuery;
+    int sci_DbFetchReal(char *fname)
+    {
+        SciErr sciErr;
+        QSqlQuery *psqQuery;
 
-		CheckRhs(1,1);
-		CheckLhs(0,1);
+        CheckRhs(1,1);
+        CheckLhs(0,1);
 
-		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+        sciGetQSqlQueryAt(fname, 1, &psqQuery);
 
-		if(!psqQuery->isActive())
-		{
-			Scierror(999, "Given query was not successfully executed.\n");
-			return 0;
-		}	
+        if(!psqQuery->isActive())
+        {
+            Scierror(999, "Given query was not successfully executed.\n");
+            return 0;
+        }
 
-		if(!psqQuery->isValid() && !psqQuery->next())
-		{
-			Scierror(999, "No results in query.\n");
-			return 0;
-		}
+        if(!psqQuery->isValid() && !psqQuery->next())
+        {
+            Scierror(999, "No results in query.\n");
+            return 0;
+        }
 
-		QSqlRecord rec = psqQuery-> record();
-	
-		double *pdResults  = (double*)malloc(sizeof(double) * rec.count());	
+        QSqlRecord rec = psqQuery-> record();
 
-		bool *pbConvertOk = (bool*)malloc(sizeof(bool));
+        double *pdResults  = (double*)malloc(sizeof(double) * rec.count());
 
-		for(int i=0; i < rec.count(); i++)
-		{
-			pdResults[i] = rec.value(i).toDouble(pbConvertOk);
-			if(!(*pbConvertOk))
-			{
-				Scierror(999, "Cannot convert %d-th value (%s) to double.\n", i, rec.value(i).toString().toLatin1().data());
+        bool *pbConvertOk = (bool*)malloc(sizeof(bool));
 
-				free(pdResults);
-				free(pbConvertOk);
+        for(int i=0; i < rec.count(); i++)
+        {
+            pdResults[i] = rec.value(i).toDouble(pbConvertOk);
+            if(!(*pbConvertOk))
+            {
+                Scierror(999, "Cannot convert %d-th value (%s) to double.\n", i, rec.value(i).toString().toLatin1().data());
 
-				return 0;
-			}
-		}	
+                free(pdResults);
+                free(pbConvertOk);
 
-		sciErr = createMatrixOfDouble(pvApiCtx, Rhs + 1, 1, rec.count(), pdResults);
-		if(sciErr.iErr)
-		{
-			printError(&sciErr, 0);
-			return 0;
-		}
+                return 0;
+            }
+        }
 
-		free(pdResults);
-		free(pbConvertOk);
+        sciErr = createMatrixOfDouble(pvApiCtx, Rhs + 1, 1, rec.count(), pdResults);
+        if(sciErr.iErr)
+        {
+            printError(&sciErr, 0);
+            return 0;
+        }
 
-		psqQuery->next();
+        free(pdResults);
+        free(pbConvertOk);
 
-		LhsVar(1) = Rhs + 1;
+        psqQuery->next();
 
-		return 0;
-	}	
-/* ==================================================================== */	
+        LhsVar(1) = Rhs + 1;
+
+        return 0;
+    }
+/* ==================================================================== */
 } /* extern "C" */
 /* ==================================================================== */

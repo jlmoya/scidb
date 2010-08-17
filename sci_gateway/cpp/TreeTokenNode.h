@@ -7,10 +7,10 @@ QString _token;
 TreeTokenNode *_left, *_right;
 
 public:
-	QString Token();
-	
-	TreeTokenNode(QString expression);
-	~TreeTokenNode(void);
+    QString Token();
 
-	QString CdegCall();
+    TreeTokenNode(QString expression);
+    ~TreeTokenNode(void);
+
+    QString CdegCall();
 };

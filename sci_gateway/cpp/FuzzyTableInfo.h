@@ -3,18 +3,18 @@
 
 class __declspec( dllexport ) FuzzyTableInfo
 {
-	int _tableId;
-	QString _name;
+    int _tableId;
+    QString _name;
 
 public:
-	int tableId();
-	QString name();
+    int tableId();
+    QString name();
 
-	FuzzyTableInfo(void);
-	FuzzyTableInfo(int id, QString name);
-	FuzzyTableInfo(QMap<QString, QVariant> *mValues);
+    FuzzyTableInfo(void);
+    FuzzyTableInfo(int id, QString name);
+    FuzzyTableInfo(QMap<QString, QVariant> *mValues);
 
-	~FuzzyTableInfo(void);
+    ~FuzzyTableInfo(void);
 
-	QMap<QString, QVariant>* ValuesMap();	
+    QMap<QString, QVariant>* ValuesMap();
 };

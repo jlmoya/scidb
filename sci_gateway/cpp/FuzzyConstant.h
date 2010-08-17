@@ -8,12 +8,12 @@
 class __declspec( dllexport ) FuzzyConstant
 {
 public:
-    FuzzyConstant();    
+    FuzzyConstant();
     FuzzyConstant(QString str, FMB fuzzyMetaBase);
 
     int type;
     double* data;
-	QList<QString> labels;
+    QList<QString> labels;
 };
 
 #endif // FUZZYOBJECTTYPE2_H

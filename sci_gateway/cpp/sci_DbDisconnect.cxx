@@ -9,28 +9,28 @@
 #include "sci_db.h"
 /* ==================================================================== */
 
-extern "C" 
+extern "C"
 {
-	int sci_DbDisconnect(char *fname)
-	{
-		QSqlDatabase *db;
+    int sci_DbDisconnect(char *fname)
+    {
+        QSqlDatabase *db;
 
-		CheckRhs(0,1);
-		CheckLhs(0,1);
+        CheckRhs(0,1);
+        CheckLhs(0,1);
 
-		if(Rhs==1)
-		{
-			getDatabaseParam(fname, 1, &db);
-		}
-		else
-		{
-			db = &QSqlDatabase::database(sDefaultConnection);
-		}		
+        if(Rhs==1)
+        {
+            getDatabaseParam(fname, 1, &db);
+        }
+        else
+        {
+            db = &QSqlDatabase::database(sDefaultConnection);
+        }
 
-		db->close();
-		
-		return 0;
-	}
-/* ==================================================================== */	
+        db->close();
+
+        return 0;
+    }
+/* ==================================================================== */
 } /* extern "C" */
 /* ==================================================================== */
