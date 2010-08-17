@@ -79,11 +79,11 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-      DbFuzzyCreate(...)
-    </literal>
+          <literal>
+            DbFuzzyCreate(...)
+          </literal>
           Creates a fuzzy object in a local FMB copy and in a database
-        </para>		
+        </para>
     </refsection>
 
     <!-- ===================================================================== -->
@@ -92,27 +92,27 @@
 
     <refsection>
         <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+       <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyLoadFMB(); 
-    
-    fuzzyNearness = struct();
-    fuzzyNearness.col1 = 5;
-    fuzzyNearness.col2 = 6;
-    fuzzyNearness.degree = 0.7;
+DbConnect(connexionStruct);
 
-    //creating a fuzzy nearness object for columns 5 and 6 with degree 0.7    
-    DbFuzzyCreate(fuzzySQL, 'FNS', fuzzyNearness);
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyLoadFMB();
+
+fuzzyNearness = struct();
+fuzzyNearness.col1 = 5;
+fuzzyNearness.col2 = 6;
+fuzzyNearness.degree = 0.7;
+
+//creating a fuzzy nearness object for columns 5 and 6 with degree 0.7
+DbFuzzyCreate(fuzzySQL, 'FNS', fuzzyNearness);
     ]]></programlisting>
     </refsection>
 
@@ -126,8 +126,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+              DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyCreateFMB">
@@ -145,7 +145,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

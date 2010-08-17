@@ -71,15 +71,15 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-		DbFuzzyCreateFMB(...)
-		</literal>
-		Creates a set of tables in database, that represent a Fuzzy Meta Base and a set of
-    procedues (functions) that implement fuzzy math operations.
-    All fuzzy operations, including fuzzy queries and manipulations with fuzzy objects
-    are done not with a connection object but with a FuzzySQL object, that incapsulates
-    a connection to a database and local copy of Fuzzy Meta Base.
-        </para>		
+            <literal>
+                DbFuzzyCreateFMB(...)
+            </literal>
+            Creates a set of tables in database, that represent a Fuzzy Meta Base and a set of
+            procedues (functions) that implement fuzzy math operations.
+            All fuzzy operations, including fuzzy queries and manipulations with fuzzy objects
+            are done not with a connection object but with a FuzzySQL object, that incapsulates
+            a connection to a database and local copy of Fuzzy Meta Base.
+        </para>
     </refsection>
 
     <!-- ===================================================================== -->
@@ -87,21 +87,21 @@
     <!-- ===================================================================== -->
 
     <refsection>
-        <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <title>Examples</title>
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyCreateFMB();    
-    ]]></programlisting>
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyCreateFMB();
+        ]]></programlisting>
     </refsection>
 
 
@@ -114,8 +114,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyHasFMB">
@@ -133,7 +133,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

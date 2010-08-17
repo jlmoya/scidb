@@ -70,12 +70,12 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-      DbFuzzyHasFMB(...)
-    </literal>
-		Checkes whether a Fuzzy Meta Base exists in a databse. Returns true only if every table 
-    from FMB exists in database.
-        </para>		
+            <literal>
+            DbFuzzyHasFMB(...)
+            </literal>
+            Checkes whether a Fuzzy Meta Base exists in a databse. Returns true only if every table
+            from FMB exists in database.
+        </para>
     </refsection>
 
     <!-- ===================================================================== -->
@@ -84,19 +84,19 @@
 
     <refsection>
         <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyCreateFMB();    
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyCreateFMB();
     ]]></programlisting>
     </refsection>
 
@@ -110,8 +110,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyCreateFMB">
@@ -129,7 +129,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

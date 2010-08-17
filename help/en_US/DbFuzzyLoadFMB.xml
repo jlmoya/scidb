@@ -71,13 +71,13 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-		DbFuzzyLoadFMB(...)
-		</literal>
-		Loads a local copy of FMB from database, if it exists in the database. Returns a pointer
-    to FuzzySQL object, which may further be used for fuzzy queries and handling fuzzy objects.
-    Whether the FMB exists in a database, may be checked using DbFuzzyHasFMB() function.
-        </para>		
+            <literal>
+                DbFuzzyLoadFMB(...)
+            </literal>
+            Loads a local copy of FMB from database, if it exists in the database. Returns a pointer
+            to FuzzySQL object, which may further be used for fuzzy queries and handling fuzzy objects.
+            Whether the FMB exists in a database, may be checked using DbFuzzyHasFMB() function.
+        </para>
     </refsection>
 
     <!-- ===================================================================== -->
@@ -85,21 +85,21 @@
     <!-- ===================================================================== -->
 
     <refsection>
-        <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <title>Examples</title>
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyLoadFMB();    
-    ]]></programlisting>
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyLoadFMB();
+        ]]></programlisting>
     </refsection>
 
 
@@ -112,8 +112,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyHasFMB">
@@ -131,7 +131,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

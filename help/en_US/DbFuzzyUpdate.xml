@@ -79,11 +79,11 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-      DbFuzzyUpdate(...)
-    </literal>
-          Updates a fuzzy object in a local FMB copy and in a database
-        </para>		
+            <literal>
+                DbFuzzyUpdate(...)
+            </literal>
+            Updates a fuzzy object in a local FMB copy and in a database
+        </para>
     </refsection>
 
     <!-- ===================================================================== -->
@@ -91,26 +91,26 @@
     <!-- ===================================================================== -->
 
     <refsection>
-        <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <title>Examples</title>
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyCreateFMB(); 
-    
-    fuzzyCol = DbFuzzyGet(fuzzySQL, 'FCL', 2);
-    fuzzyCol.len = 5;
-    //updating FuzzyColumn (len field will be updated)
-    DbFuzzyUpdate(fuzzySQL, 'FCL', fuzzyCol);
-    ]]></programlisting>
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyCreateFMB();
+
+fuzzyCol = DbFuzzyGet(fuzzySQL, 'FCL', 2);
+fuzzyCol.len = 5;
+//updating FuzzyColumn (len field will be updated)
+DbFuzzyUpdate(fuzzySQL, 'FCL', fuzzyCol);
+        ]]></programlisting>
     </refsection>
 
 
@@ -123,8 +123,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyCreateFMB">
@@ -142,7 +142,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

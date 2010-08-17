@@ -49,8 +49,8 @@
                 <term>fuzzySQL</term>
                 <listitem>
                     <para>
-					FuzzySQL pointer object, returned by either DbFuzzyLoadFMB() or DbFuzzyCreateFMB() functions
-                    </para>					
+                        FuzzySQL pointer object, returned by either DbFuzzyLoadFMB() or DbFuzzyCreateFMB() functions
+                    </para>
                 </listitem>
             </varlistentry>
 
@@ -58,10 +58,14 @@
                 <term>objectIntId</term>
                 <listitem>
                     <para>
-					Each object is retrieved from collection by it's identifier. These identifiers may be either integer id's or objects names (not for all objects).                    
-          For exapmple, FuzzyTableInfo object can be returned by table id or by table name, FuzzyCol object can be retrieved by column id or by full column name
-          (including table name).
-          Some object require 2 identifiers: FuzzyNearnessDef - needs 2 column ids, FuzzyTableQuantifier - needs table id and quantifier name.
+                        Each object is retrieved from collection by it's identifier.
+                        These identifiers may be either integer id's or objects
+                        names (not for all objects). For example, FuzzyTableInfo
+                        object can be returned by table id or by table name,
+                        FuzzyCol object can be retrieved by column id or by full
+                        column name (including table name). Some object require
+                        2 identifiers: FuzzyNearnessDef - needs 2 column ids,
+                        FuzzyTableQuantifier - needs table id and quantifier name.
                     </para>
                 </listitem>
             </varlistentry>
@@ -71,8 +75,8 @@
                 <listitem>
                   <para>
                     A strign fuzzy object identifer.
-                  </para>							
-					      </listitem>
+                  </para>
+                </listitem>
             </varlistentry>
 
           <varlistentry>
@@ -95,13 +99,13 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-		DbConnect(...)
-		</literal>
-		Retrieves a fuzzy object of certain type from local copy of FMB. To use Fuzzy fucntions you first need to create a FuzzySQL pointer object.
-    This may be done by two functions: FuzzyCreateFMB() - if you wish to create fuzzy meta base on a database, where it is not yet present.
-    Or FuzzyLoadFMB() - if you would like to load a FMB from database from it's local copy.
-        </para>		
+            <literal>
+                DbConnect(...)
+            </literal>
+            Retrieves a fuzzy object of certain type from local copy of FMB. To use Fuzzy fucntions you first need to create a FuzzySQL pointer object.
+            This may be done by two functions: FuzzyCreateFMB() - if you wish to create fuzzy meta base on a database, where it is not yet present.
+            Or FuzzyLoadFMB() - if you would like to load a FMB from database from it's local copy.
+        </para>
     </refsection>
 
 
@@ -111,22 +115,22 @@
 
     <refsection>
         <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyLoadFMB();
-    
-    //Getting a fuzzy column object (FCL) with 'columnId'=2
-    fuzCol = DbFuzzyGet(fuzzySQL, 'FCL', 2);
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyLoadFMB();
+
+//Getting a fuzzy column object (FCL) with 'columnId'=2
+fuzCol = DbFuzzyGet(fuzzySQL, 'FCL', 2);
     ]]></programlisting>
     </refsection>
 
@@ -140,12 +144,12 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyCreateFMB">
-              DbFuzzyCreateFMB
+                DbFuzzyCreateFMB
             </link>
         </member>
         </simplelist>
@@ -159,7 +163,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 

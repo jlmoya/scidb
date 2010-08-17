@@ -46,8 +46,9 @@
                 <term>fuzzySQL</term>
                 <listitem>
                     <para>
-					FuzzySQL pointer object, returned by either DbFuzzyLoadFMB() or DbFuzzyCreateFMB() functions
-                    </para>					
+                        FuzzySQL pointer object, returned by either DbFuzzyLoadFMB()
+                        or DbFuzzyCreateFMB() functions
+                    </para>
                 </listitem>
             </varlistentry>
 
@@ -55,8 +56,8 @@
                 <term>queryString</term>
                 <listitem>
                     <para>
-                     A fuzzy query in FSQL language.
-			             </para>
+                        A fuzzy query in FSQL language.
+                    </para>
                 </listitem>
             </varlistentry>
         </variablelist>
@@ -69,15 +70,16 @@
     <refsection>
         <title>Description</title>
         <para>
-		<literal>
-		DbFuzzyQuery(...)
-		</literal>
-		Executes fuzzy query in a FSQL language. Returns resultHandle. The behavior is much the same as one of
-    DbQuery(...) function, but instead dbConnection object a FuzzySQL object is required, and a query is first 
-    translated to a raw SQL query from FSQL, and then executed, if it was correct (as for fuzzy object usage).
-  </para>		
+            <literal>
+                DbFuzzyQuery(...)
+            </literal>
+            Executes fuzzy query in a FSQL language. Returns resultHandle. The
+            behavior is much the same as one of DbQuery(...) function, but instead
+            dbConnection object a FuzzySQL object is required, and a query is first
+            translated to a raw SQL query from FSQL, and then executed, if it
+            was correct (as for fuzzy object usage).
+        </para>
     </refsection>
-
 
     <!-- ===================================================================== -->
     <!-- Examples -->
@@ -85,23 +87,23 @@
 
     <refsection>
         <title>Examples</title>       
-	   <programlisting role="example"><![CDATA[
-		// Opens a “PostgreSQL” connection with a structure
-		connexionStruct          = struct(); 
-		connexionStruct.provider = "postgresql";
-		connexionStruct.database = "myDataBase"; 
-		connexionStruct.hostname = "127.0.0.1" ; 
-		connexionStruct.use      = "myUsername"; 
-		connexionStruct.password = "myPassword"; 
+        <programlisting role="example"><![CDATA[
+// Opens a “PostgreSQL” connection with a structure
+connexionStruct          = struct();
+connexionStruct.provider = "postgresql";
+connexionStruct.database = "myDataBase";
+connexionStruct.hostname = "127.0.0.1" ;
+connexionStruct.use      = "myUsername";
+connexionStruct.password = "myPassword";
 
-		DbConnect(connexionStruct);
-    
-    //creating FuzzySQL object on default connection;
-    fuzzySQL = DbFuzzyLoadFMB();
-    
-    //Executing a fuzzy query in FSQL
-    resultHandle = DbFuzzyQuery(fuzzySQL, "SELECT * FROM Person WHERE Height FEQ $tall THOLD 0.7");
-    ]]></programlisting>
+DbConnect(connexionStruct);
+
+//creating FuzzySQL object on default connection;
+fuzzySQL = DbFuzzyLoadFMB();
+
+//Executing a fuzzy query in FSQL
+resultHandle = DbFuzzyQuery(fuzzySQL, "SELECT * FROM Person WHERE Height FEQ $tall THOLD 0.7");
+        ]]></programlisting>
     </refsection>
 
 
@@ -114,8 +116,8 @@
         <simplelist type="inline">
         <member>
             <link linkend="DbFuzzyLoadFMB">
-			DbFuzzyLoadFMB
-			</link>
+                DbFuzzyLoadFMB
+            </link>
         </member>
         <member>
             <link linkend="DbFuzzyCreateFMB">
@@ -133,7 +135,7 @@
     <refsection>
         <title>Authors</title>
         <simplelist type="vert">
-        <member>Igor GRIDCHYN</member>
+            <member>Igor GRIDCHYN</member>
         </simplelist>
     </refsection>
 
