@@ -2,6 +2,11 @@
 
 QMap<QString ,QString> functions;
 
+QString FuzzySQL::LastError()
+{
+	return _fmb.LastError();
+}
+
 QSqlDatabase *FuzzySQL::DataBase()
 {
 	return _dataBase;
@@ -666,29 +671,29 @@ void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
     QSqlQuery query(*db);
 
     query.exec("CREATE TABLE FUZZY_COL_LIST ("            
-            "col       integer,"
+            "obj integer,"
+			"col serial NOT NULL,"
             "F_TYPE         integer,"
             "LEN   integer,"
             "CODE_SIG        integer,"
-            "COLUMN_NAME         varchar(50),"
-            "COM varchar(50),"
-            "UM varchar(20)"
+            "COLUMN_NAME        character varying(50),"
+            "COM character varying(50),"
+            "UM character varying(20)"
         ");");
 
     query.exec("CREATE TABLE FUZZY_DEGREE_SIG ("
-               "CODE_SIG integer, "
-               "SIGNIFICANCE integer);"
+               "CODE_SIG serial NOT NULL, "
+               "SIGNIFICANCE character varying(50));"
                );
 
     query.exec("CREATE TABLE FUZZY_OBJECT_LIST ("
-                       "OBJ_COL integer,"
-                       "FUZZY_ID serial, "
-                       "FUZZY_NAME varchar(40), "
+                       "COL integer,"
+                       "FUZZY_ID serial NOT NULL, "
+                       "FUZZY_NAME character varying(40), "
                        "FUZZY_TYPE integer "
                     ");");
 
-    query.exec("CREATE TABLE FUZZY_LABEL_DEF ("               
-               "col integer, "
+    query.exec("CREATE TABLE FUZZY_LABEL_DEF ("                              
                "fuzzy_id integer,  "
                "alpha real, "
                "beta real, "
@@ -714,8 +719,7 @@ void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
                "col2 integer "
                ");");
 
-    query.exec("CREATE TABLE FUZZY_QUALIFIERS_DEF ("               
-               "col integer, "
+    query.exec("CREATE TABLE FUZZY_QUALIFIERS_DEF ("                              
                "fuzzy_id integer, "
                "QUALIFIER real "
                ");");
@@ -725,14 +729,15 @@ void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
                "col2 integer "
                ");");
 
-    query.exec("CREATE TABLE FUZZY_DEGREE_TABLE ("               
+    query.exec("CREATE TABLE FUZZY_DEGREE_TABLE (" 
+				"obj integer,"
                "col integer, "
-               "DEGREE_TYPE char"
+			   "DEGREE_TYPE character(1)"
                ");");
 
     query.exec("CREATE TABLE FUZZY_TABLE_QUANTIFIERS ("
                 "obj integer, "
-                "FUZZY_NAME varchar(20), "
+                "FUZZY_NAME character varying(20), "
                 "FUZZY_TYPE integer, "
                 "alpha real, "
                 "beta real, "
@@ -741,7 +746,7 @@ void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
                ");");
 
     query.exec("CREATE TABLE FUZZY_SYSTEM_QUANTIFIERS ("
-                "fuzzy_name varchar(20), "
+                "fuzzy_name character varying(20), "
                 "fuzzy_type integer, "
                 "alpha real, "
                 "beta real, "
@@ -751,14 +756,8 @@ void FuzzySQL::CreateFuzzyMetaBaseOnDataBase(QSqlDatabase *db)
 
     query.exec("CREATE TABLE FUZZY_META_TABLES ("
                "table_id integer, "
-               "name varchar(50) );"
-               );
-
-    query.exec("CREATE TABLE FUZZY_META_COLUMNS ("
-               "col_id integer, "
-               "table_id integer, "
-               "name varchar(50) );"
-               );
+               "\"name\" character varying(50) );"
+               ); 
 
     query.exec("CREATE OR REPLACE FUNCTION feq (\
    t1 numeric, \

@@ -18,6 +18,8 @@
 
 class __declspec( dllexport ) FMB 
 {
+	QString _lastError;
+
 public:
 	QMap<QString, FuzzyTableInfo*> _mFuzzyTablesByName;
 	QMap<int, FuzzyTableInfo*> _mFuzzyTables;
@@ -44,6 +46,8 @@ public:
 	QMap<int, QMap<QString, FuzzyObject*>*> _mFuzzyLabelsByColumn;
 			
 	QSqlDatabase *_db;
+
+	QString LastError();
 
 	///loadsinfo from tables and fills collections
 	void LoadFMB();
@@ -82,7 +86,7 @@ public:
 	void CreateTableMetaInfo(QString tableName);  
 	void CreateFuzzyCol(int tableId, int f_type, int len, int code_sig, 
 							  QString columnName, QString com, QString um);
-	void CreateFuzzyDegreeSig(int code_sig, QString significance);
+	void CreateFuzzyDegreeSig(QString significance);
 	void CreateFuzzyObject(int columnId, QString fuzzy_name, int fuzzy_type);
 	void CreateFuzzyLabelDef(int fuzzy_id, 
 		double alpha, double beta, double gamma, double delta);

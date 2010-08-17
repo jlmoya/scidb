@@ -31,9 +31,9 @@ scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbFuzzyGet"          , "sci_DbFuzzyGet"           ;
                 "DbFuzzyUpdate"       , "sci_DbFuzzyUpdate"        ;
                 "DbFuzzyDelete"       , "sci_DbFuzzyDelete"        ;
-                "DbFuzzyQuery"        , "sci_DbFuzzyQuery"         ];
-
-
+                "DbFuzzyQuery"        , "sci_DbFuzzyQuery"         ;
+                "DbFuzzyLastError"    , "sci_DbFuzzyLastError"     ;
+                "DbFuzzyHasFMB"       , "sci_DbFuzzyHasFMB"        ];
 
 scidb_files =  ["sci_db.cxx"                  ;
                 "sci_util.cpp"                ;
@@ -50,6 +50,7 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbInitDatabaseModule.cxx";
                 "sci_DbTables.cxx"            ;
                 "sci_DbAffectedRowsNumber.cxx";
+<<<<<<< HEAD
                 "sci_DbLastQueryError.cxx"    ;
                 "sci_DbLastInsertId.cxx"      ;
                 "sci_DbFirst.cxx"             ;
@@ -62,6 +63,8 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbFuzzyUpdate"           ;
                 "sci_DbFuzzyDelete"           ;
                 "sci_DbFuzzyQuery"            ;
+                "sci_DbFuzzyHasFMB"           ;
+                "sci_DbFuzzyLastError"        ;
                 "fuzzysql"                    ;
                 "FMB"                         ;
                 "FuzzyApproxMuch"             ;
@@ -81,7 +84,6 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "TreeTokenNode"               ];
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
-
 
 // Guess the platform
 

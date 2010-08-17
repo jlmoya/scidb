@@ -15,6 +15,7 @@ private:
 public:
 	QSqlDatabase * DataBase();
 	FMB *FuzzyMetaBase();
+	QString LastError();
 
     FuzzySQL();
 	FuzzySQL(QSqlDatabase *db);	

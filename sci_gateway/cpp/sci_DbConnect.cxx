@@ -8,8 +8,8 @@
 #include "sci_util.h"
 #include "sci_db.h"
 #include <stdio.h>
-#include <QtSql/sqldrivers/psql/qsql_psql.cpp>
-#include <QtSql/sqldrivers/mysql/qsql_mysql.cpp>
+//#include <QtSql/sqldrivers/psql/qsql_psql.cpp>
+//#include <QtSql/sqldrivers/mysql/qsql_mysql.cpp>
 //#include <QtSql\sqldrivers\sqlite\qsql_sqlite.cpp>
 //#include <QtSql/sqldrivers/ibase/qsql_ibase.cpp>
 //#include <QtSql\sqldrivers\odbc\qsql_odbc.cpp>
@@ -85,6 +85,10 @@ extern "C"
 				Scierror(999, "%s: Wrong value for input argument #1: At least a provider must be specified.\n", fname);						
 				return 0;
 			}
+
+			QString sProvider = qmConnParams.value("provider");
+			qmConnParams.remove("provider");
+			qmConnParams.insert("provider", "Q"+sProvider);
 
 			if(!lsProviders.contains(qmConnParams.value(QString("provider"))))
 			{
@@ -284,22 +288,22 @@ extern "C"
 				drv =  new QPSQLDriver(con);												
 			}	
 
-			if (!strcmp(provider, "QMYSQL"))
-			{
-				MYSQL *conn;
-				mysql_init(conn);
-				
-				mysql_real_connect(conn, 
-					sHost,
-					sUser,
-					sPassword,
-					sDb,
-					1234, //port
-					"socket",
-					12345);				 //client flag
+			//if (!strcmp(provider, "QMYSQL"))
+			//{
+			//	MYSQL *conn;
+			//	mysql_init(conn);
+			//	
+			//	mysql_real_connect(conn, 
+			//		sHost,
+			//		sUser,
+			//		sPassword,
+			//		sDb,
+			//		1234, //port
+			//		"socket",
+			//		12345);				 //client flag
 
-				drv = new QMYSQLDriver(conn);
-			}
+			//	drv = new QMYSQLDriver(conn);
+			//}
 
 			//if (!strcmp(provider, "QSQLITE"))
 			//{

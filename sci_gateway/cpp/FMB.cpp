@@ -1,5 +1,10 @@
 #include "FMB.h"
 
+QString FMB::LastError()
+{
+	return _lastError;
+}
+
 void FMB::LoadFMB()
 {
 	QSqlQuery qry = QSqlQuery("SELECT * FROM fuzzy_meta_tables", *_db);	
@@ -158,7 +163,8 @@ void FMB::SetDb(QSqlDatabase *pDb)
 int FMB::DeleteFuzzyTableInfo(int tableId)
 {
 	if(!_mFuzzyTables.contains(tableId))
-	{
+	{		
+		_lastError = "Table with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -169,10 +175,12 @@ int FMB::DeleteFuzzyTableInfo(int tableId)
 	if(qry.exec())
 	{
 		_mFuzzyTables.remove(tableId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove table info from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -181,6 +189,7 @@ int FMB::DeleteFuzzyTableInfo(QString name)
 {
 	if(!_mFuzzyTablesByName.contains(name))
 	{
+		_lastError = "Fuzzy table with given name is not present in the FMB";
 		return 1;
 	}
 
@@ -191,10 +200,12 @@ int FMB::DeleteFuzzyTableInfo(QString name)
 	if(qry.exec())
 	{
 		_mFuzzyTablesByName.remove(name);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove table info from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -203,6 +214,7 @@ int FMB::DeleteFuzzyColumn(int columnId)
 {
 	if(! _mFuzzyColumns.contains(columnId))
 	{
+		_lastError = "Fuzzy column with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -213,10 +225,12 @@ int FMB::DeleteFuzzyColumn(int columnId)
 	if(qry.exec())
 	{
 		_mFuzzyColumns.remove(columnId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy column from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -225,6 +239,7 @@ int FMB::DeleteFuzzyDegreeSig(int code_sig)
 {
 	if(! _mFuzzyDegreeSig.contains(code_sig))
 	{
+		_lastError = "Fuzzy degree signature with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -235,10 +250,12 @@ int FMB::DeleteFuzzyDegreeSig(int code_sig)
 	if(qry.exec())
 	{
 		_mFuzzyDegreeSig.remove(code_sig);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy degree signature from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -247,6 +264,7 @@ int FMB::DeleteFuzzyObject(int fuzzy_id)
 {
 	if(! _mFuzzyObjects.contains(fuzzy_id))
 	{
+		_lastError = "Fuzzy object with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -257,10 +275,12 @@ int FMB::DeleteFuzzyObject(int fuzzy_id)
 	if(qry.exec())
 	{
 		_mFuzzyObjects.remove(fuzzy_id);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy object from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -271,6 +291,7 @@ int FMB::DeleteFuzzyLabel(int fuzzy_id)
 {
 	if (! _mFuzzyLabels.contains(fuzzy_id))
 	{
+		_lastError = "Fuzzy label with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
@@ -282,10 +303,12 @@ int FMB::DeleteFuzzyLabel(int fuzzy_id)
 	if(qry.exec())
 	{
 		_mFuzzyLabels.remove(fuzzy_id);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy label from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}
 }
@@ -294,6 +317,7 @@ int FMB::DeleteFuzzyApproxMuch(int columnId)
 {
 	if (! _mFuzzyApproxMuch.contains(columnId) )
 	{
+		_lastError = "Fuzzy approximate and much info with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
@@ -304,10 +328,12 @@ int FMB::DeleteFuzzyApproxMuch(int columnId)
 	if(qry.exec())
 	{
 		_mFuzzyApproxMuch.remove(columnId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy approximate and much info from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -316,6 +342,7 @@ int FMB::DeleteFuzzyNearness(int fuzzyId1, int fuzzyId2)
 {
 	if (! _mFuzzyNearness.contains(fuzzyId1))
 	{
+		_lastError = "Fuzzy nearness definition with given fuzzy ids is not present in the FMB";
 		return 1;
 	}
 		
@@ -323,6 +350,7 @@ int FMB::DeleteFuzzyNearness(int fuzzyId1, int fuzzyId2)
 
 	if(! nMap->contains(fuzzyId2))
 	{
+		_lastError = "Fuzzy nearness definition with given fuzzy ids is not present in the FMB";
 		return 2;
 	}
 
@@ -334,10 +362,12 @@ int FMB::DeleteFuzzyNearness(int fuzzyId1, int fuzzyId2)
 	if(qry.exec())
 	{
 		nMap->remove(fuzzyId2);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy nearness definition from database: ", qry.lastError().text().toLatin1().data());
 		return 3;
 	}	
 }
@@ -346,11 +376,13 @@ int FMB::DeleteFuzzyCompatibleCol(int adapteeId, int adapterId)
 {
 	if(! _mFuzzyCompatibleColumnAdapters.contains(adapteeId))
 	{
+		_lastError = "Fuzzy compatible columns info with given column ids is not present in the FMB";
 		return 1;
 	}
 
 	if(!_mFuzzyCompatibleColumnAdapters.value(adapteeId)->contains(adapterId))
 	{
+		_lastError = "Fuzzy compatible columns info with given column ids is not present in the FMB";
 		return 2;
 	}
 
@@ -362,10 +394,12 @@ int FMB::DeleteFuzzyCompatibleCol(int adapteeId, int adapterId)
 	if(qry.exec())
 	{
 		_mFuzzyCompatibleColumnAdapters.value(adapteeId)->removeAll(adapterId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy compatible columns info from database: ", qry.lastError().text().toLatin1().data());
 		return 3;
 	}	
 }
@@ -374,6 +408,7 @@ int FMB::DeleteFuzzyQualifier(int fuzzyId)
 {
 	if(! _mFuzzyQualifiers.contains(fuzzyId))
 	{
+		_lastError = "Fuzzy qualifier with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
@@ -384,10 +419,12 @@ int FMB::DeleteFuzzyQualifier(int fuzzyId)
 	if(qry.exec())
 	{
 		_mFuzzyQualifiers.remove(fuzzyId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy qualifier from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -396,6 +433,7 @@ int FMB::DeleteFuzzyDegreeCol(int columnId)
 {
 	if(! _mFuzzyDegreeCols.contains(columnId))
 	{
+		_lastError = "Fuzzy degree col info with given column id is not present in the FMB";
 		return 1;
 	}
 
@@ -406,10 +444,12 @@ int FMB::DeleteFuzzyDegreeCol(int columnId)
 	if(qry.exec())
 	{
 		_mFuzzyDegreeCols.remove(columnId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy degree column info from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -418,6 +458,7 @@ int FMB::DeleteFuzzyDegreeTable(int tableId)
 {
 	if(! _mFuzzyDegreeTables.contains(tableId))
 	{
+		_lastError = "Fuzzy degree table info with given column id is not present in the FMB";
 		return 1;
 	}
 
@@ -428,10 +469,12 @@ int FMB::DeleteFuzzyDegreeTable(int tableId)
 	if(qry.exec())
 	{
 		_mFuzzyDegreeCols.remove(tableId);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy degree table info from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -440,11 +483,13 @@ int FMB::DeleteFuzzyTableQuantifier(int tableId, QString fuzzyName)
 {
 	if(! _mFuzzyTableQuantifiers.contains(tableId))
 	{
+		_lastError = "Fuzzy table quantifers with given table id are not present in the FMB";
 		return 1;
 	}
 
 	if(! _mFuzzyTableQuantifiers.value(tableId)->contains(fuzzyName))
 	{
+		_lastError = "Fuzzy table quantifers with given name is not present in the quantifers collection for table with given table id";
 		return 2;
 	}
 
@@ -456,10 +501,12 @@ int FMB::DeleteFuzzyTableQuantifier(int tableId, QString fuzzyName)
 	if(qry.exec())
 	{
 		_mFuzzyTableQuantifiers.value(tableId)->remove(fuzzyName);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy table quantifier from database: ", qry.lastError().text().toLatin1().data());
 		return 3;
 	}	
 }
@@ -468,6 +515,7 @@ int FMB::DeleteFuzzySystemQuantifier(QString fuzzy_name)
 {
 	if(! _mFuzzySystemQuantifiers.contains(fuzzy_name))
 	{
+		_lastError = "Fuzzy system quantifers with given name is not present in the FMB";
 		return 1;
 	}
 
@@ -478,10 +526,12 @@ int FMB::DeleteFuzzySystemQuantifier(QString fuzzy_name)
 	if(qry.exec())
 	{
 		_mFuzzySystemQuantifiers.remove(fuzzy_name);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not remove fuzzy system quantifier from database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}
 }
@@ -490,6 +540,7 @@ int FMB::UpdateFuzzyTableInfo(FuzzyTableInfo fTInfo)
 {
 	if(!_mFuzzyTables.contains(fTInfo.tableId()))
 	{
+		_lastError = "Fuzzy table with given name is not present in the FMB";
 		return 1;
 	}
 
@@ -506,10 +557,12 @@ int FMB::UpdateFuzzyTableInfo(FuzzyTableInfo fTInfo)
 
 		_mFuzzyTablesByName.insert(fTInfo.name(), &fTInfo);
 		_mFuzzyTables.insert(fTInfo.tableId(), &fTInfo);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update table info in database: ", qry.lastError().text().toLatin1().data());		
 		return 2;
 	}		
 }
@@ -518,6 +571,7 @@ int FMB::UpdateFuzzyColumn(FuzzyCol col)
 {
 	if(! _mFuzzyColumns.contains(col.columnId()))
 	{
+		_lastError = "Fuzzy column with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -543,10 +597,12 @@ int FMB::UpdateFuzzyColumn(FuzzyCol col)
 
 		_mFuzzyColumns.insert(col.columnId(), &col);
 
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy column in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -554,6 +610,7 @@ int FMB::UpdateFuzzyDegreeSig(FuzzyDegreeSig fDegSig)
 {
 	if(! _mFuzzyDegreeSig.contains(fDegSig.codeSig()))
 	{
+		_lastError = "Fuzzy degree signature with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -565,10 +622,12 @@ int FMB::UpdateFuzzyDegreeSig(FuzzyDegreeSig fDegSig)
 	if(qry.exec())
 	{
 		_mFuzzyDegreeSig.insert(fDegSig.codeSig(), &fDegSig);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy degree signature in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -576,6 +635,7 @@ int FMB::UpdateFuzzyObject(FuzzyObject fObj)
 {
 	if(! _mFuzzyObjects.contains(fObj.fuzzyId()))
 	{
+		_lastError = "Fuzzy object with given id is not present in the FMB";
 		return 1;
 	}
 
@@ -595,10 +655,12 @@ int FMB::UpdateFuzzyObject(FuzzyObject fObj)
 
 		_mFuzzyObjects.insert(fObj.fuzzyId(), &fObj);
 		
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy object in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -606,6 +668,7 @@ int FMB::UpdateFuzzyLabel(FuzzyLabel fLabel)
 {
 	if (! _mFuzzyLabels.contains(fLabel.fuzzyId()))
 	{
+		_lastError = "Fuzzy lable with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 	
@@ -624,10 +687,12 @@ int FMB::UpdateFuzzyLabel(FuzzyLabel fLabel)
 
 		lAltered->SetValues(fLabel.alpha(), fLabel.beta(), fLabel.gamma(), fLabel.delta());
 
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy label in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}
 }
@@ -635,6 +700,7 @@ int FMB::UpdateFuzzyApproxMuch(FuzzyApproxMuch fApprox)
 {
 	if (! _mFuzzyApproxMuch.contains(fApprox.columnId()) )
 	{
+		_lastError = "Fuzzy approximate and much into with given column id is not present in the FMB";
 		return 1;
 	}
 
@@ -647,10 +713,12 @@ int FMB::UpdateFuzzyApproxMuch(FuzzyApproxMuch fApprox)
 	if(qry.exec())
 	{
 		_mFuzzyApproxMuch.insert(fApprox.columnId(), &fApprox);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy approximate and much info in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}		
 }
@@ -658,6 +726,7 @@ int FMB::UpdateFuzzyNearness(FuzzyNearness fNns)
 {
 	if (! _mFuzzyNearness.contains(fNns.fuzzyId1()))
 	{
+		_lastError = "Fuzzy nearness info for given column ids is not present in the FMB";
 		return 1;
 	}
 		
@@ -665,6 +734,7 @@ int FMB::UpdateFuzzyNearness(FuzzyNearness fNns)
 
 	if(! nMap->contains(fNns.fuzzyId2()))
 	{
+		_lastError = "Fuzzy nearness info for given column ids is not present in the FMB";
 		return 2;
 	}
 
@@ -677,10 +747,12 @@ int FMB::UpdateFuzzyNearness(FuzzyNearness fNns)
 	if(qry.exec())
 	{
 		nMap->insert(fNns.fuzzyId2(), &fNns);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy nearness definition in database: ", qry.lastError().text().toLatin1().data());
 		return 3;
 	}	
 }
@@ -689,6 +761,7 @@ int FMB::UpdateFuzzyQualifier(FuzzyQualifier fQualif)
 {
 	if(! _mFuzzyQualifiers.contains(fQualif.fuzzyId()))
 	{
+		_lastError = "Fuzzy qualifier with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
@@ -700,10 +773,12 @@ int FMB::UpdateFuzzyQualifier(FuzzyQualifier fQualif)
 	if(qry.exec())
 	{
 		_mFuzzyQualifiers.insert(fQualif.fuzzyId(), &fQualif);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy qualifier in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}	
 }
@@ -712,11 +787,13 @@ int FMB::UpdateFuzzyTableQuantifier(FuzzyTableQuantifier fTableQuantif)
 {
 	if(! _mFuzzyTableQuantifiers.contains(fTableQuantif.tableId()))
 	{
+		_lastError = "Fuzzy table quantifer with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
 	if(! _mFuzzyTableQuantifiers.value(fTableQuantif.tableId())->contains(fTableQuantif.fuzzyName()))
 	{
+		_lastError = "Fuzzy table quantifer with given name is not present in the collection of fuzzy quantifers of table with given table id";
 		return 2;
 	}
 
@@ -735,10 +812,12 @@ int FMB::UpdateFuzzyTableQuantifier(FuzzyTableQuantifier fTableQuantif)
 	if(qry.exec())
 	{
 		_mFuzzyTableQuantifiers.value(fTableQuantif.tableId())->insert(fTableQuantif.fuzzyName(), &fTableQuantif);
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy table quantifer in database: ", qry.lastError().text().toLatin1().data());
 		return 3;
 	}	
 }
@@ -746,6 +825,7 @@ int FMB::UpdateFuzzySystemQuantifier(FuzzySystemQuantifier fSystemQuantif)
 {
 	if(! _mFuzzySystemQuantifiers.contains(fSystemQuantif.fuzzyName()))
 	{
+		_lastError = "Fuzzy system quantifier with given fuzzy id is not present in the FMB";
 		return 1;
 	}
 
@@ -763,86 +843,186 @@ int FMB::UpdateFuzzySystemQuantifier(FuzzySystemQuantifier fSystemQuantif)
 	if(qry.exec())
 	{
 		_mFuzzySystemQuantifiers.remove(fSystemQuantif.fuzzyName());
+		_lastError = "";
 		return 0;
 	}
 	else
 	{
+		_lastError = strcat("Could not update fuzzy system quantifer in database: ", qry.lastError().text().toLatin1().data());
 		return 2;
 	}
 }	
 FuzzyTableInfo* FMB::GetFuzzyTableInfo(QString tableName)
 {
-	return _mFuzzyTablesByName.value(tableName);
+	if (_mFuzzyTablesByName.contains(tableName))
+		return _mFuzzyTablesByName.value(tableName);
+	else
+	{
+		_lastError = "Fuzzy table with given name is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyTableInfo* FMB::GetFuzzyTableInfo(int tableId)
 {
-	return _mFuzzyTables.value(tableId);
+	if (_mFuzzyTables.contains(tableId))
+		return _mFuzzyTables.value(tableId);
+	else
+	{
+		_lastError = "Fuzzy table with given table id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyCol* FMB::GetFuzzyCol(int columnId)
 {
-	return _mFuzzyColumns.value(columnId);
+	if (_mFuzzyColumns.contains(columnId))
+		return _mFuzzyColumns.value(columnId);
+	else
+	{
+		_lastError = "Fuzzy column with given column id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyCol* FMB::GetFuzzyCol(QString columnName)
 {
-	return _mFuzzyColumnsByName.value(columnName);
+	if (_mFuzzyColumnsByName.contains(columnName))
+		return _mFuzzyColumnsByName.value(columnName);
+	else
+	{
+		_lastError = "Fuzzy column with given column name is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyDegreeSig* FMB::GetFuzzyDegreeSig(int codeSig)
 {
-	return _mFuzzyDegreeSig.value(codeSig);
+	if (_mFuzzyDegreeSig.contains(codeSig))
+		return _mFuzzyDegreeSig.value(codeSig);
+	else
+	{
+		_lastError = "Fuzzy degree significance with given significance code is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyObject* FMB::GetFuzzyObject(int fuzzyId)
 {
-	return _mFuzzyObjects.value(fuzzyId);
+	if (_mFuzzyObjects.contains(fuzzyId))
+		return _mFuzzyObjects.value(fuzzyId);
+	else
+	{
+		_lastError = "Fuzzy object with given fuzzy id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyObject* FMB::GetFuzzyObject(QString fuzzyName)
 {
-	return _mFuzzyObjectsByName.value(fuzzyName);
+	if (_mFuzzyObjectsByName.contains(fuzzyName))
+		return _mFuzzyObjectsByName.value(fuzzyName);
+	else
+	{
+		_lastError = "Fuzzy object with given name is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyLabel* FMB::GetFuzzyLabel(int fuzzyId)
 {
-	return _mFuzzyLabels.value(fuzzyId);
+	if (_mFuzzyLabels.contains(fuzzyId))
+		return _mFuzzyLabels.value(fuzzyId);
+	else
+	{
+		_lastError = "Fuzzy label with given fuzzy id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyLabel* FMB::GetFuzzyLabel(QString fuzzy_name)
 {
-	return _mFuzzyLabelsByName.value(fuzzy_name);
+	if (_mFuzzyLabelsByName.contains(fuzzy_name))
+		return _mFuzzyLabelsByName.value(fuzzy_name);
+	else
+	{
+		_lastError = "Fuzzy label with given name is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyApproxMuch* FMB::GetFuzzyApproxMuch(int columnId)
 {
-	printf("containts approx with key %d: %d", columnId, _mFuzzyApproxMuch.contains(columnId));
-
-	return _mFuzzyApproxMuch.value(columnId);
+	if (_mFuzzyApproxMuch.contains(columnId))
+		return _mFuzzyApproxMuch.value(columnId);
+	else
+	{
+		_lastError = "Fuzzy approximate and much info with given column id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyNearness* FMB::GetFuzzyNearness(int fuzzyId1, int fuzzyId2)
 {
+	if (_mFuzzyNearness.contains(fuzzyId1) && 
+		_mFuzzyNearness.value(fuzzyId1)->contains(fuzzyId2))
 	return _mFuzzyNearness.value(fuzzyId1)->value(fuzzyId2);
+	else
+	{
+		_lastError = "Fuzzy nearness for given fuzzy ids is not present in the FMB";
+		return NULL;
+	}
 }
 QList<int>* FMB::GetFuzzyCompatibleCols(int adapteeId)
 {
 	QList<int> *lAllColmatibleCols = new QList<int>();
-	lAllColmatibleCols->append(*_mFuzzyCompatibleColumnAdapters.value(adapteeId));
-	lAllColmatibleCols->append(*_mFuzzyCompatibleColumnAdaptees.value(adapteeId));
+	if (_mFuzzyCompatibleColumnAdaptees.contains(adapteeId))
+		lAllColmatibleCols->append(*_mFuzzyCompatibleColumnAdapters.value(adapteeId));
+	if (_mFuzzyCompatibleColumnAdaptees.contains(adapteeId))
+		lAllColmatibleCols->append(*_mFuzzyCompatibleColumnAdaptees.value(adapteeId));
 
 	return lAllColmatibleCols;
 }
 FuzzyQualifier* FMB::GetFuzzyQualifier(int fuzzyId)
 {
-	return _mFuzzyQualifiers.value(fuzzyId);
+	if (_mFuzzyQualifiers.contains(fuzzyId))
+		return _mFuzzyQualifiers.value(fuzzyId);
+	else
+	{
+		_lastError = "Fuzzy qualifier with given fuzzy ids is not present in the FMB";
+		return NULL;
+	}
 }
 int FMB::GetFuzzyDegreeCol(int columnId)
 {
-	return _mFuzzyDegreeCols.value(columnId);
+	if (_mFuzzyDegreeCols.contains(columnId))
+		return _mFuzzyDegreeCols.value(columnId);
+	else
+	{
+		_lastError = "Fuzzy degree column with given column id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyDegreeTable* FMB::GetFuzzyDegreeTable(int tableId)
 {
-	return _mFuzzyDegreeTables.value(tableId);
+	if (_mFuzzyDegreeTables.contains(tableId))
+		return _mFuzzyDegreeTables.value(tableId);
+	else
+	{
+		_lastError = "Fuzzy degree column for table with given table id is not present in the FMB";
+		return NULL;
+	}
 }
 FuzzyTableQuantifier* FMB::GetFuzzyTableQuantifier(int tableId, QString fuzzyName)
 {
-	return _mFuzzyTableQuantifiers.value(tableId)->value(fuzzyName);
+	if (_mFuzzyTableQuantifiers.contains(tableId) && _mFuzzyTableQuantifiers.value(tableId)->contains(fuzzyName))
+		return _mFuzzyTableQuantifiers.value(tableId)->value(fuzzyName);
+	else
+	{
+		_lastError = "Fuzzy table quantifer for given name and table id is not present in the FMB";
+		return NULL;
+	}
+	
 }
 FuzzySystemQuantifier* FMB::GetFuzzySystemQuantifier(QString fuzzyName)
 {
-	return _mFuzzySystemQuantifiers.value(fuzzyName);
+	if (_mFuzzySystemQuantifiers.contains(fuzzyName))
+		return _mFuzzySystemQuantifiers.value(fuzzyName);
+	else
+	{
+		_lastError = "Fuzzy system quantifer with given name is not present in the FMB";
+		return NULL;
+	}
 }
 
 
@@ -859,16 +1039,16 @@ QString FMB::ColumnIdQuery(QString table, QString columnName)
 
 void FMB::CreateTableMetaInfo(QString tableName)
 {
-    QSqlQuery query(*_db);
+	QSqlQuery query(*_db);
 
-    if(query.exec("INSERT INTO FUZZY_META_TABLES(\"name\") VALUES(\'" + tableName + "\') RETURNING table_id"))
+	if(query.exec("INSERT INTO FUZZY_META_TABLES(\"name\") VALUES(\'" + tableName + "\') RETURNING table_id"))
 	{
 		query.next();
 		_mFuzzyTables.insert(query.value(0).toInt(), &FuzzyTableInfo(query.value(0).toInt(), tableName));
 	}
 	else
 	{
-		printf(query.lastError().text().toLatin1().data());
+		_lastError = strcat("Could not create fuzzy table info in database: ", query.lastError().text().toLatin1().data());			
 	}
 }
 
@@ -890,19 +1070,27 @@ void FMB::CreateFuzzyCol(int tableId, int f_type, int len, int code_sig,
 		 query.next();
 		 _mFuzzyColumns.insert(query.value(0).toInt(), &FuzzyCol(tableId, query.value(0).toInt(), f_type, len, code_sig, columnName, com, um ));
 	 }
+	 else
+	{
+		_lastError = strcat("Could not create fuzzy column info in database: ", query.lastError().text().toLatin1().data());			
+	}
 }
 
-void FMB::CreateFuzzyDegreeSig(int code_sig, QString significance)
+void FMB::CreateFuzzyDegreeSig(QString significance)
 {
 	 QSqlQuery query(*_db);
-     query.prepare("INSERT INTO FUZZY_DEGREE_SIG "
-		 "VALUES (:code_sig, :significance)");
-     query.bindValue(":code_sig", code_sig);
+     query.prepare("INSERT INTO FUZZY_DEGREE_SIG(significance) "
+		 "VALUES (:significance) RETURNING code_sig");     
      query.bindValue(":significance", significance);
      if(query.exec())
 	 {
-		 _mFuzzyDegreeSig.insert(code_sig, &FuzzyDegreeSig(code_sig, significance));
+		 query.next();
+		 _mFuzzyDegreeSig.insert(query.value(0).toInt(), &FuzzyDegreeSig(query.value(0).toInt(), significance));
 	 }
+	 	else
+	{
+		_lastError = strcat("Could not create fuzzy table info in database: ", query.lastError().text().toLatin1().data());			
+	}
 }
 
 void FMB::CreateFuzzyObject(int columnId, QString fuzzy_name, int fuzzy_type)
@@ -918,6 +1106,10 @@ void FMB::CreateFuzzyObject(int columnId, QString fuzzy_name, int fuzzy_type)
 		 query.next();
 		 _mFuzzyObjects.insert(query.value(0).toInt(), &FuzzyObject(columnId, query.value(0).toInt(), fuzzy_name, fuzzy_type));
 	 }
+	 else
+	{
+		_lastError = strcat("Could not create fuzzy object info in database: ", query.lastError().text().toLatin1().data());			
+	}
 }
 
 void FMB::CreateFuzzyLabelDef(int fuzzy_id, 
@@ -944,6 +1136,10 @@ void FMB::CreateFuzzyLabelDef(int fuzzy_id,
 		 _mFuzzyLabels.insert(fuzzy_id, &fLab);
 		 _mFuzzyLabelsByName.insert(fLabObj->fuzzyName(), &fLab);		 
 	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy label in database: ", query.lastError().text().toLatin1().data());			
+	 }
 }
 
 void FMB::CreateFuzzyApproxMuch(int columnId, double margin, double much)
@@ -957,6 +1153,10 @@ void FMB::CreateFuzzyApproxMuch(int columnId, double margin, double much)
      if(query.exec())
 	 {
 		_mFuzzyApproxMuch.insert(columnId, &FuzzyApproxMuch(columnId, margin, much));
+	 }
+	 	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy approx much info in database: ", query.lastError().text().toLatin1().data());			
 	 }
 }
 
@@ -977,6 +1177,10 @@ void FMB::CreateFuzzyNearness( int fuzzy_id1, int fuzzy_id2,
 		 }
 
 		 _mFuzzyNearness.value(fuzzy_id1)->insert(fuzzy_id2, &FuzzyNearness(fuzzy_id1, fuzzy_id2, degree));
+	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy nearness in database: ", query.lastError().text().toLatin1().data());			
 	 }
 }
 
@@ -1005,6 +1209,10 @@ void FMB::CreateFuzzyCompatibleCol(int col1, int col2)
 
 		 _mFuzzyCompatibleColumnAdapters.value(col1)->append(col2);
 	 }
+	  else
+	 {
+		 _lastError = strcat("Could not create fuzzy compatible columns in database: ", query.lastError().text().toLatin1().data());			
+	 }
 }
 
 void FMB::CreateFuzzyQualifier(int fuzzy_id, double qualifier)
@@ -1018,6 +1226,10 @@ void FMB::CreateFuzzyQualifier(int fuzzy_id, double qualifier)
      if(query.exec())
 	 {
 		 _mFuzzyQualifiers.insert(fuzzy_id, &FuzzyQualifier(fuzzy_id, qualifier));
+	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy qualifier in database: ", query.lastError().text().toLatin1().data());			
 	 }
 }
 
@@ -1033,6 +1245,10 @@ void FMB::CreateFuzzyDegreeCol(int col1, int col2)
 	 {
 		 _mFuzzyDegreeCols.insert(col1, col2);
 	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy degree column in database: ", query.lastError().text().toLatin1().data());			
+	 }
 }
 
 void FMB::CreateFuzzyDegreeTable(int tableId, int columnId, QChar degree_type)
@@ -1046,6 +1262,10 @@ void FMB::CreateFuzzyDegreeTable(int tableId, int columnId, QChar degree_type)
      if(query.exec())
 	 {
 		 _mFuzzyDegreeTables.insert(tableId, &FuzzyDegreeTable(tableId, columnId, degree_type));
+	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy degree for table in database: ", query.lastError().text().toLatin1().data());			
 	 }
 }
 
@@ -1070,6 +1290,10 @@ void FMB::CreateFuzzyTableQuantifier(int tableId, QString fuzzy_name, int fuzzy_
 		 }
 		 _mFuzzyTableQuantifiers.value(tableId)->insert(fuzzy_name, &FuzzyTableQuantifier(tableId, fuzzy_name, fuzzy_type, alpha, beta, gamma, delta));
 	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy table quantifier in database: ", query.lastError().text().toLatin1().data());			
+	 }
 }
 
 void FMB::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, double alpha,
@@ -1087,6 +1311,10 @@ void FMB::CreateFuzzySystemQuantifier(QString fuzzy_name, int fuzzy_type, double
      if(query.exec())
 	 {
 		 _mFuzzySystemQuantifiers.insert(fuzzy_name, &FuzzySystemQuantifier(fuzzy_name, fuzzy_type, alpha, beta, gamma, delta));
+	 }
+	 else
+	 {
+		 _lastError = strcat("Could not create fuzzy system quantifier in database: ", query.lastError().text().toLatin1().data());			
 	 }
 }
 

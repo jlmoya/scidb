@@ -17,7 +17,10 @@ extern "C"
 		CheckRhs(1,1);
 		CheckLhs(0,1);
 
-		sciGetQSqlQueryAt(fname, 1, &psqQuery);
+		if(sciGetQSqlQueryAt(fname, 1, &psqQuery) > 0)
+		{
+			return 0;
+		}
 
 		if(!psqQuery->isActive())
 		{

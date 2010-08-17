@@ -90,7 +90,7 @@ extern "C"
 		}else if (!strcmp(sObjectType, "FDS"))
 		{
 			FuzzyDegreeSig fDegSig(mValues);
-			fsql->FuzzyMetaBase()->CreateFuzzyDegreeSig(fDegSig.codeSig(), fDegSig.significance());
+			fsql->FuzzyMetaBase()->CreateFuzzyDegreeSig(fDegSig.significance());
 		}
 		else
 		{
