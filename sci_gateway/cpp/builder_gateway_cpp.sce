@@ -9,6 +9,11 @@
 
 //ilib_verbose(2);
 
+WINDOWS  = (strcmpi(getos(),"windows") == 0);
+MACOSX   = (strcmpi(getos(),"darwin" ) == 0);
+LINUX    = (strcmpi(getos(),"linux"  ) == 0);
+
+
 scidb_names =  ["DbConnect"           , "sci_DbConnect"            ;
                 "DbDisconnect"        , "sci_DbDisconnect"         ;
                 "DbQuery"             , "sci_DbQuery"              ;
@@ -55,32 +60,37 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbFirst.cxx"             ;
                 "sci_db.h"                    ;
                 "sci_util.h"                  ;
-                "sci_DbFuzzyCreateFMB"        ;
-                "sci_DbFuzzyLoadFMB"          ;
-                "sci_DbFuzzyCreate"           ;
-                "sci_DbFuzzyGet"              ;
-                "sci_DbFuzzyUpdate"           ;
-                "sci_DbFuzzyDelete"           ;
-                "sci_DbFuzzyQuery"            ;
-                "sci_DbFuzzyHasFMB"           ;
-                "sci_DbFuzzyLastError"        ;
-                "fuzzysql"                    ;
-                "FMB"                         ;
-                "FuzzyApproxMuch"             ;
-                "FuzzyCol"                    ;
-                "FuzzyCompatibleCol"          ;
-                "FuzzyConstant"               ;
-                "FuzzyDegreeCol"              ;
-                "FuzzyDegreeSig"              ;
-                "FuzzyDegreeTable"            ;
-                "FuzzyLabel"                  ;
-                "FuzzyNearness"               ;
-                "FuzzyObject"                 ;
-                "FuzzyQualifier"              ;
-                "FuzzySystemQuantifier"       ;
-                "FuzzyTableQuantifier"        ;
-                "FuzzyTableInfo"              ;
-                "TreeTokenNode"               ];
+                "sci_DbFuzzyCreateFMB.cpp"        ;
+                "sci_DbFuzzyLoadFMB.cpp"          ;
+                "sci_DbFuzzyCreate.cpp"           ;
+                "sci_DbFuzzyGet.cpp"              ;
+                "sci_DbFuzzyUpdate.cpp"           ;
+                "sci_DbFuzzyDelete.cpp"           ;
+                "sci_DbFuzzyQuery.cpp"            ;
+                "sci_DbFuzzyHasFMB.cpp"           ;
+                "sci_DbFuzzyLastError.cpp"        ;
+                "fuzzysql.cpp"                    ;
+                "FMB.cpp"                         ;
+                "FuzzyApproxMuch.cpp"             ;
+                "FuzzyCol.cpp"                    ;
+                "FuzzyCompatibleCol.cpp"          ;
+                "FuzzyConstant.cpp"               ;
+                "FuzzyDegreeCol.cpp"              ;
+                "FuzzyDegreeSig.cpp"              ;
+                "FuzzyDegreeTable.cpp"            ;
+                "FuzzyLabel.cpp"                  ;
+                "FuzzyNearness.cpp"               ;
+                "FuzzyObject.cpp"                 ;
+                "FuzzyQualifier.cpp"              ;
+                "FuzzySystemQuantifier.cpp"       ;
+                "FuzzyTableQuantifier.cpp"        ;
+                "FuzzyTableInfo.cpp"              ;
+                "TreeTokenNode.cpp"               ];
+
+if WINDOWS then
+  scidb_files = [scidb_files; "dllMainScidb.c"];
+end
+                
 
 scidb_gateway_path = get_absolute_file_path("builder_gateway_cpp.sce");
 
@@ -97,28 +107,8 @@ end
 
 OSNAME = convstr(getos(),"l");
 
-WINDOWS  = (strcmpi(getos(),"windows") == 0);
-MACOSX   = (strcmpi(getos(),"darwin" ) == 0);
-LINUX    = (strcmpi(getos(),"linux"  ) == 0);
 
-if WINDOWS then
-
-  QT_libs = [ "../../Qt/lib/windows"+ARCH+"/libpq"     ;
-              "../../Qt/lib/windows"+ARCH+"/sqlite"    ;
-              "../../Qt/lib/windows"+ARCH+"/sqlite3"   ;
-              "../../Qt/lib/windows"+ARCH+"/QtCore4"   ;
-              "../../Qt/lib/windows"+ARCH+"/QtSql4"    ;
-              "../../Qt/lib/windows"+ARCH+"/qsqlpsql4" ;
-              "../../Qt/lib/windows"+ARCH+"/qsqlite4"  ;
-              "../../Qt/lib/windows"+ARCH+"/qsqlodbc4" ;
-              "../../Qt/lib/windows"+ARCH+"/qsqlsite24";
-              "../../Qt/lib/windows"+ARCH+"/qsqldb24"  ;
-              "../../Qt/lib/windows"+ARCH+"/qsqloci4"  ;
-              "../../Qt/lib/windows"+ARCH+"/qsqlibase4";
-              "../../Qt/lib/windows"+ARCH+"/qsqlmysql4"];
-
-
-elseif LINUX then
+if ~WINDOWS then
 
   QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
               "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
@@ -133,9 +123,15 @@ elseif LINUX then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
+else
+  QT_libs = [];
+end
 
 if getos() == "Windows" then
-    QT_includes = "-I""" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include""";
+    pathQtInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include");
+    pathQtCoreInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include/QtCore");
+    pathQtSqlInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include/QtSql");
+    QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ ";
 else
     QT_includes = "-I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include";
 end

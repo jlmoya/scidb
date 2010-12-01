@@ -1,1 +1,7 @@
 *~
+*.bak
+Release/
+sci_gateway/cpp/loader.sce
+sci_gateway/cpp/scidb.sce
+loader.sce
+*.mak
