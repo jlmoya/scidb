@@ -285,11 +285,11 @@ extern "C"
                 }
             }
 
-            if(!strcmp(provider, "QPSQL"))
-            {
-                PGconn *con = PQconnectdb(connStr);
-                drv =  new QPSQLDriver(con);
-            }
+            // if(!strcmp(provider, "QPSQL"))
+            // {
+                // PGconn *con = PQconnectdb(connStr);
+                // drv =  new QPSQLDriver(con);
+            // }
 
             //if (!strcmp(provider, "QMYSQL"))
             //{

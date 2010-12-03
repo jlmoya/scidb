@@ -59,7 +59,7 @@ scidb_files =  ["sci_db.cxx"                  ;
                 "sci_DbLastInsertId.cxx"      ;
                 "sci_DbFirst.cxx"             ;
                 "sci_db.h"                    ;
-                "sci_util.h"                  ;
+                "sci_util.h"                  ;				 
                 "sci_DbFuzzyCreateFMB.cpp"        ;
                 "sci_DbFuzzyLoadFMB.cpp"          ;
                 "sci_DbFuzzyCreate.cpp"           ;
@@ -118,7 +118,7 @@ if ~WINDOWS then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlsite2";
+              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite2";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";

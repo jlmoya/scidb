@@ -584,7 +584,6 @@ QString FuzzySQL::FSQL2SQL(QString queryString, QString *error)
     while(queryString.contains("CDEG("))
     {
         int iCdegStart = queryString.indexOf("CDEG(");
->>>>>>> bafed66... Translator FSQL->SQL, fixed CRUDs, constructors for fuzzy objects, Scilab gateways for fuzzy CRUDs and queries:sci_gateway/cpp/fuzzysql.cpp
 
         QString arg = getArgumentFrom(queryString, iCdegStart + 5);
 

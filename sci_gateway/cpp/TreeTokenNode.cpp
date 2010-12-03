@@ -9,7 +9,6 @@
  *
  */
 
-#include "stdafx.h"
 #include "TreeTokenNode.h"
 
 QString TreeTokenNode::Token()

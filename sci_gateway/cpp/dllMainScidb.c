@@ -29,7 +29,7 @@
 #pragma comment(lib, "../../Qt/lib/windows32/qsqlpsql4.lib")
 #pragma comment(lib, "../../Qt/lib/windows32/qsqlite4.lib")
 #pragma comment(lib, "../../Qt/lib/windows32/qsqlodbc4.lib")
-#pragma comment(lib, "../../Qt/lib/windows32/qsqlsite24.lib")
+#pragma comment(lib, "../../Qt/lib/windows32/qsqlite24.lib")
 #pragma comment(lib, "../../Qt/lib/windows32/qsqldb24.lib")
 #pragma comment(lib, "../../Qt/lib/windows32/qsqloci4.lib")
 #pragma comment(lib, "../../Qt/lib/windows32/qsqlibase4.lib")
