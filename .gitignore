@@ -5,3 +5,15 @@ sci_gateway/cpp/loader.sce
 sci_gateway/cpp/scidb.sce
 loader.sce
 *.mak
+*.def
+*.exp
+sci_gateway/cpp/scidb.c
+sci_gateway/cpp/scidb.dll
+sci_gateway/cpp/scidb.lib
+jar/
+cleaner.sce
+help/en_US/scilab_en_US_help/
+sci_gateway/cleaner_gateway.sce
+sci_gateway/loader_gateway.sce
+sci_gateway/cpp/cleaner.sce
+master_help.xml

@@ -12,6 +12,19 @@ etc_tlbx  = get_absolute_file_path("scidb.start");
 etc_tlbx  = getshortpathname(etc_tlbx);
 root_tlbx = strncpy( etc_tlbx, length(etc_tlbx)-length("\etc\") );
 
+// load external libraries
+// =============================================================================
+if getos() == "Windows" then
+  if win64() then
+    pathlib = root_tlbx + "/Qt/lib/windows64/";
+  else
+    pathlib = root_tlbx + "/Qt/lib/windows32/";
+  end
+  link(pathlib + "QtCore4.dll");
+  link(pathlib + "QtSql4.dll");
+  clear pathlib;
+end
+
 // load gateways
 // =============================================================================
 mprintf("\tLoad gateways\n");
@@ -32,10 +45,10 @@ end
 // Load demos
 // =============================================================================
 if or(getscilabmode() == ["NW";"STD"]) then
-	mprintf("\tLoad demos\n");
-	pathdemos = pathconvert(root_tlbx+"/demos/scidb.dem.gateway.sce",%F,%T);
-	add_demo("SciDb",pathdemos);
-	clear pathdemos add_demo;
+    mprintf("\tLoad demos\n");
+    pathdemos = pathconvert(root_tlbx+"/demos/scidb.dem.gateway.sce",%F,%T);
+    add_demo("SciDb",pathdemos);
+    clear pathdemos add_demo;
 end
 
 DbInitDatabaseModule();
