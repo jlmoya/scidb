@@ -24,11 +24,10 @@ extern "C"
 {
     int sci_DbFuzzyUpdate(char *fname)
     {
-        SciErr sciErr;
-        QSqlDatabase *db;
-        FuzzySQL *fsql;
-        char *sObjectType;
-        int *piListPosition;
+        QSqlDatabase *db = NULL;
+        FuzzySQL *fsql = NULL;
+        char *sObjectType = NULL;
+        int *piListPosition = NULL;
 
         CheckRhs(3,3);
         CheckLhs(0,1);

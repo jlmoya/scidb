@@ -26,7 +26,7 @@ extern "C"
     {
         SciErr sciErr;
         QSqlDatabase *db;
-        FuzzySQL *fsql;
+        FuzzySQL *fsql = NULL;
 
         CheckRhs(0,1);
         CheckLhs(0,1);

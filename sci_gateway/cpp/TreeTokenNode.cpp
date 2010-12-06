@@ -81,8 +81,10 @@ QString TreeTokenNode::CdegCall()
     if (_token == "OR")
     {
         return "min(" + _left->CdegCall() + ", " + _right->CdegCall() + ")";
-    }else if(_token == "AND")
+    }
+    else if(_token == "AND")
     {
         return "max(" + _left->CdegCall() + ", " + _right->CdegCall() + ")";
     }
+    return NULL;
 }

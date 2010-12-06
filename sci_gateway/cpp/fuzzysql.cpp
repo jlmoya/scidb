@@ -199,6 +199,8 @@ int FuzzySQL::OperandType(QString operand)
     return 0;
 }
 
+
+// TO DO : rewrite with a switch case !!!
 QList<QString> FuzzySQL::CallParameters(QString sArgument, int iArgType, QString marginAttribute)
 {
     QList<QString> args;
@@ -375,6 +377,7 @@ QList<QString> FuzzySQL::CallParameters(QString sArgument, int iArgType, QString
             return args;
         }
     }
+    return args;
 }
 
 QString FuzzySQL::GetFullColumnName(QString operand, QString query, int iOperandStartIndex)
@@ -453,14 +456,14 @@ QList<QString> SplitComa(QString expression)
 QString FuzzySQL::FSQL2SQL(QString queryString, QString *error)
 {
     //replacing fuzzy functions:
-    int *opInd;
+    int *opInd = NULL;
     QString functionCall = FuzzyOperatorCallReplacement(queryString, opInd);
     int iCdegCount = 0;
 
     //while there are fuzzy operator calls replace them
     while (*opInd > 0)
     {
-        int *leftStart, *rightEnd;
+        int *leftStart = NULL, *rightEnd = NULL;
 
         QString left = LeftOperand(queryString, *opInd, leftStart);
         QString right = RightOperand(queryString, *opInd + 3, rightEnd);
@@ -517,14 +520,14 @@ QString FuzzySQL::FSQL2SQL(QString queryString, QString *error)
 
         QString oper, value, replacement;
 
-        int *end1, *end2;
+        int *end1 = NULL, *end2 = NULL;
 
         QString next = NextWord(queryString, *rightEnd, end1);
 
         if (next == "THOLD")
         {
             next = NextWord(queryString, *end1, end2);
-            bool *res;
+            bool *res = NULL;
 
             double threshold = next.toDouble(res);
             if (*res)
@@ -539,7 +542,7 @@ QString FuzzySQL::FSQL2SQL(QString queryString, QString *error)
             oper = next;
 
              next = NextWord(queryString, *end1, end2);
-             bool *res;
+             bool *res = NULL;
 
              double threshold = next.toDouble(res);
              if (*res)
@@ -551,7 +554,7 @@ QString FuzzySQL::FSQL2SQL(QString queryString, QString *error)
         }
         else
         {
-            bool *res;
+            bool *res = NULL;
 
             double value = next.toDouble(res);
             if (*res)

@@ -24,8 +24,7 @@ extern "C"
 {
     int sci_DbFuzzyCreate(char *fname)
     {
-        SciErr sciErr;
-        QSqlDatabase *db;
+         QSqlDatabase *db = NULL;
         FuzzySQL *fsql;
         char *sObjectType;
         int *piListPosition;

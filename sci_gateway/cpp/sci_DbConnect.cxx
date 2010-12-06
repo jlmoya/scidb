@@ -186,8 +186,8 @@ extern "C"
                 Scierror(999, "Invalid connection string.");
             }
 
-            char *sUser, *sPassword, *sHost, *sDb;
-            int iPort, iSocket;
+            char *sUser = NULL, *sPassword = NULL, *sHost = NULL, *sDb = NULL;
+            int iPort = 0, iSocket = 0;
 
             //if(!strcmp(provider, "QPSQL"))
             //{

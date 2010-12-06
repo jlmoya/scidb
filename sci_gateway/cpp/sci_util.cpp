@@ -91,8 +91,8 @@ int getFSQLParam(char *fname, int iPos, FuzzySQL **fsql)
 
 int sciGetIntAt(char *fname, int iPos, int *piResult)
 {
-    int *piAddr;
-    void *pvPtr;
+    int *piAddr = NULL;
+    void *pvPtr = NULL;
     SciErr sciErr;
 
     sciErr = getVarAddressFromPosition(pvApiCtx, iPos, &piAddr);
@@ -102,10 +102,10 @@ int sciGetIntAt(char *fname, int iPos, int *piResult)
         return 0;
     }
 
-    int *piRows, *piCols;
-    double *dResult;
+    int piRows = 0, piCols = 0;
+    double *dResult = NULL;
 
-    sciErr = getMatrixOfDouble(pvApiCtx, piAddr, piRows, piCols, &dResult);
+    sciErr = getMatrixOfDouble(pvApiCtx, piAddr, &piRows, &piCols, &dResult);
     *piResult = (int)*dResult;
 
     if(sciErr.iErr)
@@ -413,6 +413,7 @@ int sciGetStringInList(char *fname, int *piListAddress, int iPos, char **psResul
     }
 
     *psResult = pstData[0];
+    return 0;
 }
 
 int sciGetStringAt(char *fname, int iPos, char **ppcResult)
@@ -646,4 +647,5 @@ int sciGetValuesMapFromStruct(char *fname, int *piListPos, QMap<QString, QVarian
                 break;
         }
     }
+    return 0;
 }

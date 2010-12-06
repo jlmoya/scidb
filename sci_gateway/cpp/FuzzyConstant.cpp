@@ -209,7 +209,7 @@ FuzzyConstant::FuzzyConstant(QString str, FMB fuzzyMetaBase)
         return;
     }
 
-    bool *res;
+    bool *res = NULL;
     double crisp = str.toDouble(res);
 
     if (*res)

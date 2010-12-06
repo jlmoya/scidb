@@ -25,8 +25,8 @@ extern "C"
     int sci_DbFuzzyLastError(char *fname)
     {
         SciErr sciErr;
-        QSqlDatabase *db;
-        FuzzySQL *fsql;
+        QSqlDatabase *db = NULL;
+        FuzzySQL *fsql = NULL;
 
         CheckRhs(1,1);
         CheckLhs(0,1);

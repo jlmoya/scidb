@@ -24,8 +24,7 @@ extern "C"
 {
     int sci_DbFuzzyDelete(char *fname)
     {
-        SciErr sciErr;
-        QSqlDatabase *db;
+        QSqlDatabase *db = NULL;
         FuzzySQL *fsql;
         char *pcObjectType;
         int iObjectId;
@@ -44,7 +43,7 @@ extern "C"
         {
             if (!strcmp(pcObjectType, "FSQ"))
             {
-                char **psObjectName;
+                char **psObjectName = NULL;
                 sciGetStringAt(fname, 3, psObjectName);
 
                 fsql->FuzzyMetaBase()->DeleteFuzzySystemQuantifier(*psObjectName);
@@ -97,7 +96,7 @@ extern "C"
         {
             if (!strcmp(pcObjectType, "FTQ"))
             {
-                char **psStringId;
+                char **psStringId = NULL;
                 sciGetStringAt(fname, 4, psStringId);
 
                 fsql->FuzzyMetaBase()->DeleteFuzzyTableQuantifier(iObjectId, *psStringId);

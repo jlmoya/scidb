@@ -24,10 +24,9 @@ extern "C"
 {
     int sci_DbFuzzyGet(char *fname)
     {
-        SciErr sciErr;
-        QSqlDatabase *db;
-        FuzzySQL *fsql;
-        char *pcObjectType;
+        QSqlDatabase *db = NULL;
+        FuzzySQL *fsql = NULL;
+        char *pcObjectType = NULL;
         int iObjectId;
 
         //arguments: FSQL-pointer, object type, {object id | object id1, object id2 (string or int) }
