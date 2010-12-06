@@ -1,7 +1,12 @@
-#include <QtCore/qmap>
-#include <QtCore/qvariant>
-#include <QtCore/qstringlist>
+#ifndef __QTINCLUDES_H__
+#define __QTINCLUDES_H__
 
-#include <QtSql/qsqlquery>
-#include <QtSql/qsqlrecord>
-#include <QtSql/qsqlerror>
+#include <QtCore/qmap.h>
+#include <QtCore/qvariant.h>
+#include <QtCore/qstringlist.h>
+
+#include <QtSql/qsqlquery.h>
+#include <QtSql/qsqlrecord.h>
+#include <QtSql/qsqlerror.h>
+
+#endif
