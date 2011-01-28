@@ -9,37 +9,41 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_TABLE_QUANTIFIER_H
+#define FUZZY_TABLE_QUANTIFIER_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyTableQuantifier
+class FSQL_EXPORT FuzzyTableQuantifier
 {
-    int _tableId;
+	int _tableId;
    QString _fuzzyName;
-    int _fuzzyType;
-    double _alpha, _beta, _gamma, _delta;
+	int _fuzzyType;
+	double _alpha, _beta, _gamma, _delta;
 
 public:
-    int tableId();
-    QString fuzzyName();
-    int fuzzyType();
+	int tableId();
+	QString fuzzyName();
+	int fuzzyType();
 
-    double alpha();
-    double beta();
-    double gamma();
-    double delta();
+	double alpha();
+	double beta();
+	double gamma();
+	double delta();
 
-    FuzzyTableQuantifier(QSqlQuery qry);
-    FuzzyTableQuantifier(    int tableId,
-                            QString fuzzyName,
-                            int fuzzyType,
-                            double alpha,
-                            double beta,
-                            double gamma,
-                            double delta);
-    FuzzyTableQuantifier(QMap<QString, QVariant> *mValues);
-    FuzzyTableQuantifier(void);
-    ~FuzzyTableQuantifier(void);
+	FuzzyTableQuantifier(QSqlQuery qry);
+	FuzzyTableQuantifier(	int tableId,
+							QString fuzzyName,
+							int fuzzyType,
+							double alpha, 
+							double beta, 
+							double gamma,
+							double delta);
+	FuzzyTableQuantifier(QMap<QString, QVariant> *mValues);
+	FuzzyTableQuantifier(void);
+	~FuzzyTableQuantifier(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_TABLE_QUANTIFIER_H

@@ -9,35 +9,39 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_SYSTEM_QUANTIFIER_H
+#define FUZZY_SYSTEM_QUANTIFIER_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzySystemQuantifier
+class FSQL_EXPORT FuzzySystemQuantifier
 {
-    QString _fuzzyName;
-    int _fuzzyType;
-    double _alpha, _beta, _gamma, _delta;
+	QString _fuzzyName;
+	int _fuzzyType;
+	double _alpha, _beta, _gamma, _delta;
 
 public:
 
-    QString fuzzyName();
-    int fuzzyType();
+	QString fuzzyName();
+	int fuzzyType();
 
-    double alpha();
-    double beta();
-    double gamma();
-    double delta();
+	double alpha();
+	double beta();
+	double gamma();
+	double delta();
 
-    FuzzySystemQuantifier(QSqlQuery qry);
-    FuzzySystemQuantifier(    QString fuzzyName,
-                            int fuzzyType,
-                            double alpha,
-                            double beta,
-                            double gamma,
-                            double delta);
-    FuzzySystemQuantifier(QMap<QString, QVariant> *mValues);
-    FuzzySystemQuantifier(void);
-    ~FuzzySystemQuantifier(void);
+	FuzzySystemQuantifier(QSqlQuery qry);
+	FuzzySystemQuantifier(	QString fuzzyName,
+							int fuzzyType,
+							double alpha, 
+							double beta, 
+							double gamma, 
+							double delta);
+	FuzzySystemQuantifier(QMap<QString, QVariant> *mValues);
+	FuzzySystemQuantifier(void);
+	~FuzzySystemQuantifier(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_SYSTEM_QUANTIFIER_H

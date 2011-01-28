@@ -9,22 +9,26 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_COMPATIBLE_COL_H
+#define FUZZY_COMPATIBLE_COL_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyCompatibleCol
+class FSQL_EXPORT FuzzyCompatibleCol
 {
-    int _columnId1, _columnId2;
+	int _columnId1, _columnId2;
 
 public:
-    int columnId1();
-    int columnId2();
+	int columnId1();
+	int columnId2();
 
-    FuzzyCompatibleCol(QSqlQuery qry);
-    FuzzyCompatibleCol(int columnId1, int columnId2);
+	FuzzyCompatibleCol(QSqlQuery qry);
+	FuzzyCompatibleCol(int columnId1, int columnId2);
     FuzzyCompatibleCol(QMap<QString, QVariant> *mValues);
-    FuzzyCompatibleCol(void);
-    ~FuzzyCompatibleCol(void);
+	FuzzyCompatibleCol(void);
+	~FuzzyCompatibleCol(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_COMPATIBLE_COL_H

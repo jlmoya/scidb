@@ -9,20 +9,25 @@
  *
  */
 
+#ifndef FUZZY_DEGREE_COL_H
+#define FUZZY_DEGREE_COL_H
+
 #include "QtIncludes.h"
 
-class FuzzyDegreeCol
+class FSQL_EXPORT FuzzyDegreeCol
 {
-    int _columnId1;
-    int _columnId2;
+	int _columnId1;
+	int _columnId2;
 
 public:
-    int columnId1();
-    int columnId2();
+	int columnId1();
+	int columnId2();
 
-    FuzzyDegreeCol(QSqlQuery qry);
-    FuzzyDegreeCol(int columnId1, int columnId2);
+	FuzzyDegreeCol(QSqlQuery qry);
+	FuzzyDegreeCol(int columnId1, int columnId2);
     FuzzyDegreeCol(QMap<QString, QVariant> *mValues);
-    FuzzyDegreeCol(void);
-    ~FuzzyDegreeCol(void);
+	FuzzyDegreeCol(void);
+	~FuzzyDegreeCol(void);
 };
+
+#endif // FUZZY_DEGREE_COL_H

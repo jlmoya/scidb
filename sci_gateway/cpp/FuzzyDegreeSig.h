@@ -9,24 +9,28 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_DEGREE_SIG_H
+#define FUZZY_DEGREE_SIG_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyDegreeSig
+class FSQL_EXPORT FuzzyDegreeSig
 {
-    int _codeSig;
-    QString _significance;
+	int _codeSig;
+	QString _significance;
 
-public:
-    int codeSig();
-    QString significance();
+public:	
+	int codeSig();
+	QString significance();
 
-    FuzzyDegreeSig(QSqlQuery qry);
-    FuzzyDegreeSig(    int codeSig,
-                    QString significance);
+	FuzzyDegreeSig(QSqlQuery qry);
+	FuzzyDegreeSig(	int codeSig,
+					QString significance);
     FuzzyDegreeSig(QMap<QString, QVariant> *mValues);
-    FuzzyDegreeSig(void);
-    ~FuzzyDegreeSig(void);
+	FuzzyDegreeSig(void);
+	~FuzzyDegreeSig(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_DEGREE_SIG_H

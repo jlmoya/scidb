@@ -9,7 +9,9 @@
  *
  */
 
-#pragma once
+#ifndef TREE_TOKEN_NODE_H
+#define TREE_TOKEN_NODE_H
+
 #include "QtIncludes.h"
 
 class TreeTokenNode
@@ -18,10 +20,12 @@ QString _token;
 TreeTokenNode *_left, *_right;
 
 public:
-    QString Token();
+	QString Token();
+	
+	TreeTokenNode(QString expression);
+	~TreeTokenNode(void);
 
-    TreeTokenNode(QString expression);
-    ~TreeTokenNode(void);
-
-    QString CdegCall();
+	QString CdegCall();
 };
+
+#endif // TREE_TOKEN_NODE_H

@@ -8,27 +8,32 @@
  * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
  *
  */
-#pragma once
+
+#ifndef FUZZY_DEGREE_TABLE_H
+#define FUZZY_DEGREE_TABLE_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyDegreeTable
+class FSQL_EXPORT FuzzyDegreeTable
 {
-    int _tableId;
-    int _columnId;
-    QChar _degreeType;
+	int _tableId;
+	int _columnId;
+	QChar _degreeType;
 
 public:
-    int tableId();
-    int columnId();
-    QChar degreeType();
+	int tableId();
+	int columnId();
+	QChar degreeType();
 
-    FuzzyDegreeTable(QSqlQuery qry);
-    FuzzyDegreeTable(    int tableId,
-                        int columnId,
-                        QChar degreeType);
-    FuzzyDegreeTable(QMap<QString, QVariant> *mValues);
-    FuzzyDegreeTable(void);
-    ~FuzzyDegreeTable(void);
+	FuzzyDegreeTable(QSqlQuery qry);
+	FuzzyDegreeTable(	int tableId,
+						int columnId,
+						QChar degreeType);
+	FuzzyDegreeTable(QMap<QString, QVariant> *mValues);
+	FuzzyDegreeTable(void);
+	~FuzzyDegreeTable(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_DEGREE_TABLE_H

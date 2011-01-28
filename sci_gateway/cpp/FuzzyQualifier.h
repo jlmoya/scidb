@@ -9,24 +9,28 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_QUALIFIER_H
+#define FUZZY_QUALIFIER_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyQualifier
+class FSQL_EXPORT FuzzyQualifier
 {
-    int _fuzzyId;
-    double _qualifier;
+	int _fuzzyId;
+	double _qualifier;
 
 public:
-    int fuzzyId();
-    double qualifier();
+	int fuzzyId();
+	double qualifier();
 
-    FuzzyQualifier(QSqlQuery qry);
-    FuzzyQualifier(    int fuzzyId,
-                    double qualifier);
-    FuzzyQualifier(QMap<QString, QVariant> *mValues);
-    FuzzyQualifier(void);
-    ~FuzzyQualifier(void);
+	FuzzyQualifier(QSqlQuery qry);
+	FuzzyQualifier(	int fuzzyId,
+					double qualifier);
+	FuzzyQualifier(QMap<QString, QVariant> *mValues);
+	FuzzyQualifier(void);
+	~FuzzyQualifier(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_QUALIFIER_H

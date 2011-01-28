@@ -9,30 +9,34 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_OBJECT_H
+#define FUZZY_OBJECT_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyObject
+class FSQL_EXPORT FuzzyObject
 {
-    int _columnId;
-    int _fuzzyId;
-    QString _fuzzyName;
-    int _fuzzyType;
+	int _columnId;
+	int _fuzzyId;
+	QString _fuzzyName;
+	int _fuzzyType;
 
 public:
-    int columnId();
-    int fuzzyId();
-    QString fuzzyName();
-    int fuzzyType();
+	int columnId();
+	int fuzzyId();
+	QString fuzzyName();
+	int fuzzyType();
 
-    FuzzyObject(QSqlQuery qry);
-    FuzzyObject(int columnId,
-                int fuzzyId,
-                QString fuzzyName,
-                int fuzzyType);
-    FuzzyObject(QMap<QString, QVariant> *mValues);
-    FuzzyObject(void);
-    ~FuzzyObject(void);
+	FuzzyObject(QSqlQuery qry);
+	FuzzyObject(int columnId,
+				int fuzzyId,
+				QString fuzzyName,
+				int fuzzyType);
+	FuzzyObject(QMap<QString, QVariant> *mValues);
+	FuzzyObject(void);
+	~FuzzyObject(void);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_OBJECT_H

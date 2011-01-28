@@ -9,22 +9,22 @@
  *
  */
 
-#ifndef FUZZYOBJECTTYPE2_H
-#define FUZZYOBJECTTYPE2_H
+#ifndef FUZZY_CONSTANT_H
+#define FUZZY_CONSTANT_H
 
 #include "QtIncludes.h"
 #include "FMB.h"
 #include "FuzzyLabel.h"
 
-class __declspec( dllexport ) FuzzyConstant
+class FSQL_EXPORT FuzzyConstant
 {
 public:
-    FuzzyConstant();
+    FuzzyConstant();    
     FuzzyConstant(QString str, FMB fuzzyMetaBase);
 
     int type;
     double* data;
-    QList<QString> labels;
+	QList<QString> labels;
 };
 
-#endif // FUZZYOBJECTTYPE2_H
+#endif // FUZZY_CONSTANT_H

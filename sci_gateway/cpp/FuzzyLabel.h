@@ -9,29 +9,33 @@
  *
  */
 
-#pragma once
+#ifndef FUZZY_LABEL_H
+#define FUZZY_LABEL_H
+
 #include "QtIncludes.h"
 
-class __declspec( dllexport ) FuzzyLabel
+class FSQL_EXPORT FuzzyLabel
 {
-    int _fuzzyId;
-    double _alpha, _beta, _gamma, _delta;
+	int _fuzzyId;
+	double _alpha, _beta, _gamma, _delta;
 
 public:
-    int fuzzyId();
-    double alpha();
-    double beta();
-    double gamma();
-    double delta();
+	int fuzzyId();
+	double alpha();
+	double beta();
+	double gamma();
+	double delta();
 
-    FuzzyLabel(QSqlQuery qry);
-    FuzzyLabel(    int fuzzyId,
-                double alpha, double beta, double gamma, double delta);
-    FuzzyLabel(QMap<QString, QVariant> *mValues);
-    FuzzyLabel(void);
-    ~FuzzyLabel(void);
+	FuzzyLabel(QSqlQuery qry);
+	FuzzyLabel(	int fuzzyId,
+				double alpha, double beta, double gamma, double delta);
+	FuzzyLabel(QMap<QString, QVariant> *mValues);
+	FuzzyLabel(void);
+	~FuzzyLabel(void);
 
-    void SetValues(double alpha, double beta, double gamma, double delta);
+	void SetValues(double alpha, double beta, double gamma, double delta);
 
-    QMap<QString, QVariant>* ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();	
 };
+
+#endif // FUZZY_LABEL_H
