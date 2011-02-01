@@ -53,7 +53,7 @@ public:
 	FuzzyCol(void);
 	~FuzzyCol(void);
 
-	QMap<QString, QVariant>* FuzzyCol::ValuesMap();
+	QMap<QString, QVariant>* ValuesMap();
 };
 
 #endif // FUZZY_COL_H

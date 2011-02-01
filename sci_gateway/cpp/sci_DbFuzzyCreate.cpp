@@ -14,7 +14,7 @@
 
 extern QString sDefaultConnection;
 
-extern QMap<QString,QList<QString>> mslsProviderConnectionOptions;
+extern QMap<QString,QList<QString> > mslsProviderConnectionOptions;
 
 extern QList<QString> lsCommonConnectionParameters;
 

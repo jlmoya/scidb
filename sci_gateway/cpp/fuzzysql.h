@@ -28,7 +28,7 @@ public:
 	FMB *FuzzyMetaBase();
 	QString LastError();
 
-    FuzzySQL();
+        FuzzySQL();
 	FuzzySQL(QSqlDatabase *db);	
 
     QString FSQL2SQL(QString queryString, QString *error);
@@ -45,9 +45,9 @@ public:
 
 
 	//============================================================//
-	int FuzzySQL::OperandType(QString operand);
-	QList<QString> FuzzySQL::CallParameters(QString sArgument, int iArgType, QString marginAttribute);
-	QString FuzzySQL::GetFullColumnName(QString operand, QString query, int iOperandStartIndex);
+	int OperandType(QString operand);
+	QList<QString> CallParameters(QString sArgument, int iArgType, QString marginAttribute);
+	QString GetFullColumnName(QString operand, QString query, int iOperandStartIndex);
 };
 
 #endif // FUZZYSQL_H
