@@ -1,7 +1,7 @@
 #ifndef __QTINCLUDES_H__
 #define __QTINCLUDES_H__
 
-#ifdef WIN32
+#if defined(WIN32) || defined(WIN64)
 #define FSQL_EXPORT __declspec( dllexport )
 #else
 #define FSQL_EXPORT
