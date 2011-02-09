@@ -17,7 +17,7 @@
           xmlns:db="http://docbook.org/ns/docbook"
           version="5.0-subset Scilab"
           xml:lang="en"
-          xml:id="DbLastDbError">
+          xml:id="DbLastQueryError">
 
   <refnamediv>
     <refname>DbLastQueryError</refname>
