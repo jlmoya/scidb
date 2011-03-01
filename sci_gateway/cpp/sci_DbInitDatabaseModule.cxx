@@ -72,6 +72,24 @@ extern "C"
             <<"ISC_DPB_SQL_ROLE_NAME";
         mslsProviderConnectionOptions.insert("QIBASE", lsIbaseConnectionOptions);
 
+		lsCommonConnectionParameters = QList<QString>() <<"host"
+			<<"port"
+			<<"database"
+			<<"user"
+			<<"provider"
+			<<"password";
+		
+		lsProviders = QList<QString>()
+			<<"QPSQL"
+			<<"QSQLITE"
+			<<"QMYSQL"
+			<<"QOCI"
+			<<"QIBASE"
+			<<"QDB2"
+			<<"QODBC"
+			<<"QSQLITE2"
+			<<"QTDS";
+		
         return 0;
     }
 /* ==================================================================== */

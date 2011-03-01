@@ -12,21 +12,6 @@ QString sDefaultConnection = "";
 
 QMap< QString,QList<QString> > mslsProviderConnectionOptions = QMap< QString, QList<QString> >();
 
-QList<QString> lsCommonConnectionParameters = QList<QString>()
-		<<"host"
-		<<"port"
-		<<"database"
-		<<"user"
-		<<"provider"
-		<<"password";
+QList<QString> lsCommonConnectionParameters = QList<QString>();
 	
-QList<QString> lsProviders = QList<QString>()
-		<<"QPSQL"
-		<<"QSQLITE"
-		<<"QMYSQL"
-		<<"QOCI"
-		<<"QIBASE"
-		<<"QDB2"
-		<<"QODBC"
-		<<"QSQLITE2"
-		<<"QTDS";
+QList<QString> lsProviders = QList<QString>();
