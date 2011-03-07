@@ -141,14 +141,15 @@ if ~WINDOWS then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
 else
-  QT_libs = [];
+  QT_libs = ["../../src/cpp/libfuzzysql"];
 end
 
 if getos() == "Windows" then
     pathQtInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include");
     pathQtCoreInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include/QtCore");
     pathQtSqlInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../Qt/include/QtSql");
-    QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ ";
+	pathFuzzyInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../src/cpp");
+    QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ -I""" + pathFuzzyInclude + """ ";
 else
     QT_includes = "-I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include";
 end

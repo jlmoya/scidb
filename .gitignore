@@ -17,3 +17,16 @@ sci_gateway/cleaner_gateway.sce
 sci_gateway/loader_gateway.sce
 sci_gateway/cpp/cleaner.sce
 master_help.xml
+src/cpp/*.lib
+src/cpp/*.dll
+src/cpp/*.ilk
+src/cpp/addressbook
+src/cpp/addressbook2
+src/cpp/reals
+src/cpp/Debug/
+sci_gateway/cpp/Debug/
+sci_gateway/cpp/addressbook
+sci_gateway/cpp/addressbook2
+sci_gateway/cpp/*.dll
+sci_gateway/cpp/*.ilk
+sci_gateway/cpp/reals
