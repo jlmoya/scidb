@@ -117,7 +117,7 @@ if getos() == "Windows" then
 	pathFuzzyInclude = fullpath(get_absolute_file_path("builder_gateway_cpp.sce")+ "../../src/cpp");
     QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ -I""" + pathFuzzyInclude + """ ";
 else
-    QT_includes = "-I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include";
+    QT_includes = "-I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include" + " -I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../src/cpp";
 end
 
 tbx_build_gateway("scidb",            ..
