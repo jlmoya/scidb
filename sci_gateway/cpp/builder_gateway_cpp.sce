@@ -107,7 +107,7 @@ if ~WINDOWS then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
 else
-  QT_libs = ["../../src/cpp/libfuzzysql"];
+  QT_libs = [get_absolute_file_path("builder_gateway_cpp.sce") + "../../src/cpp/libfuzzysql"];
 end
 
 if getos() == "Windows" then
