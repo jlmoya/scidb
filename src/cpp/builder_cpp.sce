@@ -12,7 +12,16 @@ LINUX    = (strcmpi(getos(),"linux"  ) == 0);
 
 src_cpp_path = get_absolute_file_path('builder_cpp.sce');
 
-CFLAGS = "-I" + src_cpp_path;
+// Guess the platform
+
+[dynamic_info,static_info] = getdebuginfo();
+arch_info = static_info(grep(static_info,"/^Compiler Architecture:/","r"))
+
+if ~isempty(arch_info) & (regexp(arch_info,"/\sX64$/","o") <> []) then
+    ARCH = "64";
+else
+    ARCH = "32";
+end
 
 scidb_cpp_files =  ["fuzzysql.cpp"                    ;
                 "fuzzysql.h"                      ;
@@ -74,7 +83,7 @@ if ~WINDOWS then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
 else
-  //add other libraries later if they will be needed
+  //TODO: add other libraries later if they will be needed
   QT_libs = ["../../Qt/lib/windows32/QtCore4";
 			"../../Qt/lib/windows32/QtSql4"];
 end
@@ -84,4 +93,3 @@ tbx_build_src(['fuzzysql'], scidb_cpp_files, 'cpp', ..
 
 clear tbx_build_src;
 clear src_c_path;
-clear CFLAGS;

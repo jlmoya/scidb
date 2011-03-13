@@ -23,6 +23,7 @@ src/cpp/*.ilk
 src/cpp/addressbook
 src/cpp/addressbook2
 src/cpp/reals
+src/cpp/libfuzzysql.so
 src/cpp/Debug/
 sci_gateway/cpp/Debug/
 sci_gateway/cpp/addressbook
@@ -30,3 +31,7 @@ sci_gateway/cpp/addressbook2
 sci_gateway/cpp/*.dll
 sci_gateway/cpp/*.ilk
 sci_gateway/cpp/reals
+sci_gateway/cpp/*.swp
+sci_gateway/cpp/libscidb.c
+sci_gateway/cpp/libscidb.so
+
