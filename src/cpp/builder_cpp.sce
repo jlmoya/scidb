@@ -77,18 +77,17 @@ if ~WINDOWS then
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql"];
+//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
+//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
+//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
+	    ];
 else
   //TODO: add other libraries later if they will be needed
   QT_libs = ["../../Qt/lib/windows32/QtCore4";
 			"../../Qt/lib/windows32/QtSql4"];
 end
 				
-tbx_build_src(['fuzzysql'], scidb_cpp_files, 'cpp', ..
+tbx_build_src(['fuzzysql'], scidb_cpp_files, 'c', ..
               src_cpp_path, QT_libs, '', QT_includes);
 
 clear tbx_build_src;
