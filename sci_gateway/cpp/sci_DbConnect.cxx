@@ -95,7 +95,7 @@ extern "C"
 
             if(!lsProviders.contains(qmConnParams.value(QString("provider"))))
             {
-                Scierror(999, "Unknown provider: %s\n", qmConnParams.value(QString("provider")));
+                Scierror(999, "Unknown provider: %s\n", qmConnParams.value(QString("provider")).toLatin1().data());
                 return 0;
             }
 
