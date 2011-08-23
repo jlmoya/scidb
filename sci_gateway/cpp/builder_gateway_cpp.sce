@@ -90,22 +90,25 @@ end
 
 OSNAME = convstr(getos(),"l");
 
-
+QT_libs_ldflags=""
+QT_libs=""
 if ~WINDOWS then
 
-  QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
-              "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
-              "../../Qt/lib/linux"+ARCH+"/libQtCore";
-              "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
-              "../../Qt/lib/linux"+ARCH+"/libsqlite3";
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
-	      "../../src/cpp/libfuzzysql"];
+//   QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
+//               "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
+//               "../../Qt/lib/linux"+ARCH+"/libQtCore";
+//               "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
+//               "../../Qt/lib/linux"+ARCH+"/libsqlite3";
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
+// 	      "../../src/cpp/libfuzzysql"];
+  QT_libs_ldflags="-lQtSql -L"+get_absolute_file_path("builder_gateway_cpp.sce")+"../../src/cpp -lfuzzysql"
+
 else
   QT_libs = ["../../src/cpp/libfuzzysql"];
 end
@@ -129,7 +132,7 @@ tbx_build_gateway("scidb",            ..
                   scidb_files ,       ..
                   scidb_gateway_path, ..
                   QT_libs,            ..
-                  "",                 ..
+                  QT_libs_ldflags,                 ..
                   QT_includes);
 
 clear tbx_build_gateway;

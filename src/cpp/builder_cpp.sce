@@ -69,21 +69,25 @@ else
       QT_includes = QT_includes + " -I/usr/include/qt4/"
     end
 end				
+
+QT_libs=""
+QT_libs_ldflags=""
 				
 if ~WINDOWS then
 
-  QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
-              "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
-              "../../Qt/lib/linux"+ARCH+"/libQtCore";
-              "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
-              "../../Qt/lib/linux"+ARCH+"/libsqlite3";
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
-              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
-//              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
-	    ];
+//   QT_libs = ["../../Qt/lib/linux"+ARCH+"/libpq"  ;
+//               "../../Qt/lib/linux"+ARCH+"/libQtCLucene"   ;
+//               "../../Qt/lib/linux"+ARCH+"/libQtCore";
+//               "../../Qt/lib/linux"+ARCH+"/libQtSql" ;
+//               "../../Qt/lib/linux"+ARCH+"/libsqlite3";
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlite"  ;
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlmysql";
+//               "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlpsql" ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqldb2"  ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqloci"  ;
+// //              "../../Qt/lib/linux"+ARCH+"/sqldrivers/libqsqlibase";
+// 	    ];
+  QT_libs_ldflags="-lQtSql"
 else
   //TODO: add other libraries later if they will be needed
   QT_libs = ["../../Qt/lib/windows32/QtCore4";
@@ -91,7 +95,7 @@ else
 end
 				
 tbx_build_src(['fuzzysql'], scidb_cpp_files, 'c', ..
-              src_cpp_path, QT_libs, '', QT_includes);
+              src_cpp_path, QT_libs, QT_libs_ldflags, QT_includes);
 
 clear tbx_build_src;
 clear src_c_path;
