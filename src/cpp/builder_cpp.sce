@@ -64,7 +64,10 @@ if getos() == "Windows" then
     pathQtSqlInclude = fullpath(get_absolute_file_path("builder_cpp.sce")+ "../../Qt/include/QtSql");
     QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ ";
 else
-    QT_includes = "-I" + get_absolute_file_path("builder_cpp.sce") + "../../Qt/include";
+    QT_includes =  "-I"+get_absolute_file_path("builder_cpp.sce")+" -I" + get_absolute_file_path("builder_cpp.sce") + "../../Qt/include";
+    if use_system_qt == %t then
+      QT_includes = QT_includes + " -I/usr/include/qt4/"
+    end
 end				
 				
 if ~WINDOWS then

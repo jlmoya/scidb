@@ -13,6 +13,9 @@ TOOLBOX_NAME  = "scidb";
 TOOLBOX_TITLE = "SciDb";
 toolbox_dir   = get_absolute_file_path("builder.sce");
 
+// If qt is installed on the distro or not
+use_system_qt = %t;
+
 // Check Scilab"s version
 // =============================================================================
 

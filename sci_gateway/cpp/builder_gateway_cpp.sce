@@ -118,6 +118,10 @@ if getos() == "Windows" then
     QT_includes = "-I""" + pathQtInclude + """ -I""" + pathQtCoreInclude + """ -I""" + pathQtSqlInclude + """ -I""" + pathFuzzyInclude + """ ";
 else
     QT_includes = "-I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../Qt/include" + " -I" + get_absolute_file_path("builder_gateway_cpp.sce") + "../../src/cpp";
+    if use_system_qt == %t then
+      QT_includes = QT_includes + " -I/usr/include/qt4/"
+    end
+
 end
 
 tbx_build_gateway("scidb",            ..
