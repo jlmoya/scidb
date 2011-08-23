@@ -8,7 +8,7 @@
 
 chdir(get_absolute_file_path("DbFetchAllReal.dem.sce"));
 
-disp("connStr = struct(""provider"", ""QODBC"", ""database"", ""DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb""");
+disp("connStr = struct(""provider"", ""QODBC"", ""database"", ""DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb"")");
 connStr = struct("provider", "QODBC", "database", "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=Dbt.mdb")
 disp("Connecting to a database:");
 disp("DbConnect(conn)");
